@@ -1,9 +1,11 @@
 package io.kess.ecommerce.model
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Exclude
 
 data class Product(
-    val id: String = "",
+    @get:Exclude
+    var id: String = "",
     val image: String = "",
     val name: String = "",
     val categoryId: String = "",

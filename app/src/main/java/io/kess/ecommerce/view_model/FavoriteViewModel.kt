@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
-import io.kess.ecommerce.model.Favorite
 import io.kess.ecommerce.repository.FavoriteRepository
 import io.kess.ecommerce.ui.adapter.ProductAdapter
 

@@ -294,7 +294,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:lineSpacingExtra="2dp"
-                            android:text="phnom penh"
+                            android:text=""
                             android:maxLines="2"
                             android:textColor="#666666"
                             android:textSize="13sp" />
@@ -304,7 +304,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="0123 4567"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="13sp" />
                     </LinearLayout>

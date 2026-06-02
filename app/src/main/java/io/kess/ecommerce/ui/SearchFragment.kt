@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
         binding.backBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
 
         searchAdapter = ProductAdapter(emptySet(), { product ->

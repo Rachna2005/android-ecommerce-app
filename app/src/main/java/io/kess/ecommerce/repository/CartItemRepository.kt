@@ -9,9 +9,17 @@ import io.kess.ecommerce.util.UserSession
 class CartItemRepository {
     val fireStore = FirebaseFirestore.getInstance()
 
-        val userId = UserSession.currentUser!!.id
+    //        val userId = UserSession.currentUser!!.id
+    private fun getUserId(): String? {
+        return UserSession.currentUser?.id
+    }
 
     fun getAllCart(onResult: (List<CartItem>) -> Unit) {
+        val userId = getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
         fireStore.collection("users").document(userId).collection("cart").get()
             .addOnSuccessListener { result ->
                 val cartList = result.documents.mapNotNull { doc ->
@@ -25,6 +33,11 @@ class CartItemRepository {
 
     fun addCart(cartItem: CartItem, onResult: (String) -> Unit) {
         val cartId = "${cartItem.productId}_${cartItem.variantId}"
+        val userId = getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
         val findCart =
             fireStore.collection("users").document(userId).collection("cart").document(cartId)
         findCart.get().addOnSuccessListener { doc ->
@@ -47,6 +60,11 @@ class CartItemRepository {
     }
 
     fun deleteCart(cartId: String) {
+        val userId = getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
         fireStore.collection("users").document(userId).collection("cart").document(cartId).delete()
             .addOnFailureListener {
                 Log.d("Delete_Cart_Firebase", "Failed")
@@ -56,6 +74,11 @@ class CartItemRepository {
     fun increaseQuantity(
         cartId: String
     ) {
+        val userId = getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
 
         fireStore
             .collection("users")
@@ -79,6 +102,11 @@ class CartItemRepository {
         cartId: String,
         currentQuantity: Int
     ) {
+        val userId = getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
         val cartRef =
             fireStore
                 .collection("users")

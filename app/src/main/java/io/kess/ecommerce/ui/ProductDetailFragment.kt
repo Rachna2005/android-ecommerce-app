@@ -68,8 +68,7 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-
+        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         favoriteViewModel =
             ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
         cartViewModel =

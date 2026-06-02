@@ -13,9 +13,14 @@ import io.kess.ecommerce.R
 import android.util.Log
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Timestamp
 import io.kess.ecommerce.model.CartItem
+import io.kess.ecommerce.model.Order
 import io.kess.ecommerce.view_model.CartViewModel
+import io.kess.ecommerce.view_model.OrderViewModel
+import io.kess.ecommerce.view_model.ProductViewModel
 import java.util.function.DoublePredicate
 
 
@@ -24,6 +29,7 @@ class CheckOutFragment : Fragment() {
     private lateinit var optionCard: LinearLayout
     private lateinit var optionWallet: LinearLayout
     private lateinit var cartViewModel: CartViewModel
+    private lateinit var orderViewModel: OrderViewModel
 
     private lateinit var radioKhqr: RadioButton
     private lateinit var radioCard: RadioButton
@@ -35,7 +41,7 @@ class CheckOutFragment : Fragment() {
     private lateinit var change: TextView
     private lateinit var location: TextView
     private lateinit var phoneNumber: TextView
-    private lateinit var btn: FrameLayout
+    private lateinit var btn: LinearLayout
 
     private var totalPrice: Double = 0.0
     private var quantity: Int = 1
@@ -61,6 +67,7 @@ class CheckOutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         cartViewModel =
             ViewModelProvider(requireActivity())[CartViewModel::class.java]
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         initView(view)
         parentFragmentManager.setFragmentResultListener(
             "ADDRESS_RESULT",
@@ -70,6 +77,12 @@ class CheckOutFragment : Fragment() {
             val phone = bundle.getString("PHONE", "")
             location.text = address
             phoneNumber.text = phone
+        }
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
+            cartItem = cart
+        }
+        orderViewModel.message.observe(viewLifecycleOwner){message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
         setupClickListener()
@@ -92,7 +105,7 @@ class CheckOutFragment : Fragment() {
         change = view.findViewById(R.id.change)
         location = view.findViewById(R.id.address)
         phoneNumber = view.findViewById(R.id.phone_number)
-        btn = view.findViewById(R.id.button)
+        btn = view.findViewById(R.id.btnCheckout)
     }
 
     private fun setupClickListener() {
@@ -122,12 +135,39 @@ class CheckOutFragment : Fragment() {
             Log.d("select_payment", selectedPayment)
         }
         btn.setOnClickListener {
-            cartViewModel.cartItems.observe(viewLifecycleOwner){
+            val cart = cartItem
 
+            val totalPrice = cart.sumOf {
+                it.price * it.quantity
             }
+
+            val totalItems = cart.sumOf {
+                it.quantity
+            }
+
+            if (phoneNumber.text.toString().trim().isEmpty() ||
+                location.text.toString().trim().isEmpty()
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "Address cannot be empty, please add or change address",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            val order = Order(
+                totalPrice = totalPrice,
+                totalQuantity = totalItems,
+                address = location.text.toString(),
+                phoneNumber = phoneNumber.text.toString(),
+                paymentMethod = selectedPayment,
+                createdAt = Timestamp.now()
+            )
+
+            orderViewModel.placeOrder(order, cartItem)
         }
     }
-
 
     private fun setupUi() {
         subTotal.text = "$${String.format("%.2f", totalPrice)}"

@@ -57,8 +57,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-//        favoriteViewModel = ViewModelProvider(this)[FavoriteViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         viewModel.loadAllProducts()
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
 
@@ -69,115 +68,9 @@ class HomeFragment : Fragment() {
             userName.text = "Guest"
         }
         initView(view)
-//        dummyData()
 //        setUpBanner()
         setupRecyclerView()
         setupClickListeners(view)
-    }
-
-    private fun dummyData() {
-        productList = listOf(
-            Product(
-                id = "p001",
-                image = "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-                name = "Nike Running Shoes",
-                categoryId = "shoes",
-                price = 120.0,
-                discountPercentage = 10.0,
-                description = "Comfortable running shoes for daily training.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p002",
-                image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-                name = "Adidas Sneakers",
-                categoryId = "shoes",
-                price = 95.0,
-                discountPercentage = 12.0,
-                description = "Stylish sneakers for casual wear.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p003",
-                image = "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6",
-                name = "Puma Sport Shoes",
-                categoryId = "shoes",
-                price = 80.0,
-                discountPercentage = null,
-                description = "Lightweight shoes for sports activities.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p004",
-                image = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
-                name = "White Basic T-Shirt",
-                categoryId = "clothing",
-                price = 20.0,
-                discountPercentage = 5.0,
-                description = "Simple cotton t-shirt for everyday wear.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p005",
-                image = "https://images.unsplash.com/photo-1520975916090-3105956dac38",
-                name = "Black Hoodie",
-                categoryId = "clothing",
-                price = 45.0,
-                discountPercentage = 15.0,
-                description = "Warm hoodie for winter season.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p006",
-                image = "https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
-                name = "MacBook Laptop",
-                categoryId = "electronics",
-                price = 1200.0,
-                discountPercentage = 8.0,
-                description = "High-performance laptop for work and study.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p007",
-                image = "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5",
-                name = "Smart Watch",
-                categoryId = "electronics",
-                price = 199.0,
-                discountPercentage = 10.0,
-                description = "Track your fitness and notifications easily.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p008",
-                image = "https://images.unsplash.com/photo-1585386959984-a4155224a1ad",
-                name = "Wireless Headphones",
-                categoryId = "electronics",
-                price = 150.0,
-                discountPercentage = 20.0,
-                description = "Noise-cancelling wireless headphones.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p009",
-                image = "https://images.unsplash.com/photo-1587829741301-dc798b83add3",
-                name = "Leather Wallet",
-                categoryId = "accessories",
-                price = 35.0,
-                discountPercentage = 10.0,
-                description = "Premium leather wallet with card slots.",
-                createdAt = Timestamp.now()
-            ),
-            Product(
-                id = "p010",
-                image = "https://images.unsplash.com/photo-1503602642458-232111445657",
-                name = "Desk Lamp",
-                categoryId = "home",
-                price = 25.0,
-                discountPercentage = 5.0,
-                description = "Modern LED desk lamp with adjustable brightness.",
-                createdAt = Timestamp.now()
-            )
-        )
     }
 
     private fun initView(view: View) {

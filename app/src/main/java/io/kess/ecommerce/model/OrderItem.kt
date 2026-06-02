@@ -2,7 +2,7 @@ package io.kess.ecommerce.model
 
 import com.google.firebase.firestore.Exclude
 
-data class CartItem(
+data class OrderItem(
     @get:Exclude
     var id: String = "",
     val productId: String = "",

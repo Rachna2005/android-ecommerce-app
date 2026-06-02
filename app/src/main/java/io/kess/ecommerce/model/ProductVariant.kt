@@ -1,7 +1,11 @@
 package io.kess.ecommerce.model
 
+import com.google.firebase.firestore.Exclude
+
 data class ProductVariant(
-    val id: String = "",
+    @get:Exclude
+    var id: String = "",
+
     val color: String = "",
     val imageUrl: String? = null,
     val isAvailable: Boolean = true,

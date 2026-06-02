@@ -16,11 +16,6 @@ class ProductViewModel : ViewModel() {
     private val _productDetail = MutableLiveData<ProductDetail>()
     val productDetail: LiveData<ProductDetail> = _productDetail
 
-
-//    init {
-//        loadAllProducts()
-//    }
-
     fun loadAllProducts() {
         repository.getProduct(onResult = { data ->
             _products.value = data

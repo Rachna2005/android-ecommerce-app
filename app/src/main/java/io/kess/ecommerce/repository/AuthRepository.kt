@@ -18,8 +18,8 @@ class AuthRepository {
                 val user = document.toObject(User::class.java)
 
                 if (user != null) {
-                    val userWithId = user.copy(id = document.id)
-                    onSuccess(userWithId)
+                    user.id = document.id
+                    onSuccess(user)
 
                 } else {
                     onFailure(Exception("User data is null"))
