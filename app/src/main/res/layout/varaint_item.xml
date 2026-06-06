@@ -11,5 +11,5 @@
     android:textAllCaps="false"
     android:textColor="@color/black"
     app:cornerRadius="10dp"
-    app:strokeColor="#FFBCAAA4"
+    app:strokeColor="@color/stroke_default"
     app:strokeWidth="1dp" />

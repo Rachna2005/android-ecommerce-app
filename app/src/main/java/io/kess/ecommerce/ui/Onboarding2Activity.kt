@@ -7,22 +7,22 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import io.kess.ecommerce.R
+import io.kess.ecommerce.databinding.ActivityOnbaodingBinding
+import io.kess.ecommerce.databinding.ActivityOnboardingPaymentBinding
 
 class Onboarding2Activity : AppCompatActivity() {
+    private lateinit var binding: ActivityOnboardingPaymentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboarding_payment)
-        val skip = findViewById<TextView>(R.id.skip)
-        val btn = findViewById<Button>(R.id.button)
+        binding = ActivityOnboardingPaymentBinding.inflate((layoutInflater))
         val listener = View.OnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
         }
-        skip.setOnClickListener (listener)
-        btn.setOnClickListener (listener)
-        val login = findViewById<TextView>(R.id.signUp)
-        login.setOnClickListener {
+        binding.skip.setOnClickListener (listener)
+        binding.button.setOnClickListener (listener)
+        binding.signUp.setOnClickListener {
             val intent = Intent(this, LoginActivity:: class.java)
             startActivity(intent)
             finish()

@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.compose.remote.creation.core)
+    implementation(libs.google.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -103,5 +104,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+
 
 }

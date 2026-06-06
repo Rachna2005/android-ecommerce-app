@@ -86,6 +86,8 @@ class CartAdapter(
 
         val total = cartItem.price * cartItem.quantity
         holder.totalPrice.text = "$${String.format("%.2f", total)}"
+        holder.decrease.isEnabled = cartItem.quantity > 1
+        holder.decrease.alpha = if (cartItem.quantity > 1) 1f else 0.5f
 
         if (favoriteIds.contains(cartItem.productId)) {
             holder.btnFavorite.setImageResource(R.drawable.ic_heart_fill)

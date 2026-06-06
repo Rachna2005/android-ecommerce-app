@@ -1,5 +1,6 @@
 package io.kess.ecommerce.ui.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,14 +52,23 @@ class ColorAdapter(
         holder.button.text = item.color
 
         if (item.id == selectedId) {
-            holder.button.setBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.primary)
+            holder.button.strokeColor = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.primary
+                )
             )
             holder.button.setTextColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.white)
+                ContextCompat.getColor(
+                    holder.itemView.context,R.color.primary
+                )
             )
         } else {
-            holder.button.setBackgroundColor(Color.TRANSPARENT)
+            holder.button.strokeColor = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    holder.itemView.context, R.color.stroke_default
+                )
+            )
             holder.button.setTextColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.black)
             )

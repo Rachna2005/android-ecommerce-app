@@ -74,7 +74,7 @@
                 android:background="@drawable/bg_small_image_rounded"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_product_detail" />
+               />
 
             <ImageView
                 android:id="@+id/imgProduct2"
@@ -84,8 +84,9 @@
                 android:background="@drawable/bg_small_image_rounded"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_product_detail" />
+                />
 
+            <!-- Spacer: pushes Total to end -->
             <ImageView
                 android:id="@+id/imgProduct3"
                 android:layout_width="60dp"
@@ -94,9 +95,8 @@
                 android:background="@drawable/bg_small_image_rounded"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_product_detail" />
+            />
 
-            <!-- Spacer: pushes Total to end -->
             <View
                 android:layout_width="0dp"
 
@@ -126,6 +126,15 @@
                     android:textColor="@color/primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtTotalQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="3 items"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                 />
 
             </LinearLayout>
 

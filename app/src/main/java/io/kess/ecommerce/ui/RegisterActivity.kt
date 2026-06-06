@@ -16,12 +16,14 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_register_screen)
-        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         binding = ActivityRegisterScreenBinding.inflate((layoutInflater))
         setContentView(binding.root)
+        initViewModel()
         setupClick()
         observeViewModel()
+    }
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
     }
 
     private fun setupClick() {

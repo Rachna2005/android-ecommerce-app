@@ -10,6 +10,7 @@ data class Order(
     val totalPrice: Double = 0.0,
     val totalQuantity: Int = 0,
     val status: String = "PENDING",
+    var previewImages: List<String> = emptyList(),
     val address: String = "",
     val phoneNumber: String = "",
     val paymentMethod: String = "",

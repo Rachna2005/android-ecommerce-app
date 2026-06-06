@@ -19,6 +19,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.firebase.Timestamp
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.view_model.FavoriteViewModel
+import io.kess.ecommerce.R
 
 class ProductListFragment : Fragment() {
     private var _binding: FragmentDisplayProductBinding? = null
@@ -46,15 +47,19 @@ class ProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-
-        favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
+        initViewModel()
         setupClickListener()
         setupRecyclerView()
         loadProduct()
         observeProducts()
         setupSearch()
     }
+
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
+    }
+
     private fun setupSearch() {
         binding.search.addTextChangedListener { editable ->
             val query = editable.toString().trim()
@@ -75,7 +80,6 @@ class ProductListFragment : Fragment() {
                 ProductAdapter(emptySet(), { product ->
                     favoriteViewModel.toggleFavorite(product.id)
                 }, {product -> openProductDetail(product.id)})
-
             }
 
             else -> {
@@ -89,13 +93,14 @@ class ProductListFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
+
     private fun openProductDetail(productId: String){
         val fragment = ProductDetailFragment().apply {
             arguments = Bundle().apply {
                 putString("ID", productId)
             }
         }
-        (activity as MainActivity).navigation(fragment)
+        (activity as MainActivity).navigate(fragment)
     }
 
     private fun loadProduct(){
@@ -110,7 +115,6 @@ class ProductListFragment : Fragment() {
     }
 
     private fun observeProducts() {
-
         viewModel.products.observe(viewLifecycleOwner) { products ->
             productList = products
             updateUi(productList, favoriteSet)
@@ -129,7 +133,6 @@ class ProductListFragment : Fragment() {
                 binding.title.text = arguments?.getString("CATEGORY_NAME") ?: "Category"
                 products
             }
-
             "DISCOUNT" -> {
                 binding.title.text = "Discount Products"
                 products.filter { (it.discountPercentage ?: 0.0) > 0 }
@@ -167,7 +170,7 @@ class ProductListFragment : Fragment() {
         }
         binding.btnCart.setOnClickListener {
             parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            (activity as MainActivity).switchFragment(CartFragment())
+            (activity as MainActivity).selectBottomNav( R.id.nav_cart)
         }
     }
 
@@ -178,6 +181,7 @@ class ProductListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         (activity as MainActivity).showButtonNav(show = true)
     }
 }

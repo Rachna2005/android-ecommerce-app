@@ -23,7 +23,9 @@ class CartItemRepository {
         fireStore.collection("users").document(userId).collection("cart").get()
             .addOnSuccessListener { result ->
                 val cartList = result.documents.mapNotNull { doc ->
-                    doc.toObject(CartItem::class.java)?.copy(id = doc.id)
+                    doc.toObject(CartItem::class.java)?.apply {
+                        id = doc.id
+                    }
                 }
                 onResult(cartList)
             }.addOnCanceledListener {
@@ -38,11 +40,14 @@ class CartItemRepository {
             Log.d("User", "No user")
             return
         }
+
         val findCart =
             fireStore.collection("users").document(userId).collection("cart").document(cartId)
         findCart.get().addOnSuccessListener { doc ->
+            val currentQty = doc.getLong("quantity")?.toInt() ?: 0
             if (doc.exists()) {
-                onResult("Product already add to cart")
+                findCart.update("quantity", currentQty + cartItem.quantity)
+                onResult("Product cart have been updated")
             } else {
                 findCart.set(cartItem.copy(id = cartId))
                     .addOnSuccessListener {

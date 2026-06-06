@@ -6,19 +6,20 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import io.kess.ecommerce.R
+import io.kess.ecommerce.databinding.ActivityLoginScreenBinding
+import io.kess.ecommerce.databinding.ActivityOnbaodingBinding
 
 class Onboarding1Activity : AppCompatActivity() {
+    private lateinit var binding: ActivityOnbaodingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboarding_delivery)
-        val btn = findViewById<Button>(R.id.button)
-        val skip = findViewById<TextView>(R.id.skip)
-        btn.setOnClickListener {
+        binding = ActivityOnbaodingBinding.inflate((layoutInflater))
+        binding.button.setOnClickListener {
             val intent = Intent(this, Onboarding2Activity::class.java)
             startActivity(intent)
             finish()
         }
-        skip.setOnClickListener {
+        binding.skip.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()

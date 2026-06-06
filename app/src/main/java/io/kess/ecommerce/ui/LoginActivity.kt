@@ -19,11 +19,14 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         binding = ActivityLoginScreenBinding.inflate((layoutInflater))
         setContentView(binding.root)
+        initViewModel()
         setupClick()
         observeViewModel()
+    }
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
     }
     private fun setupClick() {
 

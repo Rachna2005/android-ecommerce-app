@@ -31,8 +31,6 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_search, container, false)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,14 +40,26 @@ class SearchFragment : Fragment() {
         binding.backBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+        initViewModel()
+        setupAdapter()
+        observeData()
+        setupSearch()
+    }
+
+    private fun initViewModel(){
         viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
+    }
 
+    private fun setupAdapter(){
         searchAdapter = ProductAdapter(emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
         binding.recyclerView.adapter = searchAdapter
         binding.recyclerView.layoutManager =  GridLayoutManager(requireContext(), 2)
+    }
+
+    private fun observeData(){
         viewModel.products.observe(viewLifecycleOwner)
         { products ->
             productList = products
@@ -60,11 +70,14 @@ class SearchFragment : Fragment() {
             favorite = it
             searchAdapter.updateFavorites(favorite)
         }
-        binding.search.addTextChangedListener { editable ->
+    }
 
+    private fun setupSearch(){
+        binding.search.addTextChangedListener { editable ->
             setupSearch(editable.toString().trim())
         }
     }
+
 
     private fun setupSearch(query: String) {
             if (query.isEmpty()) {
@@ -82,7 +95,7 @@ class SearchFragment : Fragment() {
                 putString("ID", productId)
             }
         }
-        (activity as MainActivity).navigation(fragment)
+        (activity as MainActivity).navigate(fragment)
     }
 
     override fun onResume() {
@@ -92,6 +105,7 @@ class SearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         (activity as MainActivity).showButtonNav(show = true)
     }
 

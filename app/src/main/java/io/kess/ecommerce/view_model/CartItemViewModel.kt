@@ -13,8 +13,12 @@ class CartViewModel : ViewModel() {
     private val _cartItems = MutableLiveData<List<CartItem>>()
     val cartItems: LiveData<List<CartItem>> = _cartItems
 
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
+    private val _message = MutableLiveData<String?>()
+    val message: LiveData<String?> = _message
+    fun clearMessage(){
+        _message.value = null
+    }
+
 
     fun loadCart() {
         repository.getAllCart { result ->
@@ -26,6 +30,23 @@ class CartViewModel : ViewModel() {
         repository.addCart(cartItem) { result ->
             _message.value = result
         }
+        val currentList = _cartItems.value?.toMutableList() ?: mutableListOf()
+
+        val index = currentList.indexOfFirst {
+            it.productId == cartItem.productId &&
+                    it.variantId == cartItem.variantId
+        }
+
+        if (index != -1) {
+            val existing = currentList[index]
+            currentList[index] = existing.copy(
+                quantity = existing.quantity + cartItem.quantity
+            )
+        } else {
+            currentList.add(cartItem)
+        }
+
+        _cartItems.value = currentList
     }
 
     fun deleteCart(cartId: String) {
@@ -52,7 +73,7 @@ class CartViewModel : ViewModel() {
     fun decreaseQuantity(cartId: String, currentQty: Int) {
 
         if (currentQty <= 1) {
-            deleteCart(cartId)
+            return
         } else {
             repository.decreaseQuantity(cartId, currentQty)
             val updateList = _cartItems.value?.map { item ->

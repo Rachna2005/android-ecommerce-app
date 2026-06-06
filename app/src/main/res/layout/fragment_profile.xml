@@ -15,7 +15,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/img_profile_avata"
             app:shapeAppearanceOverlay="@style/CircleImage"
             />
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profile"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/manrope_bold"
             android:text="Julian Alexander"
             android:textColor="@color/primary"
@@ -71,6 +71,7 @@
                 android:paddingVertical="15dp">
 
                 <TextView
+                    android:id="@+id/orders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -100,6 +101,7 @@
                 android:paddingVertical="15dp">
 
                 <TextView
+                    android:id="@+id/wishlists"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -111,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_regular"
-                    android:text="Points"
+                    android:text="Wishlist"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
@@ -128,6 +130,7 @@
                 android:paddingVertical="15dp">
 
                 <TextView
+                    android:id="@+id/cart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -139,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/manrope_regular"
-                    android:text="Lists"
+                    android:text="Cart"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
@@ -281,7 +284,7 @@
                     android:layout_height="48dp"
                     android:background="@drawable/bg_icon_rounded"
                     android:padding="12dp"
-                    android:src="@drawable/ic_payment" />
+                    android:src="@drawable/ic_location" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -294,21 +297,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/manrope_bold"
-                        android:text="Payment Methods"
+                        android:text="Adding Address"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Securely saved cards and wallets"
+                        android:text="Adding your location and phone number"
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/pay"
+                    android:id="@+id/address"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_chevron_right" />

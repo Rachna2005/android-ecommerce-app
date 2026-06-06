@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <!-- your existing theme items -->
+    </style>
+
+    <!-- Add this -->
+    <style name="NoIndicator" parent="">
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:height">0dp</item>
+        <item name="shapeAppearance">@null</item>
+    </style>
+
+</resources>

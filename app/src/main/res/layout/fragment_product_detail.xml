@@ -28,12 +28,22 @@
             android:maxLines="1"
             android:textSize="18sp" />
 
+
+        <ImageView
+            android:id="@+id/btnCart"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_circle_transparent"
+            android:padding="6dp"
+            android:src="@drawable/ic_cart_shopping"
+            app:tint="@color/primary" />
         <ImageView
             android:id="@+id/btnWishlist"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="top|end"
-            android:layout_margin="13dp"
             android:background="@drawable/bg_circle_transparent"
             android:padding="6dp"
             android:src="@drawable/ic_heart"
@@ -180,6 +190,7 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
+                    android:id="@+id/decrease"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:text="−"
@@ -191,15 +202,17 @@
                     android:backgroundTint="@color/white" />
 
                 <TextView
+                    android:id="@+id/quantity"
                     android:layout_width="44dp"
                     android:layout_height="wrap_content"
-                    android:text="1"
                     android:gravity="center"
-                    android:textSize="18sp"
+                    android:text="1"
                     android:textColor="#111111"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/increase"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:text="+"

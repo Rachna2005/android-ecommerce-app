@@ -14,9 +14,18 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
 import io.kess.ecommerce.util.UserSession
 import io.kess.ecommerce.view_model.AuthViewModel
+import io.kess.ecommerce.view_model.CartViewModel
+import io.kess.ecommerce.view_model.FavoriteViewModel
+import io.kess.ecommerce.view_model.OrderViewModel
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
+    private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var cartViewModel: CartViewModel
+    private lateinit var orderViewModel: OrderViewModel
+    private var totalWishlist: Int = 0
+    private var totalOrder: Int = 0
+    private var totalCart: Int = 0
     private val binding get() = _binding!!
     val user = UserSession.currentUser
 
@@ -28,21 +37,45 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-
-       if(user != null){
-           binding.uName.text = user.name
-       }else{
-           binding.uName.text = "Guest"
-       }
+        initViewModel()
+        observeData()
+        setupUi()
         setupOnClickListener()
+    }
+
+    private fun initViewModel(){
+        favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
+        cartViewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
+
+    }
+
+    private fun observeData(){
+        favoriteViewModel.favorite.observe(viewLifecycleOwner){favorite ->
+            totalWishlist = favorite.count()
+        }
+        cartViewModel.cartItems.observe(viewLifecycleOwner){cart ->
+            totalCart = cart.count()
+        }
+        updateUi()
+    }
+
+    private fun updateUi(){
+        binding.orders.text = totalOrder.toString()
+        binding.wishlists.text = totalWishlist.toString()
+        binding.cart.text = totalCart.toString()
+    }
+
+    private fun setupUi(){
+        if(user != null){
+            binding.uName.text = user.name
+        }else{
+            binding.uName.text = "Guest"
+        }
 
     }
 
@@ -53,7 +86,7 @@ class ProfileFragment : Fragment() {
                     putString("TYPE", "FAVORITE")
                 }
             }
-            (activity as MainActivity).navigation(fragment)
+            (activity as MainActivity).navigate(fragment)
         }
 
         binding.btnLogout.setOnClickListener {
@@ -64,6 +97,13 @@ class ProfileFragment : Fragment() {
             )
             requireActivity().finish()
         }
+        binding.order.setOnClickListener {
+            (activity as MainActivity).navigate(OrderHistoryFragment())
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

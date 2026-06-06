@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,22 +26,21 @@ import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 import java.util.logging.Handler
 import com.google.firebase.Timestamp
+import io.kess.ecommerce.databinding.FragmentHomeBinding
 import io.kess.ecommerce.util.UserSession
 import io.kess.ecommerce.view_model.FavoriteViewModel
 
 class HomeFragment : Fragment() {
+    private  var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private lateinit var runnable: Runnable
     private val handler = android.os.Handler(Looper.getMainLooper())
     private lateinit var viewModel: ProductViewModel
     private lateinit var favoriteViewModel: FavoriteViewModel
-    private lateinit var recyclerViewDiscount: RecyclerView
-    private lateinit var recyclerViewNewArrival: RecyclerView
-    private lateinit var recyclerViewAll: RecyclerView
     private lateinit var imgSlide: ViewPager2
     private lateinit var discountAdapter: ProductAdapter
     private lateinit var newArrivalAdapter: ProductAdapter
     private lateinit var allAdapter: ProductAdapter
-    private var productList: List<Product> = emptyList()
     private var favorite: Set<String> = emptySet()
     val user = UserSession.currentUser
 
@@ -52,33 +52,23 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
-        viewModel.loadAllProducts()
-        favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
-
-        val userName = view.findViewById<TextView>(R.id.tvGreeting)
-        if(user != null){
-            userName.text = "Hi, ${user.name}"
-        }else{
-            userName.text = "Guest"
-        }
-        initView(view)
+        initViewModel()
+        setupUi()
 //        setUpBanner()
+        observeDat()
         setupRecyclerView()
         setupClickListeners(view)
     }
 
-    private fun initView(view: View) {
-        recyclerViewDiscount = view.findViewById(R.id.view_discount)
-        recyclerViewNewArrival = view.findViewById(R.id.view_new_arrival)
-        recyclerViewAll = view.findViewById(R.id.view_all_product)
-
-        imgSlide = view.findViewById(R.id.viewPagerBanner)
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
+        favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
     }
 
     private fun setUpBanner() {
@@ -103,41 +93,59 @@ class HomeFragment : Fragment() {
         }, 3000)
     }
 
+    private fun setupUi(){
+        if(user != null){
+            binding.tvGreeting.text = "Hi, ${user.name}"
+        }else{
+            binding.tvGreeting.text = "Guest"
+        }
+    }
+
     private fun setupRecyclerView() {
         Log.d("PRODUCT_DEBUG", "setupRecyclerView called")
         discountAdapter = ProductAdapter(emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
 
-        recyclerViewDiscount.adapter = discountAdapter
-        recyclerViewDiscount.layoutManager =
-            LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+        binding.viewDiscount.apply {
+            adapter = discountAdapter
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+        }
 
         newArrivalAdapter = ProductAdapter(emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
 
-        recyclerViewNewArrival.adapter = newArrivalAdapter
-        recyclerViewNewArrival.layoutManager =
-            GridLayoutManager(requireContext(), 2)
-        recyclerViewNewArrival.isNestedScrollingEnabled = false
+        binding.viewNewArrival.apply {
+            adapter = newArrivalAdapter
+         layoutManager =
+                GridLayoutManager(requireContext(), 2)
+        }
+        binding.viewNewArrival.isNestedScrollingEnabled = false
 
         allAdapter = ProductAdapter(emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
 
-        recyclerViewAll.adapter = allAdapter
-        recyclerViewAll.layoutManager =
-            LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+        binding.viewAllProduct.apply {
+            adapter = allAdapter
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+        }
 
+
+    }
+
+    private fun observeDat(){
         viewModel.products.observe(viewLifecycleOwner) { products ->
             Log.d("PRODUCT_DEBUG", "Observer triggered")
             val discountList = products.filter { (it.discountPercentage ?: 0.0) > 0 }.take(5)
@@ -164,7 +172,7 @@ class HomeFragment : Fragment() {
         val search = view.findViewById<ImageView>(R.id.search)
 
         search.setOnClickListener {
-            (activity as MainActivity).navigation(SearchFragment())
+            navigation(SearchFragment())
         }
 
         val discountMore = view.findViewById<TextView>(R.id.discount_all)
@@ -187,7 +195,7 @@ class HomeFragment : Fragment() {
                 putString("TYPE", type)
             }
         }
-        (activity as MainActivity).navigation(fragment)
+        navigation(fragment)
     }
 
     private fun openProductDetail(productId: String){
@@ -196,12 +204,16 @@ class HomeFragment : Fragment() {
                 putString("ID", productId)
             }
         }
-        (activity as MainActivity).navigation(fragment)
+       navigation(fragment)
+    }
+
+    private fun navigation(fragment: Fragment){
+        (activity as MainActivity).navigate(fragment)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-
+        _binding = null
         handler.removeCallbacksAndMessages(null)
     }
 }

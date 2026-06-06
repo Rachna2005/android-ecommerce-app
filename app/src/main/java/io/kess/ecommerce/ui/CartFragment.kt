@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.kess.ecommerce.R
+import io.kess.ecommerce.databinding.FragmentCartBinding
+import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.ui.adapter.CartAdapter
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ProductAdapter
@@ -21,15 +23,11 @@ import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 
 class CartFragment : Fragment() {
+    private var _binding: FragmentCartBinding? = null
+    private val binding get() = _binding!!
     private lateinit var cartViewModel: CartViewModel
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var cartAdapter: CartAdapter
-    private lateinit var cartRecyclerView: RecyclerView
-    private lateinit var num: TextView
-    private lateinit var subTotal: TextView
-    private lateinit var total: TextView
-    private lateinit var totalCheckout: TextView
-    private lateinit var btnCheckout: LinearLayout
     private var favorite: Set<String> = emptySet()
     private var sumPrice: Double = 0.0
     private var sumQuantity: Int = 1
@@ -43,42 +41,23 @@ class CartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_cart, container, false)
+        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cartViewModel =
-            ViewModelProvider(requireActivity())[CartViewModel::class.java]
-        favoriteViewModel =
-            ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
-        cartViewModel.loadCart()
-        initView(view)
+        initViewModel()
         setupRecyclerView()
-        cartViewModel.cartItems.observe(viewLifecycleOwner){cart ->
+        observeData()
+        setupClickListener()
+    }
+
+    private fun observeData() {
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
             cartAdapter.submitList(cart)
+            updateUi(cart)
 
-            val totalPrice =
-                cart.sumOf {
-                    it.price * it.quantity
-                }
-            sumPrice = totalPrice
-            val totalItems =
-                cart.sumOf {
-                    it.quantity
-                }
-            sumQuantity = totalItems
-            num.text = "$totalItems"
-
-            subTotal.text =
-                "$${String.format("%.2f", totalPrice)}"
-
-            total.text =
-                "$${String.format("%.2f", totalPrice)}"
-
-            totalCheckout.text =
-                "$${String.format("%.2f", totalPrice)}"
         }
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
 
@@ -86,25 +65,36 @@ class CartFragment : Fragment() {
 
             cartAdapter.updateFavorites(favorite)
         }
-        btnCheckout.setOnClickListener {
-            val fragment = CheckOutFragment().apply {
-                arguments = Bundle().apply {
-                    putDouble("Total_price", sumPrice)
-                    putInt("Total_Quantity", sumQuantity)
-                }
-            }
-            (activity as MainActivity).navigation(fragment)
-        }
-
     }
 
-    private fun initView(view: View) {
-        cartRecyclerView = view.findViewById(R.id.recyclerView)
-        num = view.findViewById(R.id.num)
-        subTotal = view.findViewById(R.id.subTotal)
-        total = view.findViewById(R.id.total)
-        totalCheckout = view.findViewById(R.id.totalCheckout)
-        btnCheckout = view.findViewById(R.id.btnCheckout)
+    private fun updateUi(cart: List<CartItem>) {
+        val totalPrice =
+            cart.sumOf {
+                it.price * it.quantity
+            }
+        sumPrice = totalPrice
+        val totalItems =
+            cart.sumOf {
+                it.quantity
+            }
+        sumQuantity = totalItems
+        binding.num.text = "$totalItems"
+
+        binding.subTotal.text =
+            "$${String.format("%.2f", totalPrice)}"
+
+        binding.total.text =
+            "$${String.format("%.2f", totalPrice)}"
+
+        binding.totalCheckout.text =
+            "$${String.format("%.2f", totalPrice)}"
+    }
+
+    private fun initViewModel() {
+        cartViewModel =
+            ViewModelProvider(requireActivity())[CartViewModel::class.java]
+        favoriteViewModel =
+            ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
     }
 
     private fun setupRecyclerView() {
@@ -120,9 +110,30 @@ class CartFragment : Fragment() {
             cartViewModel.deleteCart(cartItem.id)
         }
         )
-        cartRecyclerView.adapter = cartAdapter
-        cartRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
+        binding.recyclerView.apply {
+            adapter = cartAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun setupClickListener() {
+        binding.btnCheckout.setOnClickListener {
+            val fragment = CheckOutFragment().apply {
+                arguments = Bundle().apply {
+                    putDouble("Total_price", sumPrice)
+                    putInt("Total_Quantity", sumQuantity)
+                }
+            }
+            navigation(fragment)
+        }
+        binding.btnWishlist.setOnClickListener {
+            val fragment = ProductListFragment().apply {
+                arguments = Bundle().apply {
+                    putString("TYPE", "FAVORITE")
+                }
+            }
+            (activity as MainActivity).navigate(fragment)
+        }
     }
 
     private fun openProductDetail(productId: String) {
@@ -131,7 +142,14 @@ class CartFragment : Fragment() {
                 putString("ID", productId)
             }
         }
-        (activity as MainActivity).navigation(fragment)
+        navigation(fragment)
     }
 
+    private fun navigation(fragment: Fragment){
+        (activity as MainActivity).navigate(fragment)
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -12,7 +12,7 @@ class ProductRepository {
     fun getProduct(onResult: (List<Product>) -> Unit, onFailure: (Exception) -> Unit) {
         fireStore.collection("products").get().addOnSuccessListener { result ->
             val productList = result.documents.mapNotNull { doc ->
-                doc.toObject(Product::class.java)?.copy(id = doc.id)
+                doc.toObject(Product::class.java)?.apply { id = doc.id }
             }
             onResult(productList)
         }.addOnFailureListener { e ->
@@ -26,14 +26,14 @@ class ProductRepository {
         onFailure: (Exception) -> Unit
     ) {
         fireStore.collection("products").document(productId).get().addOnSuccessListener { result ->
-            val product = result.toObject(Product::class.java)?.copy(id = result.id)
+            val product = result.toObject(Product::class.java)?.apply { id = result.id }
             if (product == null) {
                 onFailure(Exception("Product not found"))
                 return@addOnSuccessListener
             }
             result.reference.collection("variants").get().addOnSuccessListener { variantDoc ->
                 val variants = variantDoc.documents.mapNotNull { doc ->
-                    doc.toObject(ProductVariant::class.java)?.copy(id = doc.id)
+                    doc.toObject(ProductVariant::class.java)?.apply { id = doc.id }
                 }
                 val productDetail = ProductDetail(product, variants)
                 onResult(productDetail)
@@ -50,7 +50,7 @@ class ProductRepository {
         fireStore.collection("products").whereEqualTo("categoryId", categoryId).get()
             .addOnSuccessListener { result ->
                 val product = result.documents.mapNotNull { doc ->
-                    doc.toObject(Product::class.java)?.copy(id = doc.id)
+                    doc.toObject(Product::class.java)?.apply { id = doc.id }
                 }
                 onResult(product)
             }.addOnFailureListener {

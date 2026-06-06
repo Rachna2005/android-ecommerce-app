@@ -1,5 +1,6 @@
 package io.kess.ecommerce.ui.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +12,22 @@ import com.google.android.material.button.MaterialButton
 import io.kess.ecommerce.R
 import io.kess.ecommerce.model.ProductVariant
 import android.graphics.Color
+import com.google.android.material.color.utilities.Variant
 
 class SizeAdapter(
     private val onClick: (ProductVariant) -> Unit
 ) : ListAdapter<ProductVariant, SizeAdapter.ViewHolder>(DiffCallback()) {
 
-    private var selectedId: String? = null
+    private var selectedColor: String? = null
+    private var sizeId: String? = null
+    private var allVariants: List<ProductVariant> = emptyList()
+    fun setVariant(variants: List<ProductVariant>) {
+        allVariants = variants
+        submitList(variants.distinctBy { it.size })
+    }
 
-    fun setSelected(id: String) {
-        selectedId = id
+    fun setSelectedColor(color: String?) {
+        selectedColor = color
         notifyDataSetChanged()
     }
 
@@ -50,22 +58,38 @@ class SizeAdapter(
 
         holder.button.text = item.size
 
-        if (item.id == selectedId) {
-            holder.button.setBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.primary)
+        val isAvailable = selectedColor == null || allVariants.any {
+            it.color == selectedColor && it.size == item.size
+        }
+
+        holder.button.isEnabled = isAvailable
+        holder.button.alpha = if (isAvailable) 1f else 0.5f
+
+        if (item.id == sizeId && isAvailable) {
+            holder.button.strokeColor = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.primary
+                )
             )
             holder.button.setTextColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.white)
+                ContextCompat.getColor(
+                    holder.itemView.context, R.color.primary
+                )
             )
         } else {
-            holder.button.setBackgroundColor(Color.TRANSPARENT)
+            holder.button.strokeColor = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    holder.itemView.context, R.color.stroke_default
+                )
+            )
             holder.button.setTextColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.black)
             )
         }
 
         holder.button.setOnClickListener {
-            selectedId = item.id
+            sizeId = item.id
             notifyDataSetChanged()
             onClick(item)
         }

@@ -26,15 +26,11 @@ class SplashScreenActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         Handler(Looper.getMainLooper()).postDelayed({
-//            val intent = Intent(this, Onboarding1Activity::class.java)
-//            startActivity(intent)
-//            finish()
             checkUserSession()
-        }, 5000)
+        }, 3000)
     }
 
     private fun checkUserSession() {
-
         viewModel.authData.observe(this) { user ->
             if (user != null) {
                 val intent = Intent(this, MainActivity::class.java)

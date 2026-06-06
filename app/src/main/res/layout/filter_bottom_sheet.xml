@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/bg_bottom_card">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categories"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="12dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="28dp">
+
+        <LinearLayout
+            android:id="@+id/llCategories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chipWatches"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Watches"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#6C3CE1"
+                app:strokeWidth="0dp"
+                app:cornerRadius="20dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chipBags"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Bags"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#F4F4F8"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp"
+                app:cornerRadius="20dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chipShoes"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Shoes"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#F4F4F8"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp"
+                app:cornerRadius="20dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chipJewelry"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Jewelry"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="#F4F4F8"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- ── BRAND ── -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Brand"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Luxe Couture (checked) -->
+    <LinearLayout
+        android:id="@+id/rowBrand1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="8dp"
+        >
+
+        <CheckBox
+            android:id="@+id/cbBrand1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:buttonTint="@color/primary"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Luxe Couture"
+            android:textSize="15sp"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+
+    <!-- Atelier Marque -->
+    <LinearLayout
+        android:id="@+id/rowBrand2"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="8dp"
+        >
+
+        <CheckBox
+            android:id="@+id/cbBrand2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:buttonTint="@color/primary"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Atelier Marque"
+            android:textSize="15sp"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+
+    <!-- Royal Heritage -->
+    <LinearLayout
+        android:id="@+id/rowBrand3"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <CheckBox
+            android:id="@+id/cbBrand3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:buttonTint="@color/primary"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Royal Heritage"
+            android:textSize="15sp"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:text="Save"
+        android:layout_marginTop="20dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="50dp"
+        android:textSize="18sp"
+        />
+</LinearLayout>

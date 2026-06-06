@@ -16,11 +16,10 @@ class CategoryRepository {
             .addOnSuccessListener { result ->
 
                 val categories = result.documents.mapNotNull { doc ->
-                    doc.toObject(Category::class.java)?.copy(
+                    doc.toObject(Category::class.java)?.apply {
                         id = doc.id
-                    )
+                    }
                 }
-
                 onResult(categories)
             }
             .addOnFailureListener { e ->
