@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.databinding.ActivityRegisterScreenBinding
-import io.kess.ecommerce.util.UserSession
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 
@@ -37,7 +36,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.inputEmail.text.toString().trim()
             val password = binding.inputPass.text.toString().trim()
             val confirmPass = binding.confirmPass.text.toString().trim()
-            if (email.isEmpty() || password.isEmpty() || name.isEmpty() || confirmPass.isEmpty()) {
+            if (email.isBlank() || password.isBlank() || name.isBlank() || confirmPass.isBlank()) {
                 Toast.makeText(this, "All fields need to be fill", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }

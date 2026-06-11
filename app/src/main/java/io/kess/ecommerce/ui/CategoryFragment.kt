@@ -14,20 +14,21 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.databinding.FragmentCategoryBinding
 import io.kess.ecommerce.model.Category
+import io.kess.ecommerce.model.User
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
-import io.kess.ecommerce.util.UserSession
+import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CategoryViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 
-//import io.kess.ecommerce.adapter.ProductAdapter
 
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
     private val binding get() = _binding!!
     private lateinit var categoryViewModel: CategoryViewModel
+    private lateinit var userViewModel: AuthViewModel
     private var categoryList: List<Category> = emptyList()
     private lateinit var categoryAdapter: CategoryAdapter
-    val user = UserSession.currentUser
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +45,15 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        setupUi()
         setupClickListener()
         setupRecyclerView()
         observeData()
     }
     private fun initViewModel(){
         categoryViewModel = ViewModelProvider(requireActivity())[CategoryViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
     }
-    private fun setupUi(){
+    private fun setupUi(user: User?){
         if (user != null) {
             binding.tvGreeting.text = "Hi, ${user.name}"
         } else {
@@ -86,6 +87,9 @@ class CategoryFragment : Fragment() {
         categoryViewModel.categories.observe(viewLifecycleOwner) { result ->
             categoryList = result.sortedBy { it.createAt }
             categoryAdapter.submitList(categoryList)
+        }
+        userViewModel.authData.observe(viewLifecycleOwner){
+            setupUi(it)
         }
     }
     override fun onDestroyView() {

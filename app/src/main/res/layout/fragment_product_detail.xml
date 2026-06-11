@@ -19,15 +19,14 @@
 
         <TextView
             android:id="@+id/mainProductTitle"
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
             android:gravity="center"
-            android:text="SHOPIX"
-            android:textColor="@color/primary"
             android:maxLines="1"
+            android:text=""
+            android:textColor="@color/primary"
             android:textSize="18sp" />
-
 
         <ImageView
             android:id="@+id/btnCart"
@@ -39,58 +38,70 @@
             android:padding="6dp"
             android:src="@drawable/ic_cart_shopping"
             app:tint="@color/primary" />
-        <ImageView
-            android:id="@+id/btnWishlist"
+
+        <FrameLayout
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="top|end"
-            android:background="@drawable/bg_circle_transparent"
-            android:padding="6dp"
-            android:src="@drawable/ic_heart"
-            app:tint="@color/primary" />
+            >
+
+            <ImageView
+                android:id="@+id/btnWishlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_circle_transparent"
+                android:padding="6dp"
+                android:src="@drawable/ic_heart" />
+
+            <ProgressBar
+                android:id="@+id/wishlistProgress"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Bottom buttons pinned to screen bottom -->
     <LinearLayout
         android:id="@+id/bottomButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:background="@color/white"
         android:paddingLeft="30dp"
         android:paddingTop="10dp"
         android:paddingRight="20dp"
         android:paddingBottom="10dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addToCart"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="150dp"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_gravity="center"
             android:layout_marginEnd="20dp"
+          >
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addToCart"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Add to Cart"
+                android:textSize="18dp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/primary"
+                app:cornerRadius="30dp"
+                app:strokeWidth="1dp"/>
 
-            android:text="Add to Cart"
-            android:textAllCaps="false"
-            android:textColor="@color/primary"
-            app:cornerRadius="30dp"
-            app:strokeColor="@color/primary"
-            app:strokeWidth="1dp" />
+            <ProgressBar
+                android:id="@+id/cart_progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buyNow"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="150dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/primary"
-            android:text="Buy Now"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:cornerRadius="30dp" />
+        </FrameLayout>
+
     </LinearLayout>
-
     <!-- ScrollView above the pinned buttons -->
     <ScrollView
         android:id="@+id/main_content"
@@ -112,24 +123,24 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:scaleType="centerCrop"
-                 />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_bold"
-                android:paddingLeft="20dp"
+                android:maxLines="1"
 
+                android:paddingLeft="20dp"
                 android:textColor="@color/primary"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:maxLines="1"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
@@ -147,11 +158,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
 
-                    android:textColor="#A0A0A0"
-                    android:textSize="18sp"
-                    android:maxLines="1"
                     android:ellipsize="end"
-                    />
+                    android:maxLines="1"
+                    android:textColor="#A0A0A0"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -165,41 +175,37 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_star" />
+                    android:src="@drawable/ic_star_fill" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4.9 (428 Reviews)" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:text="1.2k Sold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/bg_stepper_container"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_stepper_container"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:layout_marginTop="20dp">
+                android:paddingEnd="6dp">
 
                 <TextView
                     android:id="@+id/decrease"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:text="−"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
                     android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/white" />
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:text="−"
+                    android:textColor="#333333"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/quantity"
@@ -215,13 +221,13 @@
                     android:id="@+id/increase"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:text="+"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
                     android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/white" />
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="#333333"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -238,81 +244,11 @@
                 android:textColor="@color/primary"
                 android:textSize="20sp" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:paddingStart="20dp">-->
-
-<!--                <FrameLayout-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_marginEnd="30dp">-->
-
-<!--                    <View-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@drawable/bg_circle_border" />-->
-
-<!--                    <View-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:background="@drawable/bg_circle"-->
-<!--                        android:backgroundTint="#FF795548" />-->
-<!--                </FrameLayout>-->
-
-<!--                <View-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_marginEnd="30dp"-->
-<!--                    android:background="@drawable/bg_circle"-->
-<!--                    android:backgroundTint="@color/secondary" />-->
-
-<!--                <View-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:background="@drawable/bg_circle"-->
-<!--                    android:backgroundTint="@color/black" />-->
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:paddingStart="20dp">-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:backgroundTint="@color/primary"-->
-<!--                    android:text="Black"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    app:cornerRadius="10dp" />-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Blue"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:cornerRadius="10dp"-->
-<!--                    app:strokeColor="#FFBCAAA4"-->
-<!--                    app:strokeWidth="1dp" />-->
-<!--            </LinearLayout>-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="20dp"/>
+                android:paddingLeft="20dp" />
 
             <TextView
                 android:id="@+id/caseSize"
@@ -325,41 +261,11 @@
                 android:textColor="@color/primary"
                 android:textSize="20dp" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:paddingStart="20dp">-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:backgroundTint="@color/primary"-->
-<!--                    android:text="40mm"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    app:cornerRadius="10dp" />-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="44mm"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:cornerRadius="10dp"-->
-<!--                    app:strokeColor="#FFBCAAA4"-->
-<!--                    app:strokeWidth="1dp" />-->
-<!--            </LinearLayout>-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerSize"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="20dp"/>
+                android:paddingLeft="20dp" />
 
             <LinearLayout
                 android:id="@+id/des"
@@ -396,8 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                 />
+                android:paddingRight="20dp" />
 
             <LinearLayout
                 android:id="@+id/userRating"
@@ -422,92 +327,29 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/seeAll"
+                    android:id="@+id/writeReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="See All"
+                    android:text="write a review"
                     android:textColor="@color/secondary"
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <RelativeLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/review"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="20dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/img_profile_avata"
-                    app:shapeAppearanceOverlay="@style/CircleImage" />
-
-                <LinearLayout
-                    android:id="@+id/content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@id/profile"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Marcus Thorne" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <LinearLayout
-                        android:id="@+id/start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star" />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_toEndOf="@id/profile"
-                    android:text="The scraftsmanship is unmatched, A true\nmasterpice of minimalist design." />
-
-            </RelativeLayout>
+                android:layout_height="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

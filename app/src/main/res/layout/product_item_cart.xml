@@ -38,23 +38,41 @@
             android:orientation="horizontal"
             android:layout_marginBottom="30dp">
 
-            <ImageView
-                android:id="@+id/btn_favorite"
+<!--            <ImageView-->
+<!--                android:id="@+id/btn_favorite"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:src="@drawable/ic_heart" />-->
+            <FrameLayout
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_heart" />
+                android:layout_marginEnd="15dp">
 
-            <ImageView
-                android:id="@+id/btn_delete"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_delete"
-                app:tint="#767683" />
+                <ImageView
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_heart"
+                    android:scaleType="centerInside"/>
 
+                <ProgressBar
+                    android:id="@+id/favorite_loading"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/btn_delete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_delete"
+                  />
         </LinearLayout>
 
-        <!-- Stepper — aligned to end, aligned to bottom of btnIcon -->
         <LinearLayout
             android:id="@+id/stepper"
             android:layout_width="wrap_content"
@@ -68,17 +86,29 @@
             android:paddingHorizontal="6dp"
            >
 
-            <TextView
-                android:id="@+id/decrease"
+            <FrameLayout
                 android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/bg_circle"
-                android:backgroundTint="@color/white"
-                android:gravity="center"
-                android:text="−"
-                android:textColor="#333333"
-                android:textSize="18sp" />
+                android:layout_height="25dp">
 
+                <TextView
+                    android:id="@+id/decrease"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:text="−"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/decreaseLoading"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
             <TextView
                 android:id="@+id/quantityNum"
                 android:layout_width="44dp"
@@ -89,17 +119,29 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/increase"
+            <FrameLayout
                 android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/bg_circle"
-                android:backgroundTint="@color/white"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="#333333"
-                android:textSize="18sp" />
+                android:layout_height="25dp">
 
+                <TextView
+                    android:id="@+id/increase"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/increaseLoading"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
         </LinearLayout>
 
         <!-- Content (title, variant, price x qty, total) -->

@@ -13,18 +13,25 @@ import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.ui.ProductCardType
 import android.graphics.Paint
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.ListAdapter
 
 class ProductAdapter(
     private var favoriteIds: Set<String>,
+    private var loadingFavorite: Set<String>,
     private val onFavoriteClick: (Product) -> Unit,
     private val onProductClick: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ViewHolder>(DiffCallback()) {
 
     fun updateFavorites(newFavorites: Set<String>) {
         favoriteIds = newFavorites
+        notifyDataSetChanged()
+    }
+
+    fun updateLoadingFavorite(id: Set<String>){
+        loadingFavorite = id
         notifyDataSetChanged()
     }
 
@@ -46,6 +53,7 @@ class ProductAdapter(
         val originalPrice = view.findViewById<TextView>(R.id.txtOldPrice)
         val discountPrice = view.findViewById<TextView>(R.id.txtPrice)
         val discount = view.findViewById<TextView>(R.id.discountBadge)
+        val favoriteLoading = view.findViewById<ProgressBar>(R.id.favoriteLoading)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,6 +77,13 @@ class ProductAdapter(
         } else {
             holder.btnFavorite.setImageResource(R.drawable.ic_heart)
         }
+        val isLoading = loadingFavorite.contains(product.id)
+        holder.favoriteLoading.visibility = if(isLoading) View.VISIBLE else View.GONE
+        holder.btnFavorite.visibility =
+            if (isLoading) View.INVISIBLE else View.VISIBLE
+
+        holder.btnFavorite.isEnabled = !isLoading
+
         holder.btnFavorite.setOnClickListener {
             onFavoriteClick(product)
         }

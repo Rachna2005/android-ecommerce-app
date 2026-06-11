@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.kess.ecommerce.R
+import io.kess.ecommerce.databinding.FragmentHomeBinding
 import io.kess.ecommerce.databinding.FragmentOrderHistoryBinding
 import io.kess.ecommerce.model.Order
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.OrderViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 
@@ -22,6 +25,7 @@ class OrderHistoryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderAdapter: OrderAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +36,7 @@ class OrderHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-      _binding = FragmentOrderHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentOrderHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,7 +54,9 @@ class OrderHistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        orderAdapter = OrderAdapter(onOrderClick = {}, onTrackingClick = {})
+        orderAdapter = OrderAdapter(onOrderClick = {order ->
+            openOrderDetail(order.id)
+        }, onTrackingClick = {})
         binding.recyclerView.apply {
             adapter = orderAdapter
             layoutManager = GridLayoutManager(requireContext(), 1)
@@ -58,13 +64,40 @@ class OrderHistoryFragment : Fragment() {
     }
 
     private fun observeData(){
-        orderViewModel.orders.observe(viewLifecycleOwner) { result ->
-            orderAdapter.submitList(result)
+        orderViewModel.orders.observe(viewLifecycleOwner) { state ->
+//            orderAdapter.submitList(result)
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visibility =
+                        View.VISIBLE
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    val result = state.data
+                    binding.progressBar.visibility = View.GONE
+                    orderAdapter.submitList(result)
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+    }
+    private fun openOrderDetail(orderId: String){
+        val fragment = OrderDetailFragment().apply {
+            arguments = Bundle().apply {
+                putString("ID", orderId)
+            }
+        }
+        (activity as MainActivity).navigate(fragment)
     }
 
     private fun setupClickListener(){
         binding.back.setOnClickListener { parentFragmentManager.popBackStack() }
+
     }
 
     override fun onResume() {

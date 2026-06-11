@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityLoginScreenBinding
 import io.kess.ecommerce.databinding.ActivitySplashScreenBinding
-import io.kess.ecommerce.util.UserSession
 import io.kess.ecommerce.view_model.AuthViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -31,19 +30,21 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun checkUserSession() {
+        viewModel.getUser()
         viewModel.authData.observe(this) { user ->
             if (user != null) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 Log.d("User Status", "User = $user")
+                Log.d("Main", "Run")
                 finish()
             } else {
                 val intent = Intent(this, Onboarding1Activity::class.java)
                 startActivity(intent)
                 Log.d("User Status", "No User")
+                Log.d("Onboarding", "Run")
                 finish()
             }
         }
-        viewModel.checkUserSession()
     }
 }

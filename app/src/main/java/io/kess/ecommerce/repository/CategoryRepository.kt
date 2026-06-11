@@ -10,7 +10,6 @@ class CategoryRepository {
         onResult: (List<Category>) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-
         fireStore.collection("categories")
             .get()
             .addOnSuccessListener { result ->

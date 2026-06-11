@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.google.firebase.Timestamp
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.R
+import io.kess.ecommerce.util.UiState
 
 class ProductListFragment : Fragment() {
     private var _binding: FragmentDisplayProductBinding? = null
@@ -77,13 +79,13 @@ class ProductListFragment : Fragment() {
     private fun setupRecyclerView() {
         productAdapter = when (type) {
             "DISCOUNT" -> {
-                ProductAdapter(emptySet(), { product ->
+                ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
                     favoriteViewModel.toggleFavorite(product.id)
                 }, {product -> openProductDetail(product.id)})
             }
 
             else -> {
-                ProductAdapter(emptySet(), { product ->
+                ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
                     favoriteViewModel.toggleFavorite(product.id)
                 }, {product -> openProductDetail(product.id)})
             }
@@ -115,15 +117,41 @@ class ProductListFragment : Fragment() {
     }
 
     private fun observeProducts() {
-        viewModel.products.observe(viewLifecycleOwner) { products ->
-            productList = products
-            updateUi(productList, favoriteSet)
+        viewModel.products.observe(viewLifecycleOwner) { state ->
+            when (state) {
 
+                is UiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+//                    binding.contentLayout.visibility = View.GONE
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+//                    binding.contentLayout.visibility = View.VISIBLE
+
+                    val products = state.data
+                    productList = products
+
+                    updateUi(productList, favoriteSet)
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
         favoriteViewModel.favorite.observe(viewLifecycleOwner) { favorites ->
             favoriteSet = favorites
             updateUi(productList, favoriteSet)
+        }
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
+            productAdapter.updateLoadingFavorite(it)
         }
     }
 

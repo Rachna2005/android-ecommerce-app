@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
@@ -27,22 +28,23 @@ import io.kess.ecommerce.view_model.ProductViewModel
 import java.util.logging.Handler
 import com.google.firebase.Timestamp
 import io.kess.ecommerce.databinding.FragmentHomeBinding
-import io.kess.ecommerce.util.UserSession
+import io.kess.ecommerce.model.User
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.FavoriteViewModel
 
 class HomeFragment : Fragment() {
-    private  var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var runnable: Runnable
     private val handler = android.os.Handler(Looper.getMainLooper())
     private lateinit var viewModel: ProductViewModel
     private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var userViewModel: AuthViewModel
     private lateinit var imgSlide: ViewPager2
     private lateinit var discountAdapter: ProductAdapter
     private lateinit var newArrivalAdapter: ProductAdapter
     private lateinit var allAdapter: ProductAdapter
     private var favorite: Set<String> = emptySet()
-    val user = UserSession.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,16 +61,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        setupUi()
 //        setUpBanner()
-        observeDat()
+        observeData()
         setupRecyclerView()
         setupClickListeners(view)
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
     }
 
     private fun setUpBanner() {
@@ -93,19 +95,19 @@ class HomeFragment : Fragment() {
         }, 3000)
     }
 
-    private fun setupUi(){
-        if(user != null){
+    private fun setupUi(user: User?) {
+        if (user != null) {
             binding.tvGreeting.text = "Hi, ${user.name}"
-        }else{
-            binding.tvGreeting.text = "Guest"
+        } else {
+            binding.tvGreeting.text = "Hi, Guest"
         }
     }
 
     private fun setupRecyclerView() {
         Log.d("PRODUCT_DEBUG", "setupRecyclerView called")
-        discountAdapter = ProductAdapter(emptySet(), { product ->
+        discountAdapter = ProductAdapter(emptySet(), loadingFavorite = emptySet(),  { product ->
             favoriteViewModel.toggleFavorite(product.id)
-        }, {product -> openProductDetail(product.id)})
+        }, { product -> openProductDetail(product.id) })
 
         binding.viewDiscount.apply {
             adapter = discountAdapter
@@ -117,20 +119,20 @@ class HomeFragment : Fragment() {
                 )
         }
 
-        newArrivalAdapter = ProductAdapter(emptySet(), { product ->
+        newArrivalAdapter = ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
-        }, {product -> openProductDetail(product.id)})
+        }, { product -> openProductDetail(product.id) })
 
         binding.viewNewArrival.apply {
             adapter = newArrivalAdapter
-         layoutManager =
+            layoutManager =
                 GridLayoutManager(requireContext(), 2)
         }
         binding.viewNewArrival.isNestedScrollingEnabled = false
 
-        allAdapter = ProductAdapter(emptySet(), { product ->
+        allAdapter = ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
-        }, {product -> openProductDetail(product.id)})
+        }, { product -> openProductDetail(product.id) })
 
         binding.viewAllProduct.apply {
             adapter = allAdapter
@@ -145,17 +147,44 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun observeDat(){
-        viewModel.products.observe(viewLifecycleOwner) { products ->
-            Log.d("PRODUCT_DEBUG", "Observer triggered")
-            val discountList = products.filter { (it.discountPercentage ?: 0.0) > 0 }.take(5)
-            val newArrivalList =
-                products
-                    .sortedByDescending { it.createdAt?.seconds ?: 0 }
-                    .take(4)
-            discountAdapter.submitList(discountList)
-            newArrivalAdapter.submitList(newArrivalList)
-            allAdapter.submitList(products)
+    private fun observeData() {
+        viewModel.products.observe(viewLifecycleOwner) { state ->
+//            Log.d("PRODUCT_DEBUG", "Observer triggered")
+//            val discountList = products.filter { (it.discountPercentage ?: 0.0) > 0 }.take(5)
+//            val newArrivalList =
+//                products
+//                    .sortedByDescending { it.createdAt?.seconds ?: 0 }
+//                    .take(4)
+//            discountAdapter.submitList(discountList)
+//            newArrivalAdapter.submitList(newArrivalList)
+//            allAdapter.submitList(products)
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visibility =
+                        View.VISIBLE
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+//                    binding.contentLayout.visibility = View.VISIBLE
+                    val products = state.data
+
+                    val discountList =
+                        products.filter { (it.discountPercentage ?: 0.0) > 0 }.take(5)
+                    val newArrivalList =
+                        products
+                            .sortedByDescending { it.createdAt?.seconds ?: 0 }
+                            .take(4)
+                    discountAdapter.submitList(discountList)
+                    newArrivalAdapter.submitList(newArrivalList)
+                    allAdapter.submitList(products)
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
@@ -165,6 +194,15 @@ class HomeFragment : Fragment() {
             allAdapter.updateFavorites(favorite)
             Log.d("IN_HOME", favorite.count().toString())
         }
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
+            discountAdapter.updateLoadingFavorite(it)
+            newArrivalAdapter.updateLoadingFavorite(it)
+            allAdapter.updateLoadingFavorite(it)
+        }
+        userViewModel.authData.observe(viewLifecycleOwner) {
+            setupUi(it)
+        }
+
     }
 
     private fun setupClickListeners(view: View) {
@@ -198,16 +236,16 @@ class HomeFragment : Fragment() {
         navigation(fragment)
     }
 
-    private fun openProductDetail(productId: String){
+    private fun openProductDetail(productId: String) {
         val fragment = ProductDetailFragment().apply {
             arguments = Bundle().apply {
                 putString("ID", productId)
             }
         }
-       navigation(fragment)
+        navigation(fragment)
     }
 
-    private fun navigation(fragment: Fragment){
+    private fun navigation(fragment: Fragment) {
         (activity as MainActivity).navigate(fragment)
     }
 

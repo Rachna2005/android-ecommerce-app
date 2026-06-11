@@ -4,18 +4,12 @@ import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.model.CartItem
-import io.kess.ecommerce.util.UserSession
 
-class CartItemRepository {
+class CartItemRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()
 
-    //        val userId = UserSession.currentUser!!.id
-    private fun getUserId(): String? {
-        return UserSession.currentUser?.id
-    }
-
-    fun getAllCart(onResult: (List<CartItem>) -> Unit) {
-        val userId = getUserId()
+    fun getAllCart(onResult: (List<CartItem>) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
@@ -28,19 +22,18 @@ class CartItemRepository {
                     }
                 }
                 onResult(cartList)
-            }.addOnCanceledListener {
-                onResult(emptyList())
+            }.addOnFailureListener {e ->
+                onFailure(e)
             }
     }
 
-    fun addCart(cartItem: CartItem, onResult: (String) -> Unit) {
+    fun addCart(cartItem: CartItem, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val cartId = "${cartItem.productId}_${cartItem.variantId}"
-        val userId = getUserId()
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
         }
-
         val findCart =
             fireStore.collection("users").document(userId).collection("cart").document(cartId)
         findCart.get().addOnSuccessListener { doc ->
@@ -60,26 +53,28 @@ class CartItemRepository {
                     }
             }
         }.addOnFailureListener {
-            onResult("Something went wrong")
+            onFailure(it)
         }
     }
 
-    fun deleteCart(cartId: String) {
-        val userId = getUserId()
+    fun deleteCart(cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
         }
         fireStore.collection("users").document(userId).collection("cart").document(cartId).delete()
-            .addOnFailureListener {
-                Log.d("Delete_Cart_Firebase", "Failed")
+            .addOnSuccessListener {
+                onResult("Cart delete successfully")
+            }.addOnFailureListener {
+                onFailure(it)
             }
     }
 
     fun increaseQuantity(
-        cartId: String
+        cartId: String,onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = getUserId()
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
@@ -93,9 +88,11 @@ class CartItemRepository {
             .update(
                 "quantity",
                 FieldValue.increment(1)
-            )
+            ).addOnSuccessListener {
+                onResult("Quantity increased")
+            }
             .addOnFailureListener {
-
+                onFailure(it)
                 Log.e(
                     "FIREBASE_CART",
                     "Failed to increase quantity"
@@ -104,10 +101,9 @@ class CartItemRepository {
     }
 
     fun decreaseQuantity(
-        cartId: String,
-        currentQuantity: Int
+        cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = getUserId()
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
@@ -122,7 +118,11 @@ class CartItemRepository {
         cartRef.update(
             "quantity",
             FieldValue.increment(-1)
-        )
+        ).addOnSuccessListener {
+            onResult("Cart decreased")
+        }.addOnFailureListener {
+            onFailure(it)
+        }
     }
 
 }

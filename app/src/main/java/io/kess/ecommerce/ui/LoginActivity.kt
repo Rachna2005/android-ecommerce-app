@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityLoginScreenBinding
 import io.kess.ecommerce.databinding.ActivityRegisterScreenBinding
-import io.kess.ecommerce.util.UserSession
 import io.kess.ecommerce.view_model.AuthViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -27,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun initViewModel(){
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
     }
     private fun setupClick() {
 
@@ -50,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.authData.observe(this) { user ->
             if (user != null) {
-                UserSession.currentUser = user
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

@@ -2,22 +2,28 @@ package io.kess.ecommerce.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.ui.adapter.CartAdapter
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ProductAdapter
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
@@ -34,7 +40,6 @@ class CartFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -57,14 +62,50 @@ class CartFragment : Fragment() {
         cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
             cartAdapter.submitList(cart)
             updateUi(cart)
-
+        }
+        cartViewModel.message.observe(viewLifecycleOwner){message ->
+            if (message != null){
+                showSuccessSnackBar( message)
+                cartViewModel.clearMessage()
+            }
         }
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
-
             favorite = it
-
             cartAdapter.updateFavorites(favorite)
         }
+        cartViewModel.loadingItems.observe(viewLifecycleOwner){
+            cartAdapter.updateLoading(it)
+        }
+
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
+            cartAdapter.updateLoadingFavorite(it)
+        }
+    }
+
+    fun showSuccessSnackBar(message: String) {
+        val snackbar = Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_SHORT
+        )
+
+        snackbar.setBackgroundTint(
+            ContextCompat.getColor(requireContext(), R.color.green)
+        )
+
+        snackbar.setTextColor(
+            ContextCompat.getColor(requireContext(), android.R.color.white)
+        )
+
+        val snackbarView = snackbar.view
+
+        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        params.setMargins(16, 100, 16, 0)
+
+        snackbarView.layoutParams = params
+
+        snackbar.show()
     }
 
     private fun updateUi(cart: List<CartItem>) {
@@ -98,7 +139,7 @@ class CartFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        cartAdapter = CartAdapter(favorite, onFavoriteClick = { cartItem ->
+        cartAdapter = CartAdapter(favorite, loadingItems = emptySet(), loadingFavorite = emptySet(), onFavoriteClick = { cartItem ->
             favoriteViewModel.toggleFavorite(cartItem.productId)
         }, onProductClick = { cartItem ->
             openProductDetail(cartItem.productId)

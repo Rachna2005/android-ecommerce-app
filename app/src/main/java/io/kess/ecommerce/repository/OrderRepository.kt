@@ -6,16 +6,11 @@ import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
 import io.kess.ecommerce.model.OrderItem
 import io.kess.ecommerce.model.cartToOrderItem
-import io.kess.ecommerce.util.UserSession
 
-class OrderRepository {
+class OrderRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()
-//    val userId = UserSession.currentUser!!.id
-private fun getUserId(): String? {
-    return UserSession.currentUser?.id
-}
-    fun getAllOrder( onResult: (List<Order>) -> Unit){
-        val userId = getUserId()
+    fun getAllOrder( onResult: (List<Order>) -> Unit, onFailure: (Exception) -> Unit){
+        val userId = authRepo.getUserId()
         if(userId == null){
             Log.d("User", "No user")
             return
@@ -29,16 +24,17 @@ private fun getUserId(): String? {
             onResult(order)
         }.addOnFailureListener {
             Log.e("order_Firebase", "Failed to load orders")
+            onFailure(it)
         }
     }
 
     fun placeOrder(
         order: Order,
         items: List<CartItem>,
-        onResult: (String) -> Unit
+        onResult: (String) -> Unit,onFailure: (Exception) -> Unit
     ) {
 
-        val userId = getUserId()
+        val userId = authRepo.getUserId()
         if (userId == null) {
             Log.d("User", "No user")
             return
@@ -78,11 +74,41 @@ private fun getUserId(): String? {
 
             }
             .addOnFailureListener {
-                onResult("Failed to place order")
+                onFailure(it)
             }
     }
 
-    fun getOrderItem(orderId: String, onResult: (List<OrderItem>) -> Unit){
+    fun getOrderDetail(
+        orderId: String,
+        onResult: (Order) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val userId = authRepo.getUserId()
+        if (userId == null) {
+            Log.d("User", "No user")
+            return
+        }
+
+        fireStore.collection("orders")
+            .document(orderId)
+            .get()
+            .addOnSuccessListener { doc ->
+                val order = doc.toObject(Order::class.java)?.apply {
+                    id = doc.id
+                }
+                if(order == null){
+                    onFailure(Exception("Order history not found"))
+                    return@addOnSuccessListener
+                }
+                onResult(order)
+            }
+            .addOnFailureListener { e ->
+                Log.e("order_Firebase", "Failed to load order detail", e)
+                onFailure(e)
+            }
+    }
+
+    fun getOrderItem(orderId: String, onResult: (List<OrderItem>) -> Unit, onFailure: (Exception) -> Unit){
         fireStore.collection("orders").document(orderId).collection("items").get().addOnSuccessListener { result ->
             val items = result.documents.mapNotNull {
                 it.toObject(OrderItem::class.java)?.apply {
@@ -91,7 +117,7 @@ private fun getUserId(): String? {
             }
             onResult(items)
         }.addOnFailureListener {
-            onResult(emptyList())
+            onFailure(it)
         }
     }
 }

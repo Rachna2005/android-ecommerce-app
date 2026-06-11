@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +17,8 @@ import io.kess.ecommerce.model.CartItem
 
 class CartAdapter(
     private var favoriteIds: Set<String>,
+    private var loadingItems: Set<String>,
+    private var loadingFavorite: Set<String>,
     private val onFavoriteClick: (CartItem) -> Unit,
     private val onProductClick: (CartItem) -> Unit,
     private val onIncrease: (CartItem) -> Unit,
@@ -25,6 +28,16 @@ class CartAdapter(
 
     fun updateFavorites(newFavorites: Set<String>) {
         favoriteIds = newFavorites
+        notifyDataSetChanged()
+
+    }
+    fun updateLoadingFavorite(id: Set<String>){
+        loadingFavorite = id
+        notifyDataSetChanged()
+    }
+
+    fun updateLoading(newLoading: Set<String>) {
+        loadingItems = newLoading
         notifyDataSetChanged()
     }
 
@@ -45,6 +58,7 @@ class CartAdapter(
 
         val increase = view.findViewById<TextView>(R.id.increase)
         val decrease = view.findViewById<TextView>(R.id.decrease)
+        val favoriteLoading = view.findViewById<ProgressBar>(R.id.favorite_loading)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartItem>() {
@@ -89,11 +103,20 @@ class CartAdapter(
         holder.decrease.isEnabled = cartItem.quantity > 1
         holder.decrease.alpha = if (cartItem.quantity > 1) 1f else 0.5f
 
+        val favoriteLoading = loadingFavorite.contains(cartItem.productId)
+        holder.favoriteLoading.visibility = if(favoriteLoading) View.VISIBLE else View.GONE
+        holder.btnFavorite.visibility =
+            if (favoriteLoading) View.INVISIBLE else View.VISIBLE
+
         if (favoriteIds.contains(cartItem.productId)) {
             holder.btnFavorite.setImageResource(R.drawable.ic_heart_fill)
         } else {
             holder.btnFavorite.setImageResource(R.drawable.ic_heart)
         }
+
+        val isLoading = loadingItems.contains(cartItem.id)
+        holder.container.isEnabled = !isLoading
+        holder.container.alpha = if(isLoading) 0.5f else 1f
 
         holder.btnFavorite.setOnClickListener {
             onFavoriteClick(cartItem)

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import io.kess.ecommerce.databinding.FragmentSearchBinding
 import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.ui.adapter.ProductAdapter
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 
@@ -42,7 +44,7 @@ class SearchFragment : Fragment() {
         }
         initViewModel()
         setupAdapter()
-        observeData()
+//        observeData()
         setupSearch()
     }
 
@@ -52,7 +54,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupAdapter(){
-        searchAdapter = ProductAdapter(emptySet(), { product ->
+        searchAdapter = ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
         binding.recyclerView.adapter = searchAdapter
@@ -61,14 +63,37 @@ class SearchFragment : Fragment() {
 
     private fun observeData(){
         viewModel.products.observe(viewLifecycleOwner)
-        { products ->
-            productList = products
-            val query = binding.search.text.toString().trim()
-            setupSearch(query)
+        { state ->
+            when (state) {
+
+                is UiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    productList = state.data
+
+                    val query = binding.search.text.toString().trim()
+                    setupSearch(query)
+                }
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
             favorite = it
             searchAdapter.updateFavorites(favorite)
+        }
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
+            searchAdapter.updateLoadingFavorite(it)
         }
     }
 
@@ -80,7 +105,7 @@ class SearchFragment : Fragment() {
 
 
     private fun setupSearch(query: String) {
-            if (query.isEmpty()) {
+            if (query.isBlank()) {
                 searchAdapter.submitList(emptyList())
             } else {
                 val filteredList = productList.filter {

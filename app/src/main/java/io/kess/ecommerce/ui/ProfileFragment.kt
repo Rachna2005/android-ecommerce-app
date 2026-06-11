@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
-import io.kess.ecommerce.util.UserSession
+import io.kess.ecommerce.model.User
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
@@ -20,14 +21,16 @@ import io.kess.ecommerce.view_model.OrderViewModel
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var cartViewModel: CartViewModel
     private lateinit var orderViewModel: OrderViewModel
+    private lateinit var userViewModel: AuthViewModel
     private var totalWishlist: Int = 0
     private var totalOrder: Int = 0
     private var totalCart: Int = 0
-    private val binding get() = _binding!!
-    val user = UserSession.currentUser
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,24 +47,29 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         observeData()
-        setupUi()
         setupOnClickListener()
     }
 
     private fun initViewModel(){
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
         cartViewModel = ViewModelProvider(requireActivity())[CartViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
 
     }
 
     private fun observeData(){
         favoriteViewModel.favorite.observe(viewLifecycleOwner){favorite ->
             totalWishlist = favorite.count()
+            updateUi()
         }
         cartViewModel.cartItems.observe(viewLifecycleOwner){cart ->
             totalCart = cart.count()
+            updateUi()
         }
-        updateUi()
+
+        userViewModel.authData.observe(viewLifecycleOwner){
+            setupUi(it)
+        }
     }
 
     private fun updateUi(){
@@ -70,7 +78,7 @@ class ProfileFragment : Fragment() {
         binding.cart.text = totalCart.toString()
     }
 
-    private fun setupUi(){
+    private fun setupUi(user: User?){
         if(user != null){
             binding.uName.text = user.name
         }else{
@@ -90,8 +98,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            UserSession.currentUser =  null
+//            FirebaseAuth.getInstance().signOut()
+            userViewModel.logout()
             startActivity(
                 Intent(requireContext(), Onboarding1Activity::class.java)
             )
@@ -99,6 +107,9 @@ class ProfileFragment : Fragment() {
         }
         binding.order.setOnClickListener {
             (activity as MainActivity).navigate(OrderHistoryFragment())
+        }
+        binding.setting.setOnClickListener {
+            (activity as MainActivity).navigate(SettingFragment())
         }
     }
     override fun onDestroyView() {

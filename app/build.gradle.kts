@@ -104,6 +104,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
-
-
+    implementation(libs.material.v1120)
 }

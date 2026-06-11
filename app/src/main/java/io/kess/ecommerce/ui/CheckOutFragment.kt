@@ -16,10 +16,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import io.kess.ecommerce.databinding.FragmentCheckoutScreenBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
+import io.kess.ecommerce.ui.adapter.OrderItemAdapter
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.OrderViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
@@ -27,10 +30,11 @@ import java.util.function.DoublePredicate
 
 
 class CheckOutFragment : Fragment() {
-    private  var _binding: FragmentCheckoutScreenBinding? = null
+    private var _binding: FragmentCheckoutScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var cartViewModel: CartViewModel
     private lateinit var orderViewModel: OrderViewModel
+    private lateinit var orderItemAdapter: OrderItemAdapter
     private var totalPrice: Double = 0.0
     private var quantity: Int = 1
     private var cartItem: List<CartItem> = emptyList()
@@ -47,7 +51,7 @@ class CheckOutFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCheckoutScreenBinding.inflate(inflater,container,false)
+        _binding = FragmentCheckoutScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -60,13 +64,14 @@ class CheckOutFragment : Fragment() {
         setupUi()
 
     }
-    private fun initViewModel(){
+
+    private fun initViewModel() {
         cartViewModel =
             ViewModelProvider(requireActivity())[CartViewModel::class.java]
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
     }
 
-    private fun setupBottomSheet(){
+    private fun setupBottomSheet() {
         parentFragmentManager.setFragmentResultListener(
             "ADDRESS_RESULT",
             viewLifecycleOwner
@@ -76,7 +81,6 @@ class CheckOutFragment : Fragment() {
             binding.address.text = address
             binding.phoneNumber.text = phone
         }
-
 
         successBottomSheet.onGoOrderHistory = {
             parentFragmentManager.popBackStack()
@@ -89,16 +93,30 @@ class CheckOutFragment : Fragment() {
             }
         }
     }
-    private fun observeData(successBottomSheet: SuccessPaymentSheet){
+//    private fun setupAdapter(){
+//        orderItemAdapter = OrderItemAdapter()
+//        binding.recyclerView.apply {
+//            adapter = orderItemAdapter
+//            layoutManager = LinearLayoutManager(requireContext())
+//        }
+//    }
+
+    private fun observeData(successBottomSheet: SuccessPaymentSheet) {
         cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
             cartItem = cart
+//            orderItemAdapter.submitList(cartItem)
         }
 
         orderViewModel.message.observe(viewLifecycleOwner) { message ->
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             successBottomSheet.show(parentFragmentManager, "Success_Payment")
         }
+        orderViewModel.isOrder.observe(viewLifecycleOwner) { isOrder ->
+            binding.btnCheckout.isEnabled = !isOrder
+            binding.btnCheckout.alpha = if (isOrder) 0.5f else 1f
+        }
     }
+
     private fun setupClickListener() {
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()

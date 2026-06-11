@@ -11,10 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityMainBinding
+import io.kess.ecommerce.util.UiState
+import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.CategoryViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
+import io.kess.ecommerce.view_model.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var productViewModel: ProductViewModel
     private lateinit var categoryViewModel: CategoryViewModel
+    private lateinit var userViewModel: AuthViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +48,19 @@ class MainActivity : AppCompatActivity() {
         cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
         productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
+        userViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
     }
     private fun loadData(){
         favoriteViewModel.loadFavorite()
         cartViewModel.loadCart()
         productViewModel.loadAllProducts()
         categoryViewModel.loadCategories()
+        userViewModel.getUser()
     }
     private fun observeData(){
-        cartViewModel.cartItems.observe(this) { list ->
-            val totalCount = list.sumOf { it.quantity }
+        cartViewModel.cartItems.observe(this) { cart ->
+            val totalCount = cart.sumOf { it.quantity }
             updateCartBadge(totalCount)
         }
     }

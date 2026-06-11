@@ -31,17 +31,38 @@
                 android:src="@drawable/img_product_detail"
                 />
 
-            <ImageView
-                android:id="@+id/btnWishlist"
+<!--            <ImageView-->
+<!--                android:id="@+id/btnWishlist"-->
+<!--                android:layout_width="32dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:layout_gravity="top|end"-->
+<!--                android:layout_margin="13dp"-->
+<!--                android:background="@drawable/bg_circle_transparent"-->
+<!--                android:padding="6dp"-->
+<!--                android:src="@drawable/ic_heart"-->
+<!--                 />-->
+            <FrameLayout
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="top|end"
-                android:layout_margin="13dp"
-                android:background="@drawable/bg_circle_transparent"
-                android:padding="6dp"
-                android:src="@drawable/ic_heart"
-                 />
-            <TextView
+                android:layout_margin="13dp">
+
+                <ImageView
+                    android:id="@+id/btnWishlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_circle_transparent"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_heart" />
+
+                <ProgressBar
+                    android:id="@+id/favoriteLoading"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+            </FrameLayout>            <TextView
                 android:id="@+id/discountBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

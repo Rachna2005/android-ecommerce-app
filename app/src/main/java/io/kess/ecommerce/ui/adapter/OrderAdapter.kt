@@ -34,6 +34,7 @@ class OrderAdapter(
 
         val btnTracking: MaterialButton =
             view.findViewById(R.id.btnTracking)
+        val btnDetail: MaterialButton = view.findViewById(R.id.btnDetail)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Order>() {
@@ -109,7 +110,10 @@ class OrderAdapter(
                 .load(items[2])
                 .into(holder.imgProduct3)
         }
-        holder.itemView.setOnClickListener {
+//        holder.itemView.setOnClickListener {
+//            onOrderClick(order)
+//        }
+        holder.btnDetail.setOnClickListener {
             onOrderClick(order)
         }
 

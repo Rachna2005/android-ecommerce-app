@@ -15,6 +15,7 @@ class Onboarding2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingPaymentBinding.inflate((layoutInflater))
+        setContentView(binding.root)
         val listener = View.OnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
