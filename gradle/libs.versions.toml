@@ -1,6 +1,7 @@
 [versions]
 agp = "9.1.1"
 androidbootstrap = "2.3.2"
+cloudinaryAndroid = "3.1.2"
 compiler = "4.16.0"
 composeBom = "2024.10.00"
 coreKtx = "1.10.1"
@@ -21,6 +22,7 @@ materialVersion = "1.12.0"
 ui = "1.11.2"
 remoteCreationCore = "1.0.0-alpha11"
 googleMaterial = "1.14.0"
+benchmarkCommon = "1.4.1"
 
 [libraries]
 androidbootstrap = { module = "com.beardedhen:androidbootstrap", version.ref = "androidbootstrap" }
@@ -30,6 +32,7 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+cloudinary-android = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinaryAndroid" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -49,6 +52,7 @@ androidx-compose-remote-creation-core = { group = "androidx.compose.remote", nam
 
 google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 material-v1120 = { module = "com.google.android.material:material", version.ref = "googleMaterialVersion" }
+androidx-benchmark-common = { group = "androidx.benchmark", name = "benchmark-common", version.ref = "benchmarkCommon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

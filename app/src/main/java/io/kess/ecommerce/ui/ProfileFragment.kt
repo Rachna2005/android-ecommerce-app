@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.activity.Onboarding1Activity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CartViewModel
@@ -67,9 +69,9 @@ class ProfileFragment : Fragment() {
             updateUi()
         }
 
-        userViewModel.authData.observe(viewLifecycleOwner){
-            setupUi(it)
-        }
+//        userViewModel.authData.observe(viewLifecycleOwner){
+//            setupUi(it)
+//        }
     }
 
     private fun updateUi(){

@@ -21,7 +21,10 @@ import com.google.firebase.Timestamp
 import io.kess.ecommerce.databinding.FragmentCheckoutScreenBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.OrderItemAdapter
+import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
+import io.kess.ecommerce.ui.bottomSheet.SuccessPaymentSheet
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.OrderViewModel

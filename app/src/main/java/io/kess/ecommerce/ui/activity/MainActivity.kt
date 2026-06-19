@@ -1,32 +1,38 @@
-package io.kess.ecommerce.ui
+package io.kess.ecommerce.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityMainBinding
-import io.kess.ecommerce.util.UiState
+import io.kess.ecommerce.ui.CartFragment
+import io.kess.ecommerce.ui.CategoryFragment
+import io.kess.ecommerce.ui.HomeFragment
+import io.kess.ecommerce.ui.ProfileFragment
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.CategoryViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
-import io.kess.ecommerce.view_model.ReviewViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val homeFragment = HomeFragment()
+//    private val homeFragment = HomeFragment()
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var cartViewModel: CartViewModel
     private lateinit var productViewModel: ProductViewModel
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var userViewModel: AuthViewModel
+    private val homeFragment = HomeFragment()
+
+//    private val categoryFragment = CategoryFragment()
+//    private val cartFragment = CartFragment()
+//    private val profileFragment = ProfileFragment()
+//
+//    private var activeFragment: Fragment = homeFragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

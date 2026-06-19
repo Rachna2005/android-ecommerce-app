@@ -10,6 +10,8 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
 import io.kess.ecommerce.databinding.FragmentSettingBinding
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
 import io.kess.ecommerce.view_model.AuthViewModel
 
 class SettingFragment : Fragment() {
@@ -43,11 +45,11 @@ class SettingFragment : Fragment() {
     }
 
     private fun observeData() {
-        authViewModel.authData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                setupUi(data)
-            }
-        }
+//        authViewModel.authData.observe(viewLifecycleOwner) { data ->
+//            if (data != null) {
+//                setupUi(data)
+//            }
+//        }
     }
 
     private fun setupUi(user: User) {

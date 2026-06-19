@@ -1,14 +1,11 @@
-package io.kess.ecommerce.ui
+package io.kess.ecommerce.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.ActivityLoginScreenBinding
 import io.kess.ecommerce.databinding.ActivityOnbaodingBinding
+import io.kess.ecommerce.ui.RegisterActivity
 
 class Onboarding1Activity : AppCompatActivity() {
     private lateinit var binding: ActivityOnbaodingBinding

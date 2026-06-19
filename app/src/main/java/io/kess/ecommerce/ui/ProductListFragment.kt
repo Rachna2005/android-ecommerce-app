@@ -21,6 +21,7 @@ import com.google.firebase.Timestamp
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.R
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.util.UiState
 
 class ProductListFragment : Fragment() {

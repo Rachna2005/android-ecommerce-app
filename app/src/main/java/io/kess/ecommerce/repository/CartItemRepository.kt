@@ -48,7 +48,8 @@ class CartItemRepository(private val authRepo: AuthRepository) {
                         Log.d("CART_DEBUG", "Product added")
                     }
                     .addOnFailureListener {
-                        onResult("Failed to add product")
+//                        onResult("Failed to add product")
+                        onFailure(it)
                         Log.d("CART_DEBUG", "Product added Failed")
                     }
             }

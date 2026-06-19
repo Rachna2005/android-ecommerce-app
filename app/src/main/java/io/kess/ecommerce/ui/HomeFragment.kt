@@ -29,6 +29,7 @@ import java.util.logging.Handler
 import com.google.firebase.Timestamp
 import io.kess.ecommerce.databinding.FragmentHomeBinding
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.FavoriteViewModel
 
@@ -162,11 +163,13 @@ class HomeFragment : Fragment() {
                 is UiState.Loading -> {
                     binding.progressBar.visibility =
                         View.VISIBLE
+                    binding.content.visibility = View.GONE
                 }
 
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
 //                    binding.contentLayout.visibility = View.VISIBLE
+                    binding.content.visibility = View.VISIBLE
                     val products = state.data
 
                     val discountList =
@@ -182,6 +185,7 @@ class HomeFragment : Fragment() {
 
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
+
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -199,9 +203,9 @@ class HomeFragment : Fragment() {
             newArrivalAdapter.updateLoadingFavorite(it)
             allAdapter.updateLoadingFavorite(it)
         }
-        userViewModel.authData.observe(viewLifecycleOwner) {
-            setupUi(it)
-        }
+//        userViewModel.authData.observe(viewLifecycleOwner) {
+//            setupUi(it)
+//        }
 
     }
 

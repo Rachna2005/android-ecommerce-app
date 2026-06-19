@@ -5,35 +5,66 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.model.UserRole
 import io.kess.ecommerce.repository.AuthRepository
+import io.kess.ecommerce.util.UiState
+
+//enum class MessageType {
+//    SUCCESS,
+//    ERROR,
+//}
+//
+//data class UiMessage(
+//    val text: String,
+//    val type: MessageType
+//)
 
 class AuthViewModel : ViewModel() {
     private val repository = AuthRepository()
-    private val _authData = MutableLiveData<User?>()
-    val authData: LiveData<User?> = _authData
-    private val _message = MutableLiveData<String?>()
-    val message: LiveData<String?> = _message
+    private val _authState = MutableLiveData<UiState<User>>()
+    val authState: LiveData<UiState<User>> = _authState
+//    private val _userId = MutableLiveData<String?>()
+//    val userId: LiveData<String?> = _userId
 
-    fun register(name: String, email: String, password: String) {
-        repository.register(name, email, password, onSuccess = { result ->
-            _authData.value = result
-        }, onFailure = { e ->
-            _authData.value = null
-            Log.d("REGISTER", e.message.toString())
-        })
+    fun register(name: String, email: String, password: String, role: UserRole) {
+
+        _authState.value = UiState.Loading
+
+        repository.registerUser(
+            name,
+            email,
+            password,
+            role,
+            onSuccess = { user ->
+                _authState.value = UiState.Success(user)
+//                _userId.value = user.id
+            },
+            onFailure = { e ->
+                _authState.value = UiState.Error(
+                    e.message ?: "Register failed"
+                )
+            }
+        )
     }
-
     fun login(email: String, password: String) {
+
+        _authState.value = UiState.Loading
+
         repository.login(
             email,
             password,
+
             onSuccess = { user ->
-                _authData.value = user
+                _authState.value = UiState.Success(user)
+//                _userId.value = user.id
             },
+
             onFailure = { e ->
-                _authData.value = null
-                Log.d("LOGIN", e.message.toString())
-            })
+                _authState.value = UiState.Error(
+                    e.message ?: "Login failed"
+                )
+            }
+        )
     }
 
     fun updateUser(
@@ -41,51 +72,63 @@ class AuthViewModel : ViewModel() {
         address: String? = null,
         phoneNumber: String? = null
     ) {
+
         repository.updateUser(
             name = name,
-
             address = address,
             phoneNumber = phoneNumber,
-            onSuccess = { txt ->
-                val currentUser = _authData.value
+
+            onSuccess = { message ->
+
+                val currentState = _authState.value
+
+                val currentUser = (currentState as? UiState.Success)?.data
 
                 if (currentUser != null) {
+
                     val updatedUser = currentUser.copy(
                         name = name ?: currentUser.name,
                         address = address ?: currentUser.address,
                         phoneNumber = phoneNumber ?: currentUser.phoneNumber
                     )
 
-                    _authData.value = updatedUser
+                    _authState.value = UiState.Success(updatedUser)
                 }
 
-                _message.value = txt
+                // optional: if no current user, still emit success message logic is NOT needed anymore
             },
+
             onFailure = { e ->
-                Log.d("UPDATE", e.message.toString())
-                _message.value = e.message
+                _authState.value = UiState.Error(
+                    e.message ?: "Update failed"
+                )
             }
         )
     }
 
     fun getUser() {
+
+        _authState.value = UiState.Loading
+
         repository.getCurrentUser(
             onSuccess = { user ->
-                _authData.value = user
+                _authState.value = UiState.Success(user)
+//                _userId.value = user.id
             },
             onFailure = { e ->
-//                _authData.value = null
-                Log.d("USER_SESSION", e.message.toString())
-            })
+                _authState.value = UiState.Error(
+                    e.message ?: "User session error"
+                )
+            }
+        )
     }
 
-    fun getUserId() {
-        repository.getUserId()
+    fun getUserId(): String? {
+        return repository.getUserId()
     }
 
     fun logout() {
         repository.logout()
     }
-
 
 }

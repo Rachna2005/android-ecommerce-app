@@ -1,14 +1,12 @@
-package io.kess.ecommerce.ui
+package io.kess.ecommerce.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.ActivityOnbaodingBinding
 import io.kess.ecommerce.databinding.ActivityOnboardingPaymentBinding
+import io.kess.ecommerce.ui.LoginActivity
+import io.kess.ecommerce.ui.RegisterActivity
 
 class Onboarding2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingPaymentBinding
@@ -24,7 +22,7 @@ class Onboarding2Activity : AppCompatActivity() {
         binding.skip.setOnClickListener (listener)
         binding.button.setOnClickListener (listener)
         binding.signUp.setOnClickListener {
-            val intent = Intent(this, LoginActivity:: class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

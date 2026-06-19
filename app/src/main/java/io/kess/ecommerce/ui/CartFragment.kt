@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.model.CartItem
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.CartAdapter
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ProductAdapter
@@ -62,6 +63,7 @@ class CartFragment : Fragment() {
         cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
             cartAdapter.submitList(cart)
             updateUi(cart)
+            updateCartUi(cart)
         }
         cartViewModel.message.observe(viewLifecycleOwner){message ->
             if (message != null){
@@ -79,6 +81,18 @@ class CartFragment : Fragment() {
 
         favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
             cartAdapter.updateLoadingFavorite(it)
+        }
+    }
+
+    private fun updateCartUi(cart: List<CartItem>){
+        if(cart.isEmpty()){
+            binding.layoutEmptyCart.visibility = View.VISIBLE
+            binding.button.visibility = View.GONE
+            binding.content.visibility = View.GONE
+        }else{
+            binding.layoutEmptyCart.visibility = View.GONE
+            binding.btnCheckout.visibility = View.VISIBLE
+            binding.content.visibility = View.VISIBLE
         }
     }
 

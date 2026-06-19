@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@id/title"
+        android:layout_centerInParent="true"
+        android:src="@drawable/img_app_logo"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/manrope_bold"
+        android:text="Welcome to Shopix"
+        android:textColor="@color/primary"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Join as a customer to discover great products, or register as a seller to create your shop and sell products online."
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/registerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+<!--        <TextView-->
+<!--            android:id="@+id/re_customer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="15dp"-->
+<!--            android:text="Register as Customer"-->
+<!--            android:textColor="@color/primary"-->
+<!--            android:textStyle="bold" />-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:text="Register as Customer"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/manrope_bold"
+            android:backgroundTint="@color/primary"
+            app:cornerRadius="10dp" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/re_seller"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:text="Register as Seller"-->
+<!--            android:textColor="@color/primary"-->
+<!--            android:textStyle="bold"-->
+
+<!--            />-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:text="Register as Seller"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:fontFamily="@font/manrope_bold"
+            android:backgroundTint="@color/stroke_default"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/registerContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Already a member?" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:text="Log In"
+            android:textColor="@color/primary"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

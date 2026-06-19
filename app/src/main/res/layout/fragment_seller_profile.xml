@@ -10,8 +10,6 @@
         android:layout_height="match_parent"
         android:paddingBottom="50dp">
 
-
-
         <LinearLayout
             android:id="@+id/profileContainer"
             android:layout_width="wrap_content"

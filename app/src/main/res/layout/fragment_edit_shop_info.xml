@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F6F7F9">
+    android:background="#F6F7F9"
+    android:orientation="vertical">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,51 +47,49 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:paddingTop="8dp"
+            android:paddingEnd="16dp"
             android:paddingBottom="16dp">
 
             <!-- Hero Image Upload Box -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-               >
+                android:layout_height="200dp">
 
                 <ImageView
                     android:id="@+id/iv_banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_product_detail"
-           />
+                    android:src="@drawable/img_product_detail" />
 
                 <!-- Change Banner Button -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
                     android:background="@drawable/bg_pill_white_translucent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
                     android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="10dp">
 
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:layout_marginEnd="8dp"
                         android:src="@drawable/ic_camera"
-                        app:tint="@color/primary"
-                        android:layout_marginEnd="8dp" />
+                        app:tint="@color/primary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Change Banner"
+                        android:textColor="@color/primary"
                         android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/primary" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -101,11 +98,11 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="10dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,72 +113,71 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="18dp"
                         android:text="Basic Information"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
                         android:textColor="@color/primary"
-                        android:layout_marginBottom="18dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <!-- Product Name -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="Product Name"
-                        android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:layout_marginBottom="6dp" />
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
                     <EditText
                         android:id="@+id/et_product_name"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:hint="e.g. Premium Silk Blazer"
-                        android:textColorHint="#BBBBBB"
-                        android:textColor="#111111"
-                        android:textSize="14sp"
+                        android:layout_marginBottom="18dp"
                         android:background="@drawable/bg_card_white_rounded"
                         android:backgroundTint="#F5F6FA"
+                        android:hint="e.g. Premium Silk Blazer"
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
                         android:singleLine="true"
-                        android:layout_marginBottom="18dp" />
+                        android:textColor="#111111"
+                        android:textColorHint="#BBBBBB"
+                        android:textSize="14sp" />
 
                     <!-- Category -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="Category"
-                        android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:layout_marginBottom="6dp" />
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:id="@+id/dropdown_category"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
+                        android:layout_marginBottom="18dp"
                         android:background="@drawable/bg_card_white_rounded"
                         android:backgroundTint="#F5F6FA"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:layout_marginBottom="18dp">
+                        android:paddingEnd="14dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Select Category"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/dropdown"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@drawable/ic_chevron_down"
-                            />
+                            android:src="@drawable/ic_chevron_down" />
 
                     </LinearLayout>
 
@@ -214,43 +210,43 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="Base Price"
-                        android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:layout_marginBottom="6dp" />
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
+                        android:layout_marginBottom="18dp"
                         android:background="@drawable/bg_card_white_rounded"
                         android:backgroundTint="#F5F6FA"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:layout_marginBottom="18dp">
+                        android:paddingEnd="14dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
                             android:text="$"
-                            android:textSize="14sp"
                             android:textColor="#888888"
-                            android:layout_marginEnd="6dp" />
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/et_base_price"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="0.00"
-                            android:textColorHint="#BBBBBB"
-                            android:textColor="#111111"
-                            android:textSize="14sp"
                             android:background="@null"
-                            android:singleLine="true"
+                            android:hint="0.00"
                             android:inputType="numberDecimal"
-                            android:padding="0dp" />
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="#111111"
+                            android:textColorHint="#BBBBBB"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -258,43 +254,43 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="Discount % (Optional)"
-                        android:textSize="13sp"
-                        android:textColor="#666666"
-                        android:layout_marginBottom="6dp" />
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
+                        android:layout_marginBottom="18dp"
                         android:background="@drawable/bg_card_white_rounded"
                         android:backgroundTint="#F5F6FA"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:layout_marginBottom="18dp">
+                        android:paddingEnd="14dp">
 
                         <EditText
                             android:id="@+id/et_discount"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="0"
-                            android:textColorHint="#BBBBBB"
-                            android:textColor="#111111"
-                            android:textSize="14sp"
                             android:background="@null"
-                            android:singleLine="true"
+                            android:hint="0"
                             android:inputType="number"
-                            android:padding="0dp" />
+                            android:padding="0dp"
+                            android:singleLine="true"
+                            android:textColor="#111111"
+                            android:textColorHint="#BBBBBB"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
                             android:text="%"
-                            android:textSize="14sp"
                             android:textColor="#888888"
-                            android:layout_marginStart="6dp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -302,26 +298,26 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:text="Description"
-                        android:textSize="13sp"
                         android:textColor="#666666"
-                        android:layout_marginBottom="6dp" />
+                        android:textSize="13sp" />
 
                     <EditText
                         android:id="@+id/et_description"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:hint="Describe the craftsmanship, materials, and fit..."
-                        android:textColorHint="#BBBBBB"
-                        android:textColor="#111111"
-                        android:textSize="14sp"
                         android:background="@drawable/bg_card_white_rounded"
                         android:backgroundTint="#F5F6FA"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:paddingTop="12dp"
                         android:gravity="top|start"
-                        android:inputType="textMultiLine" />
+                        android:hint="Describe the craftsmanship, materials, and fit..."
+                        android:inputType="textMultiLine"
+                        android:paddingStart="14dp"
+                        android:paddingTop="12dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="#111111"
+                        android:textColorHint="#BBBBBB"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -338,9 +334,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Product Variants"
+                    android:textColor="@color/primary"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/btn_add_variant"
@@ -348,24 +344,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:background="@drawable/ic_add"
+                        android:layout_marginEnd="4dp"
 
-                        app:tint="@color/primary"
-                        android:layout_marginEnd="4dp" />
+                        android:background="@drawable/ic_add"
+                        app:tint="@color/primary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add Variant"
+                        android:textColor="@color/primary"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/primary" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -375,25 +371,25 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="10dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:padding="14dp">
 
                     <!-- Color Swatch -->
                     <View
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/bg_rounded_bg"
-                        android:backgroundTint="@color/primary"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/primary" />
 
                     <!-- Variant Info -->
                     <LinearLayout
@@ -406,17 +402,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Midnight Navy · XL"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="Stock: 24 • Active"
-                            android:textSize="12sp"
                             android:textColor="#888888"
-                            android:layout_marginTop="2dp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -425,9 +421,9 @@
                         android:id="@+id/btn_edit_variant1"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_edit"
-                        app:tint="#888888"
-                        android:layout_marginEnd="16dp" />
+                        app:tint="#888888" />
 
                     <ImageView
                         android:id="@+id/btn_delete_variant1"
@@ -444,25 +440,25 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="10dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:padding="14dp">
 
                     <!-- Color Swatch -->
                     <View
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
                         android:background="@drawable/bg_rounded_bg"
-                        android:backgroundTint="@color/primary"
-                        android:layout_marginEnd="12dp" />
+                        android:backgroundTint="@color/primary" />
 
                     <!-- Variant Info -->
                     <LinearLayout
@@ -475,17 +471,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cloud White · M"
+                            android:textColor="#111111"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#111111" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="Stock: 12 • Active"
-                            android:textSize="12sp"
                             android:textColor="#888888"
-                            android:layout_marginTop="2dp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -494,9 +490,9 @@
                         android:id="@+id/btn_edit_variant2"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_edit"
-                        app:tint="#888888"
-                        android:layout_marginEnd="16dp" />
+                        app:tint="#888888" />
 
                     <ImageView
                         android:id="@+id/btn_delete_variant2"
@@ -508,31 +504,32 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:background="#E0E0E0" />
 
             <!-- Advanced Settings -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Advanced Settings"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textColor="#111111"
-                android:layout_marginBottom="16dp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <!-- Permanently Close Shop Row -->
             <LinearLayout
                 android:id="@+id/row_close_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp"
                 android:background="?attr/selectableItemBackground"
-                android:layout_marginBottom="20dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/closeAccount"
@@ -540,8 +537,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Permanently Close Shop"
-                    android:textSize="15sp"
-                    android:textColor="#E53935" />
+                    android:textColor="#E53935"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/delete"
@@ -555,15 +552,16 @@
         </LinearLayout>
 
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:paddingTop="12dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="12dp">
 
         <Button
@@ -571,18 +569,18 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/primary"
+            android:drawableStart="@drawable/ic_add"
+            android:drawablePadding="8dp"
+            android:drawableTint="#FFFFFF"
+            android:stateListAnimator="@null"
             android:text="Save Changes"
+            android:textAllCaps="false"
+
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/ic_add"
-            android:drawableTint="#FFFFFF"
-
-            android:drawablePadding="8dp"
-            android:backgroundTint="@color/primary"
-            app:cornerRadius="26dp"
-            android:stateListAnimator="@null" />
+            app:cornerRadius="26dp" />
 
     </LinearLayout>
 

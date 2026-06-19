@@ -6,6 +6,33 @@
     android:orientation="vertical"
     android:background="#F5F6FA">
 
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Creating Product..."
+                android:textColor="@android:color/white"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -26,6 +53,7 @@
                 android:src="@drawable/ic_arrow_back" />
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -130,10 +158,10 @@
 
                 <!-- Existing Thumbnail -->
                 <ImageView
+                    android:id="@+id/productImage"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_product_detail"
                     android:background="@drawable/bg_icon_rounded"
                     android:clipToOutline="true" />
 
@@ -169,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:text="Product Name"
                         android:textSize="13sp"
-                        android:textColor="#666666"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="6dp" />
 
                     <EditText
@@ -193,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:text="Category"
                         android:textSize="13sp"
-                        android:textColor="#666666"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="6dp" />
 
                     <LinearLayout
@@ -209,13 +237,14 @@
                         android:layout_marginBottom="18dp">
 
                         <TextView
+                            android:id="@+id/tvSelectedCategory"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Select Category"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            android:textColor="#111111" />
+                            android:textColor="@color/black" />
 
                         <ImageView
                             android:id="@+id/dropdown"
@@ -257,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:text="Base Price"
                         android:textSize="13sp"
-                        android:textColor="#666666"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="6dp" />
 
                     <LinearLayout
@@ -301,7 +330,7 @@
                         android:layout_height="wrap_content"
                         android:text="Discount % (Optional)"
                         android:textSize="13sp"
-                        android:textColor="#666666"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="6dp" />
 
                     <LinearLayout
@@ -345,7 +374,7 @@
                         android:layout_height="wrap_content"
                         android:text="Description"
                         android:textSize="13sp"
-                        android:textColor="#666666"
+                        android:textColor="@color/black"
                         android:layout_marginBottom="6dp" />
 
                     <EditText
@@ -412,144 +441,11 @@
 
             </RelativeLayout>
 
-            <!-- Variant 1 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="10dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="14dp">
-
-                    <!-- Color Swatch -->
-                    <View
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_rounded_bg"
-                        android:backgroundTint="@color/primary"
-                        android:layout_marginEnd="12dp" />
-
-                    <!-- Variant Info -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Midnight Navy · XL"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Stock: 24 • Active"
-                            android:textSize="12sp"
-                            android:textColor="#888888"
-                            android:layout_marginTop="2dp" />
-
-                    </LinearLayout>
-
-                    <!-- Edit / Delete -->
-                    <ImageView
-                        android:id="@+id/btn_edit_variant1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="#888888"
-                        android:layout_marginEnd="16dp" />
-
-                    <ImageView
-                        android:id="@+id/btn_delete_variant1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_delete"
-                        app:tint="#E53935" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Variant 2 -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                android:layout_marginBottom="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="14dp">
-
-                    <!-- Color Swatch -->
-                    <View
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_rounded_bg"
-                        android:backgroundTint="@color/primary"
-                        android:layout_marginEnd="12dp" />
-
-                    <!-- Variant Info -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cloud White · M"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Stock: 12 • Active"
-                            android:textSize="12sp"
-                            android:textColor="#888888"
-                            android:layout_marginTop="2dp" />
-
-                    </LinearLayout>
-
-                    <!-- Edit / Delete -->
-                    <ImageView
-                        android:id="@+id/btn_edit_variant2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="#888888"
-                        android:layout_marginEnd="16dp" />
-
-                    <ImageView
-                        android:id="@+id/btn_delete_variant2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_delete"
-                        app:tint="#E53935" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recy_variant"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
         </LinearLayout>
 
     </ScrollView>
@@ -609,6 +505,36 @@
             android:backgroundTint="@color/primary"
             app:cornerRadius="26dp"
             android:stateListAnimator="@null" />
+<!--        <FrameLayout-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="52dp"-->
+<!--            android:layout_weight="1">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btn_save_product"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:backgroundTint="@color/primary"-->
+<!--                android:drawableStart="@drawable/ic_add"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:drawableTint="#FFFFFF"-->
+<!--                android:stateListAnimator="@null"-->
+<!--                android:text="Save Product"-->
+<!--                android:textAllCaps="false"-->
+
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:cornerRadius="26dp" />-->
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:visibility="gone" />-->
+
+<!--        </FrameLayout>-->
+
 
     </LinearLayout>
 

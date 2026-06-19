@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white">
-
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,13 +243,12 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Sign In Button -->
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNext"
+                    android:id="@+id/createSeller"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginTop="28dp"
-                    android:text="Next"
+                    android:text="Create Seller Account"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:fontFamily="@font/manrope_bold"
@@ -277,15 +274,25 @@
                     android:text="Already a seller?" />
 
                 <TextView
-                    android:id="@+id/signIn"
+                    android:id="@+id/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Log In"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
-                    android:layout_marginBottom="40dp"
+
                     />
             </LinearLayout>
+            <TextView
+                android:id="@+id/re_customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register as Customer"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="10dp"
+                />
 
         </LinearLayout>
     </ScrollView>

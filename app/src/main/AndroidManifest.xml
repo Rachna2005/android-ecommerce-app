@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".util.EcommerceApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,12 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerce">
+
         <activity
             android:name=".ui.seller.ShopActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,12 +26,12 @@
             android:name=".test.HomeTestActivity"
             android:exported="false">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
 
         </activity> <!-- <activity -->
         <!-- android:name=".ui.CategoryActivity" -->
@@ -56,32 +58,35 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="false" />
+            android:exported="false">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
         <activity
             android:name=".ui.RegisterActivity"
             android:exported="false">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
         </activity>
         <activity
-            android:name=".ui.Onboarding2Activity"
+            android:name=".ui.activity.Onboarding2Activity"
             android:exported="false" />
         <activity
-            android:name=".ui.Onboarding1Activity"
+            android:name=".ui.activity.Onboarding1Activity"
             android:exported="false" />
         <activity
-            android:name=".ui.SplashScreenActivity"
+            android:name=".ui.activity.SplashScreenActivity"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity> <!-- <activity -->
         <!-- android:name=".TestActivity" -->
         <!-- android:exported="false"> -->
@@ -91,13 +96,13 @@
         <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
         <!-- </activity> -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="false">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
         </activity>
     </application>
 

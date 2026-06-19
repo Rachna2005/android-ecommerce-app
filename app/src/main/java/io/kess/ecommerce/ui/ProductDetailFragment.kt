@@ -28,6 +28,7 @@ import io.kess.ecommerce.databinding.FragmentProductDetailBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.ProductDetail
 import io.kess.ecommerce.model.ProductVariant
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ReviewAdapter
 import io.kess.ecommerce.ui.adapter.SizeAdapter
@@ -99,8 +100,6 @@ class ProductDetailFragment : Fragment() {
         colorAdapter = ColorAdapter { variant ->
 
             selectedColor = variant.color
-
-
 
             updateVariants()
         }

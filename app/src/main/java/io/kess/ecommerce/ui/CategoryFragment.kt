@@ -15,6 +15,7 @@ import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.databinding.FragmentCategoryBinding
 import io.kess.ecommerce.model.Category
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CategoryViewModel
@@ -88,9 +89,9 @@ class CategoryFragment : Fragment() {
             categoryList = result.sortedBy { it.createAt }
             categoryAdapter.submitList(categoryList)
         }
-        userViewModel.authData.observe(viewLifecycleOwner){
-            setupUi(it)
-        }
+//        userViewModel.authData.observe(viewLifecycleOwner){
+//            setupUi(it)
+//        }
     }
     override fun onDestroyView() {
         super.onDestroyView()

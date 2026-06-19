@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProductDetailBinding
 import io.kess.ecommerce.databinding.FragmentReviewBinding
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.view_model.ReviewViewModel
 
 class ReviewFragment : Fragment() {

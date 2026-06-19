@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6F7F9"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/container"
@@ -30,7 +30,21 @@
         app:itemActiveIndicatorStyle="@style/NoIndicator"
         app:itemBackground="@android:color/transparent"
         app:itemRippleColor="@android:color/transparent"
+        app:itemIconSize="24dp"
         app:layout_constraintEnd_toEndOf="parent" />
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

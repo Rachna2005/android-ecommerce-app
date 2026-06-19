@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import io.kess.ecommerce.databinding.FragmentSearchBinding
 import io.kess.ecommerce.model.Product
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.ProductAdapter
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.FavoriteViewModel

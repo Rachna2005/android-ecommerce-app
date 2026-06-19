@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F7F9">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/img_shopping_banner"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/title"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope_bold"
+        android:layout_centerHorizontal="true"
+        android:text="Welcome to Shopix"
+        android:textColor="@color/primary"
+        android:layout_centerInParent="true"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/title"
+        android:text="As a seller please create your shop"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createShop"
+        android:layout_width="250dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:text="Create Shop"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/subTitle"
+        android:textSize="16sp"
+        android:fontFamily="@font/manrope_bold"
+        android:backgroundTint="@color/primary"
+        app:cornerRadius="30dp" />
+
+</RelativeLayout>

@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.compose.remote.creation.core)
     implementation(libs.google.material)
+    implementation(libs.androidx.benchmark.common)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -105,4 +106,5 @@ dependencies {
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
     implementation(libs.material.v1120)
+    implementation(libs.cloudinary.android)
 }
