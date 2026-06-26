@@ -20,8 +20,10 @@ import com.google.android.material.snackbar.Snackbar
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.model.CartItem
+import io.kess.ecommerce.model.ShopCartGroup
 import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.CartAdapter
+import io.kess.ecommerce.ui.adapter.CartShopAdapter
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ProductAdapter
 import io.kess.ecommerce.util.UiState
@@ -34,10 +36,7 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var cartViewModel: CartViewModel
     private lateinit var favoriteViewModel: FavoriteViewModel
-    private lateinit var cartAdapter: CartAdapter
-    private var favorite: Set<String> = emptySet()
-    private var sumPrice: Double = 0.0
-    private var sumQuantity: Int = 1
+    private lateinit var cartShopAdapter: CartShopAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,39 +59,30 @@ class CartFragment : Fragment() {
     }
 
     private fun observeData() {
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
-            cartAdapter.submitList(cart)
-            updateUi(cart)
-            updateCartUi(cart)
+        cartViewModel.cartGroup.observe(viewLifecycleOwner) { groups ->
+            cartShopAdapter.submitList(groups)
+            val allItems = groups.flatMap { it.items }
+            updateUi(groups)
+            updateCartUi(allItems)
         }
-        cartViewModel.message.observe(viewLifecycleOwner){message ->
-            if (message != null){
-                showSuccessSnackBar( message)
+        cartViewModel.message.observe(viewLifecycleOwner) { message ->
+            if (message != null) {
+                showSuccessSnackBar(message)
                 cartViewModel.clearMessage()
             }
         }
-        favoriteViewModel.favorite.observe(viewLifecycleOwner) {
-            favorite = it
-            cartAdapter.updateFavorites(favorite)
-        }
-        cartViewModel.loadingItems.observe(viewLifecycleOwner){
-            cartAdapter.updateLoading(it)
-        }
-
-        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
-            cartAdapter.updateLoadingFavorite(it)
+        cartViewModel.loadingItems.observe(viewLifecycleOwner) {
+            cartShopAdapter.updateLoading(it)
         }
     }
 
-    private fun updateCartUi(cart: List<CartItem>){
-        if(cart.isEmpty()){
+    private fun updateCartUi(cart: List<CartItem>) {
+        if (cart.isEmpty()) {
             binding.layoutEmptyCart.visibility = View.VISIBLE
-            binding.button.visibility = View.GONE
-            binding.content.visibility = View.GONE
-        }else{
+            binding.btnCheckoutAll.visibility = View.GONE
+        } else {
             binding.layoutEmptyCart.visibility = View.GONE
-            binding.btnCheckout.visibility = View.VISIBLE
-            binding.content.visibility = View.VISIBLE
+            binding.btnCheckoutAll.visibility = View.VISIBLE
         }
     }
 
@@ -116,33 +106,15 @@ class CartFragment : Fragment() {
         val params = snackbarView.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
         params.setMargins(16, 100, 16, 0)
-
         snackbarView.layoutParams = params
-
         snackbar.show()
     }
 
-    private fun updateUi(cart: List<CartItem>) {
-        val totalPrice =
-            cart.sumOf {
-                it.price * it.quantity
-            }
-        sumPrice = totalPrice
-        val totalItems =
-            cart.sumOf {
-                it.quantity
-            }
-        sumQuantity = totalItems
-        binding.num.text = "$totalItems"
-
-        binding.subTotal.text =
-            "$${String.format("%.2f", totalPrice)}"
-
-        binding.total.text =
-            "$${String.format("%.2f", totalPrice)}"
-
-        binding.totalCheckout.text =
-            "$${String.format("%.2f", totalPrice)}"
+    private fun updateUi(items: List<ShopCartGroup>) {
+        val totalPrice = items.sumOf { group ->
+            group.items.sumOf { it.price * it.quantity }
+        }
+        binding.txtTotal.text = "$${String.format("%.2f", totalPrice)}"
     }
 
     private fun initViewModel() {
@@ -153,33 +125,53 @@ class CartFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        cartAdapter = CartAdapter(favorite, loadingItems = emptySet(), loadingFavorite = emptySet(), onFavoriteClick = { cartItem ->
-            favoriteViewModel.toggleFavorite(cartItem.productId)
-        }, onProductClick = { cartItem ->
-            openProductDetail(cartItem.productId)
-        }, onIncrease = { cartItem ->
-            cartViewModel.increaseQuantity(cartItem.id)
-        }, onDecrease = { cartItem ->
-            cartViewModel.decreaseQuantity(cartItem.id, cartItem.quantity)
-        }, onDelete = { cartItem ->
-            cartViewModel.deleteCart(cartItem.id)
-        }
+        cartShopAdapter = CartShopAdapter(
+            loadingItems = emptySet(),
+            onProductClick = { cartItem ->
+                openProductDetail(cartItem.productId)
+            },
+
+            onIncrease = { cartItem ->
+                cartViewModel.increaseQuantity(cartItem.id)
+            },
+
+            onDecrease = { cartItem ->
+                cartViewModel.decreaseQuantity(
+                    cartItem.id,
+                    cartItem.quantity
+                )
+            },
+
+            onDelete = { cartItem ->
+                cartViewModel.deleteCart(cartItem.id)
+            },
+
+            onCheckout = { shopGroup ->
+                val fragment = CheckOutFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("Shop_Id", shopGroup.shopId)
+                    }
+                }
+                navigation(fragment)
+
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Checkout ${shopGroup.shopName}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+            }
         )
+
         binding.recyclerView.apply {
-            adapter = cartAdapter
+            adapter = cartShopAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
     }
 
     private fun setupClickListener() {
-        binding.btnCheckout.setOnClickListener {
-            val fragment = CheckOutFragment().apply {
-                arguments = Bundle().apply {
-                    putDouble("Total_price", sumPrice)
-                    putInt("Total_Quantity", sumQuantity)
-                }
-            }
-            navigation(fragment)
+        binding.btnCheckoutAll.setOnClickListener {
+            navigation(CheckOutFragment())
         }
         binding.btnWishlist.setOnClickListener {
             val fragment = ProductListFragment().apply {
@@ -189,6 +181,7 @@ class CartFragment : Fragment() {
             }
             (activity as MainActivity).navigate(fragment)
         }
+
     }
 
     private fun openProductDetail(productId: String) {
@@ -200,9 +193,10 @@ class CartFragment : Fragment() {
         navigation(fragment)
     }
 
-    private fun navigation(fragment: Fragment){
+    private fun navigation(fragment: Fragment) {
         (activity as MainActivity).navigate(fragment)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

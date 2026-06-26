@@ -7,6 +7,8 @@ data class Order(
     @get:Exclude
     var id: String = "",
     val userId: String = "",
+    val shopId: String = "",
+    val shopName: String = "",
     val totalPrice: Double = 0.0,
     val totalQuantity: Int = 0,
     val status: String = "PENDING",

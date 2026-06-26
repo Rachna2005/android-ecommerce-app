@@ -13,6 +13,8 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityRegisterScreenBinding
 import io.kess.ecommerce.databinding.FragmentRegisterCustomerBinding
 import io.kess.ecommerce.model.UserRole
+import io.kess.ecommerce.ui.activity.LoginActivity
+import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
@@ -56,10 +58,8 @@ class RegisterCustomerFragment : Fragment() {
             val password = binding.inputPass.text.toString().trim()
             val confirmPass = binding.confirmPass.text.toString().trim()
             if (email.isBlank() || password.isBlank() || name.isBlank() || confirmPass.isBlank()) {
-//                Toast.makeText(requireContext(), "All fields need to be fill", Toast.LENGTH_LONG)
-//                    .show()
                 showSnackBar(requireView(), "All fields need to be fill",
-                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.yellow),
+                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.primary),
                     textColor = ContextCompat.getColor(requireContext(), R.color.white))
 
                 return@setOnClickListener
@@ -85,28 +85,25 @@ class RegisterCustomerFragment : Fragment() {
         viewModel.authState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    binding.btnCreateAccount.isEnabled = false
-                    binding.btnCreateAccount.text = "Loading..."
+                    showLoading(true)
                 }
 
                 is UiState.Success -> {
-                    binding.btnCreateAccount.isEnabled = true
-                    binding.btnCreateAccount.text = "Create Account"
+                    showLoading(false)
                     showSnackBar(
                         requireView(),
                         "Register successfully",
                         ContextCompat.getColor(requireContext(), R.color.green),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
-                    )
-
-                    val intent = Intent(requireContext(), ShopActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                    ){
+                        val intent = Intent(requireContext(), ShopActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    }
                 }
 
                 is UiState.Error -> {
-                    binding.btnCreateAccount.isEnabled = true
-                    binding.btnCreateAccount.text = "Create Account"
+                   showLoading(false)
                     showSnackBar(
                         requireView(),
                         state.message,
@@ -114,8 +111,14 @@ class RegisterCustomerFragment : Fragment() {
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
                 }
+                is UiState.Idle -> {}
             }
         }
+    }
+
+    private fun showLoading(show: Boolean) {
+        binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
+        binding.root.isEnabled = !show
     }
 
     override fun onDestroyView() {

@@ -145,11 +145,11 @@ class HomeFragment : Fragment() {
                 )
         }
 
-
     }
 
     private fun observeData() {
         viewModel.products.observe(viewLifecycleOwner) { state ->
+
 //            Log.d("PRODUCT_DEBUG", "Observer triggered")
 //            val discountList = products.filter { (it.discountPercentage ?: 0.0) > 0 }.take(5)
 //            val newArrivalList =
@@ -159,6 +159,7 @@ class HomeFragment : Fragment() {
 //            discountAdapter.submitList(discountList)
 //            newArrivalAdapter.submitList(newArrivalList)
 //            allAdapter.submitList(products)
+
             when (state) {
                 is UiState.Loading -> {
                     binding.progressBar.visibility =
@@ -188,9 +189,9 @@ class HomeFragment : Fragment() {
 
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+                is UiState.Idle -> {}
             }
         }
-
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
             favorite = it
             discountAdapter.updateFavorites(favorite)
@@ -206,7 +207,6 @@ class HomeFragment : Fragment() {
 //        userViewModel.authData.observe(viewLifecycleOwner) {
 //            setupUi(it)
 //        }
-
     }
 
     private fun setupClickListeners(view: View) {

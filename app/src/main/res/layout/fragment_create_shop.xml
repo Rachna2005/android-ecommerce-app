@@ -1,384 +1,398 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F6F7F9"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!-- Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
-        <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_back" />
+        android:layout_height="match_parent">
 
-
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Become a Seller"
-            android:textColor="@color/primary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-    </com.google.android.material.appbar.MaterialToolbar>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_marginBottom="20dp"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-
-            <TextView
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+            <ImageView
+                android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Your Shop"
-                android:textColor="@color/primary"
-                android:textSize="30sp"
-                android:textStyle="bold"/>
-
+                android:src="@drawable/ic_arrow_back" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Create your shop account and grow your business online" />
-
-            <LinearLayout
-                android:id="@+id/inputContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/bg_rounded_bg"
-                android:orientation="vertical"
-                android:layout_below="@id/subTitle"
-                android:padding="30dp"
-                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Become a Seller"
+                android:textColor="@color/primary"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_marginBottom="20dp"
+            >
 
-                >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-                <!-- Full name -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shop Logo"
-                    android:textColor="@color/black"
-                    android:textSize="11sp"
-                    android:letterSpacing="0.1"
-                    android:fontFamily="@font/manrope_bold" />
+                    android:text="Create Your Shop"
+                    android:textColor="@color/primary"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Create your shop account and grow your business online" />
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/imageUpload"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/bg_dashed_border"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_marginTop="8dp">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:src="@drawable/ic_camera"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        android:layout_marginTop="20dp"-->
-<!--                        app:tint="#888888"-->
-<!--                        />-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/btn_add_address"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:text="Upload Shop Logo"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textColor="#888888"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:layout_marginBottom="20dp" />-->
-
-<!--                </LinearLayout>-->
-                <FrameLayout
+                <LinearLayout
+                    android:id="@+id/inputContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/bg_dashed_border"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/bg_rounded_bg"
+                    android:orientation="vertical"
+                    android:layout_below="@id/subTitle"
+                    android:padding="30dp"
+                    android:layout_marginBottom="20dp"
+
                     >
 
-                    <ImageView
-                        android:id="@+id/shopLogo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-
-                       />
-
-                    <LinearLayout
+                    <!-- Full name -->
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/bg_pill_white_translucent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingStart="16dp"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="10dp">
+                        android:text="Shop Logo"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
+                        android:fontFamily="@font/manrope_bold" />
+
+
+                    <!--                <LinearLayout-->
+                    <!--                    android:id="@+id/imageUpload"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:background="@drawable/bg_dashed_border"-->
+                    <!--                    android:orientation="vertical"-->
+                    <!--                    android:layout_marginTop="8dp">-->
+                    <!--                    <ImageView-->
+                    <!--                        android:layout_width="20dp"-->
+                    <!--                        android:layout_height="20dp"-->
+                    <!--                        android:src="@drawable/ic_camera"-->
+                    <!--                        android:layout_gravity="center_horizontal"-->
+                    <!--                        android:layout_marginTop="20dp"-->
+                    <!--                        app:tint="#888888"-->
+                    <!--                        />-->
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/btn_add_address"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:text="Upload Shop Logo"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:textSize="14sp"-->
+                    <!--                        android:textColor="#888888"-->
+                    <!--                        android:layout_marginTop="8dp"-->
+                    <!--                        android:layout_marginBottom="20dp" />-->
+
+                    <!--                </LinearLayout>-->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/bg_dashed_border"
+                        android:layout_marginTop="15dp"
+                        >
 
                         <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/ic_camera"
-                            app:tint="@color/primary" />
+                            android:id="@+id/shopLogo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
 
-                        <TextView
+                            />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload Logo"
-                            android:textColor="@color/primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_pill_white_translucent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="10dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/ic_camera"
+                                app:tint="@color/primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Upload Logo"
+                                android:textColor="@color/primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shop Name"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.1"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/manrope_bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F8F9FA"
+                        app:boxCornerRadiusTopStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:startIconDrawable="@drawable/ic_shop"
+                        app:startIconTint="#CCCCCC"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputName"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Enter your your shop name"
+                            android:textColorHint="#CCCCCC"
+                            android:inputType="textCapWords"
+                            android:background="@null"
+                            android:paddingStart="60dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Shop Description"
+                            android:textColor="@color/black"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.1"
+                            android:fontFamily="@font/manrope_bold" />
 
                     </LinearLayout>
 
-                </FrameLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F8F9FA"
+                        app:boxCornerRadiusTopStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:startIconTint="#CCCCCC"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputShopDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Tell customers about your shop"
+                            android:inputType="textMultiLine"
+                            android:minLines="4"
+                            android:maxLines="6"
+                            android:gravity="top|start"
+                            android:textColorHint="#CCCCCC"
+                            android:background="@null" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="phone number"
+                            android:textColor="@color/black"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.1"
+                            android:fontFamily="@font/manrope_bold" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F8F9FA"
+                        app:boxCornerRadiusTopStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="#CCCCCC"
+
+                        app:endIconTint="#CCCCCC"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Phone Number"
+                            android:textColorHint="#CCCCCC"
+                            android:inputType="phone"
+                            android:background="@null"
+                            android:paddingStart="60dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Shop Address"
+                            android:textColor="@color/black"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.1"
+                            android:fontFamily="@font/manrope_bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxBackgroundColor="#F8F9FA"
+                        app:boxCornerRadiusTopStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="#CCCCCC"
+
+                        app:endIconTint="#CCCCCC"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Your shop location"
+                            android:textColorHint="#CCCCCC"
+                            android:inputType="textPostalAddress"
+                            android:background="@null"
+                            android:paddingStart="60dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCreateAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="28dp"
+                        android:text="Create Account"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:backgroundTint="@color/primary"
+                        app:cornerRadius="30dp" />
 
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shop Name"
-                    android:textColor="@color/black"
-                    android:textSize="11sp"
-                    android:letterSpacing="0.1"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/manrope_bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxBackgroundColor="#F8F9FA"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:startIconDrawable="@drawable/ic_shop"
-                    app:startIconTint="#CCCCCC"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputName"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint="Enter your your shop name"
-                        android:textColorHint="#CCCCCC"
-                        android:inputType="textCapWords"
-                        android:background="@null"
-                        android:paddingStart="60dp"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Email -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_below="@id/inputContainer"
+                    android:layout_centerHorizontal="true"
+                    >
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Shop Description"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:letterSpacing="0.1"
-                        android:fontFamily="@font/manrope_bold" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxBackgroundColor="#F8F9FA"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:startIconTint="#CCCCCC"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputShopDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Tell customers about your shop"
-                        android:inputType="textMultiLine"
-                        android:minLines="4"
-                        android:maxLines="6"
-                        android:gravity="top|start"
-                        android:textColorHint="#CCCCCC"
-                        android:background="@null" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- Password -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                        android:layout_marginRight="5dp"
+                        android:text="Already a seller?" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/signIn"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="phone number"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:letterSpacing="0.1"
-                        android:fontFamily="@font/manrope_bold" />
-
+                        android:text="Log In"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="40dp"
+                        />
                 </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxBackgroundColor="#F8F9FA"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:startIconDrawable="@drawable/ic_phone"
-                    app:startIconTint="#CCCCCC"
-
-                    app:endIconTint="#CCCCCC"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint="Phone Number"
-                        android:textColorHint="#CCCCCC"
-                        android:inputType="phone"
-                        android:background="@null"
-                        android:paddingStart="60dp"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- Password -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Shop Address"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:letterSpacing="0.1"
-                        android:fontFamily="@font/manrope_bold" />
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxBackgroundColor="#F8F9FA"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:startIconDrawable="@drawable/ic_location"
-                    app:startIconTint="#CCCCCC"
-
-                    app:endIconTint="#CCCCCC"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:hint="Your shop location"
-                        android:textColorHint="#CCCCCC"
-                        android:inputType="textPostalAddress"
-                        android:background="@null"
-                        android:paddingStart="60dp"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Sign In Button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCreateAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="28dp"
-                    android:text="Create Account"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/manrope_bold"
-                    android:backgroundTint="@color/primary"
-                    app:cornerRadius="30dp" />
 
             </LinearLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_below="@id/inputContainer"
-                android:layout_centerHorizontal="true"
-                >
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="Already a seller?" />
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/primary" />
 
-                <TextView
-                    android:id="@+id/signIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Log In"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="40dp"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    </FrameLayout>
+</FrameLayout>

@@ -87,6 +87,7 @@ class SearchFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                is UiState.Idle -> {}
             }
         }
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {

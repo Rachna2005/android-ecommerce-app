@@ -18,6 +18,7 @@ import io.kess.ecommerce.databinding.FragmentManageProductBinding;
 import io.kess.ecommerce.model.Product;
 import io.kess.ecommerce.model.Shop;
 import io.kess.ecommerce.ui.ProductDetailFragment;
+import io.kess.ecommerce.ui.SellerProductDetailFragment;
 import io.kess.ecommerce.ui.adapter.ManageProductAdapter;
 import io.kess.ecommerce.util.UiState;
 import io.kess.ecommerce.view_model.ProductViewModel;
@@ -43,16 +44,14 @@ public class ManageProductFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentManageProductBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(View view,
-                              Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
         initViewModel();
@@ -68,9 +67,8 @@ public class ManageProductFragment extends Fragment {
 
     private void setupClickListener() {
         binding.createProduct.setOnClickListener(v -> {
-                    ((ShopActivity) getActivity()).navigate(new CreateProductFragment());
-                }
-        );
+            ((ShopActivity) getActivity()).navigate(new CreateProductFragment());
+        });
         binding.addProduct.setOnClickListener(v -> {
             ((ShopActivity) getActivity()).navigate(new CreateProductFragment());
         });
@@ -85,37 +83,24 @@ public class ManageProductFragment extends Fragment {
 
                 return Unit.INSTANCE;
             }
-        },
-                new Function1<Product, Unit>() {
-                    @Override
-                    public Unit invoke(Product product) {
-
-                        productViewModel.deleteProduct(product.getId());
-
-                        return Unit.INSTANCE;
-                    }
-                },
-                new Function1<Product, Unit>() {
-                    @Override
-                    public Unit invoke(Product product) {
-
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("PRODUCT_ID", product.getId());
-//
-//                        ProductDetailFragment fragment = new ProductDetailFragment();
-//                        fragment.setArguments(bundle);
-//
-//                        ((ShopActivity) requireActivity()).navigate(fragment);
-//
-                        return Unit.INSTANCE;
-                    }
-                }
-        );
+        }, new Function1<Product, Unit>() {
+            @Override
+            public Unit invoke(Product product) {
+                productViewModel.deleteProduct(product.getId());
+                return Unit.INSTANCE;
+            }
+        }, new Function1<Product, Unit>() {
+            @Override
+            public Unit invoke(Product product) {
+                openProductDetail(product);
+                return Unit.INSTANCE;
+            }
+        });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(productAdapter);
     }
 
-    private void openEditProduct(Product product){
+    private void openEditProduct(Product product) {
         CreateProductFragment fragment = new CreateProductFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Product_Id", product.getId());
@@ -123,63 +108,59 @@ public class ManageProductFragment extends Fragment {
         ((ShopActivity) requireActivity()).navigate(fragment);
     }
 
+    private void openProductDetail(Product product) {
+        SellerProductDetailFragment fragment = new SellerProductDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("ID", product.getId());
+        fragment.setArguments(bundle);
+        ((ShopActivity) requireActivity()).navigate(fragment);
+    }
 
     private void observeData() {
-        shopViewModel.getShopState().observe(
-                getViewLifecycleOwner(),
-                new Observer<UiState<Shop>>() {
-                    @Override
-                    public void onChanged(UiState<Shop> state) {
-
-                        if (state instanceof UiState.Loading) {
-
-                        } else if (state instanceof UiState.Success) {
-
-                            Shop shop = ((UiState.Success<Shop>) state).getData();
-                            shopId = shop.getId();
-                            productViewModel.observeProductsByShop(shopId);
-                        } else if (state instanceof UiState.Error) {
-                            String msg = ((UiState.Error) state).getMessage();
-
-                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
-                    }
+        shopViewModel.getShopState().observe(getViewLifecycleOwner(), new Observer<UiState<Shop>>() {
+            @Override
+            public void onChanged(UiState<Shop> state) {
+                if (state instanceof UiState.Loading) {
+                } else if (state instanceof UiState.Success) {
+                    Shop shop = ((UiState.Success<Shop>) state).getData();
+                    shopId = shop.getId();
+                    productViewModel.observeProductsByShop(shopId);
+                } else if (state instanceof UiState.Error) {
+                    String msg = ((UiState.Error) state).getMessage();
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                 }
-        );
+            }
+        });
 
-        productViewModel.getProducts().observe(
-                getViewLifecycleOwner(),
-                new Observer<UiState<List<Product>>>() {
-                    @Override
-                    public void onChanged(UiState<List<Product>> state) {
+        productViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<UiState<List<Product>>>() {
+            @Override
+            public void onChanged(UiState<List<Product>> state) {
 
-                        if (state instanceof UiState.Loading) {
-                            binding.progressBar.setVisibility(View.VISIBLE);
-                            binding.layoutEmptyProduct.setVisibility(View.GONE);
-                            binding.search.setVisibility(View.VISIBLE);
+                if (state instanceof UiState.Loading) {
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    binding.layoutEmptyProduct.setVisibility(View.GONE);
+                    binding.search.setVisibility(View.VISIBLE);
 
-                        } else if (state instanceof UiState.Success) {
+                } else if (state instanceof UiState.Success) {
 
-                            UiState.Success<List<Product>> success =
-                                    (UiState.Success<List<Product>>) state;
-                            List<Product> products = success.getData();
-                            productAdapter.submitList(products);
-                            binding.progressBar.setVisibility(View.GONE);
-                            if (products == null || products.isEmpty()) {
-                                binding.layoutEmptyProduct.setVisibility(View.VISIBLE);
-                                binding.search.setVisibility(View.GONE);
-                            }
-
-                        } else if (state instanceof UiState.Error) {
-                            String msg = ((UiState.Error) state).getMessage();
-                            binding.progressBar.setVisibility(View.GONE);
-                            binding.layoutEmptyProduct.setVisibility(View.GONE);
-                            binding.search.setVisibility(View.VISIBLE);
-                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
+                    UiState.Success<List<Product>> success = (UiState.Success<List<Product>>) state;
+                    List<Product> products = success.getData();
+                    productAdapter.submitList(products);
+                    binding.progressBar.setVisibility(View.GONE);
+                    if (products == null || products.isEmpty()) {
+                        binding.layoutEmptyProduct.setVisibility(View.VISIBLE);
+                        binding.search.setVisibility(View.GONE);
                     }
+
+                } else if (state instanceof UiState.Error) {
+                    String msg = ((UiState.Error) state).getMessage();
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.layoutEmptyProduct.setVisibility(View.GONE);
+                    binding.search.setVisibility(View.VISIBLE);
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                 }
-        );
+            }
+        });
     }
 
     public void onDestroyView() {

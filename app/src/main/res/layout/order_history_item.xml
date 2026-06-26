@@ -146,30 +146,31 @@
             android:orientation="horizontal">
 
             <!-- Detail button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDetail"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:text="Detail"
-                android:textColor="@color/black"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                app:cornerRadius="30dp"
-                app:strokeColor="#E0E0E0"
-                app:strokeWidth="1dp" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btnDetail"-->
+<!--                style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:text="Detail"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="13sp"-->
+<!--                app:cornerRadius="30dp"-->
+<!--                app:strokeColor="#E0E0E0"-->
+<!--                app:strokeWidth="1dp" -->
+<!--                />-->
 
             <!-- Tracking button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTracking"
+                android:id="@+id/btnDetail"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="Tracking"
+                android:text="Detail"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:textStyle="bold"

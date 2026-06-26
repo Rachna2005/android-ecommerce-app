@@ -1,35 +1,31 @@
 package io.kess.ecommerce.ui
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RadioButton
-
-import androidx.compose.remote.creation.dsl.log
-import io.kess.ecommerce.R
-import android.util.Log
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
+import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCheckoutScreenBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
+import io.kess.ecommerce.model.ShopCartGroup
 import io.kess.ecommerce.ui.activity.MainActivity
-import io.kess.ecommerce.ui.adapter.OrderItemAdapter
+import io.kess.ecommerce.ui.adapter.ShopOrderItemAdapter
 import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
 import io.kess.ecommerce.ui.bottomSheet.SuccessPaymentSheet
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.OrderViewModel
-import io.kess.ecommerce.view_model.ProductViewModel
-import java.util.function.DoublePredicate
 
 
 class CheckOutFragment : Fragment() {
@@ -37,17 +33,16 @@ class CheckOutFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var cartViewModel: CartViewModel
     private lateinit var orderViewModel: OrderViewModel
-    private lateinit var orderItemAdapter: OrderItemAdapter
-    private var totalPrice: Double = 0.0
-    private var quantity: Int = 1
+    private lateinit var orderItemAdapter: ShopOrderItemAdapter
+    private var shopId: String? = null
     private var cartItem: List<CartItem> = emptyList()
+    private var shopGroup: List<ShopCartGroup> = emptyList()
     private val successBottomSheet = SuccessPaymentSheet()
     private var selectedPayment = "KHQR"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        totalPrice = arguments?.getDouble("Total_price") ?: 0.0
-        quantity = arguments?.getInt("Total_Quantity") ?: 1
+        shopId = arguments?.getString("Shop_Id")
     }
 
     override fun onCreateView(
@@ -64,8 +59,7 @@ class CheckOutFragment : Fragment() {
         setupBottomSheet()
         observeData(successBottomSheet)
         setupClickListener()
-        setupUi()
-
+        setupAdapter()
     }
 
     private fun initViewModel() {
@@ -96,29 +90,79 @@ class CheckOutFragment : Fragment() {
             }
         }
     }
-//    private fun setupAdapter(){
-//        orderItemAdapter = OrderItemAdapter()
-//        binding.recyclerView.apply {
-//            adapter = orderItemAdapter
-//            layoutManager = LinearLayoutManager(requireContext())
-//        }
-//    }
 
-    private fun observeData(successBottomSheet: SuccessPaymentSheet) {
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { cart ->
-            cartItem = cart
-//            orderItemAdapter.submitList(cartItem)
-        }
-
-        orderViewModel.message.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            successBottomSheet.show(parentFragmentManager, "Success_Payment")
-        }
-        orderViewModel.isOrder.observe(viewLifecycleOwner) { isOrder ->
-            binding.btnCheckout.isEnabled = !isOrder
-            binding.btnCheckout.alpha = if (isOrder) 0.5f else 1f
+    private fun setupAdapter() {
+        orderItemAdapter = ShopOrderItemAdapter()
+        binding.recyclerView.apply {
+            adapter = orderItemAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
+
+    private fun observeData(successBottomSheet: SuccessPaymentSheet) {
+        cartViewModel.cartGroup.observe(viewLifecycleOwner) { cart ->
+            if (shopId == null) {
+                shopGroup = cart
+                orderItemAdapter.submitList(cart)
+                cartItem = cart.flatMap { it.items }
+                setupUi(cart)
+            } else {
+                val selectedShop = cart.find { it.shopId == shopId }
+                shopGroup = selectedShop?.let { listOf(it) } ?: emptyList()
+                orderItemAdapter.submitList(shopGroup)
+                setupUi(shopGroup)
+            }
+        }
+        orderViewModel.message.observe(viewLifecycleOwner) { message ->
+            message.getContentIfNotHandled()?.let { txt ->
+                binding.btnCheckout.isEnabled = true
+                binding.btnCheckout.alpha = 1f
+//                Toast.makeText(requireContext(), txt, Toast.LENGTH_SHORT).show()
+                successBottomSheet.show(parentFragmentManager, "Success_Payment")
+            }
+        }
+        orderViewModel.actionState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+//                    binding.btnCheckout.isEnabled = false
+//                    binding.btnCheckout.alpha = 0.5f
+                    showLoading(true)
+                }
+                is UiState.Success -> {
+//                    binding.btnCheckout.isEnabled = true
+//                    binding.btnCheckout.alpha = 1f
+                    showLoading(false)
+                }
+                is UiState.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+//                    binding.btnCheckout.isEnabled = true
+//                    binding.btnCheckout.alpha = 1f
+                    showLoading(false)
+                }
+                is UiState.Idle -> {}
+            }
+        }
+    }
+    private fun showAddressDialog() {
+        val view = layoutInflater.inflate(R.layout.address_dialog, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        view.findViewById<Button>(R.id.btnAddAddress).setOnClickListener {
+            dialog.dismiss()
+            val sheet = AddressBottomSheet()
+            sheet.arguments = Bundle().apply {
+                putString("ADDRESS", binding.address.text.toString())
+                putString("PHONE", binding.phoneNumber.text.toString())
+            }
+            sheet.show(parentFragmentManager, "AddressSheet")
+        }
+        dialog.show()
+    }
+
 
     private fun setupClickListener() {
         binding.btnBack.setOnClickListener {
@@ -150,49 +194,61 @@ class CheckOutFragment : Fragment() {
             Log.d("select_payment", selectedPayment)
         }
         binding.btnCheckout.setOnClickListener {
-            val cart = cartItem
 
-            val totalPrice = cart.sumOf {
-                it.price * it.quantity
-            }
-
-            val totalItems = cart.sumOf {
-                it.quantity
-            }
 
             if (binding.phoneNumber.text.toString().trim().isEmpty() ||
                 binding.address.text.toString().trim().isEmpty()
             ) {
-                Toast.makeText(
-                    requireContext(),
-                    "Address cannot be empty, please add or change address",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Address cannot be empty, please add or change address",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+                showAddressDialog()
                 return@setOnClickListener
             }
+            val orders = shopGroup.map { group ->
 
-            val order = Order(
-                totalPrice = totalPrice,
-                totalQuantity = totalItems,
-                address = binding.address.text.toString(),
-                phoneNumber = binding.phoneNumber.text.toString(),
-                paymentMethod = selectedPayment,
-                createdAt = Timestamp.now()
-            )
-            orderViewModel.placeOrder(order, cartItem)
+                val totalPrice = group.items.sumOf { it.price * it.quantity }
+                val totalQuantity = group.items.sumOf { it.quantity }
+
+                val order = Order(
+                    shopId = group.shopId,
+                    shopName = group.shopName,
+                    totalPrice = totalPrice,
+                    totalQuantity = totalQuantity,
+                    address = binding.address.text.toString(),
+                    phoneNumber = binding.phoneNumber.text.toString(),
+                    paymentMethod = selectedPayment,
+                    createdAt = Timestamp.now()
+                )
+
+                order to group.items
+            }
+
+            orderViewModel.placeOrder(orders)
         }
     }
 
-    private fun setupUi() {
+    private fun setupUi(items: List<ShopCartGroup>) {
+        val totalQuantity = items.sumOf { group ->
+            group.items.sumOf { it.quantity }
+        }
+        val totalPrice = items.sumOf { group ->
+            group.items.sumOf { it.price * it.quantity }
+
+        }
         binding.subTotal.text = "$${String.format("%.2f", totalPrice)}"
-        binding.totalAmount.text = "$${String.format("%.2f", totalPrice)}"
+//        binding.totalAmount.text = "$${String.format("%.2f", totalPrice)}"
         binding.total.text = "$${String.format("%.2f", totalPrice)}"
         binding.txtTotal.text = "$${String.format("%.2f", totalPrice)}"
-        if (quantity == 1) {
-            binding.totalAmount.text = "Subtotal (${quantity} item)"
-        } else {
-            binding.totalAmount.text = "Subtotal (${quantity} items)"
-        }
+
+        binding.totalAmount.text =
+            if (totalQuantity == 1) {
+                "Subtotal ($totalQuantity item)"
+            } else {
+                "Subtotal ($totalQuantity items)"
+            }
     }
 
     private fun selectPayment(type: String) {
@@ -219,7 +275,10 @@ class CheckOutFragment : Fragment() {
                 binding.radioWallet.isChecked = true
             }
         }
-
+    }
+    private fun showLoading(show: Boolean) {
+        binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
+        binding.root.isEnabled = !show
     }
 
     override fun onResume() {

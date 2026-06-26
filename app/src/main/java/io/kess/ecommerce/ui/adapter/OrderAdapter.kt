@@ -17,11 +17,10 @@ import java.util.Locale
 
 class OrderAdapter(
     private val onOrderClick: (Order) -> Unit,
-    private val onTrackingClick: (Order) -> Unit
+//    private val onTrackingClick: (Order) -> Unit
 ) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(DiffCallback()) {
 
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         val txtOrderId: TextView = view.findViewById(R.id.txtOrderId)
         val txtStatus: TextView = view.findViewById(R.id.txtStatus)
         val txtDate: TextView = view.findViewById(R.id.txtDate)
@@ -32,8 +31,8 @@ class OrderAdapter(
         val imgProduct3: ImageView = view.findViewById(R.id.imgProduct3)
         val totalQuantity: TextView = view.findViewById(R.id.txtTotalQuantity)
 
-        val btnTracking: MaterialButton =
-            view.findViewById(R.id.btnTracking)
+//        val btnTracking: MaterialButton =
+//            view.findViewById(R.id.btnTracking)
         val btnDetail: MaterialButton = view.findViewById(R.id.btnDetail)
     }
 
@@ -117,8 +116,8 @@ class OrderAdapter(
             onOrderClick(order)
         }
 
-        holder.itemView.findViewById<View>(R.id.btnTracking).setOnClickListener {
-            onTrackingClick(order)
-        }
+//        holder.itemView.findViewById<View>(R.id.btnDetail).setOnClickListener {
+//            onTrackingClick(order)
+//        }
     }
 }

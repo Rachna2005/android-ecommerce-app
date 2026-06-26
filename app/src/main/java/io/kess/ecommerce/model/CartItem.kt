@@ -7,6 +7,8 @@ data class CartItem(
     var id: String = "",
     val productId: String = "",
     val variantId: String = "",
+    val shopId: String = "",
+    val shopName: String = "",
     val name: String = "",
     val quantity: Int = 1,
     val image: String = "",

@@ -1,16 +1,13 @@
-package io.kess.ecommerce.ui
+package io.kess.ecommerce.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityRegisterScreenBinding
-import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.MainRegisterFragment
 import io.kess.ecommerce.view_model.AuthViewModel
-import io.kess.ecommerce.view_model.ProductViewModel
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterScreenBinding

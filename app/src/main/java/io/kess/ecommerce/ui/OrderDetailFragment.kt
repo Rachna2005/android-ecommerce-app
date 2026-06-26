@@ -50,11 +50,12 @@ class OrderDetailFragment : Fragment() {
         observeData()
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
     }
-    private fun observeData(){
-        orderViewModel.ordersDetail.observe(viewLifecycleOwner){state ->
+
+    private fun observeData() {
+        orderViewModel.ordersDetail.observe(viewLifecycleOwner) { state ->
 //            setupUi(order)
             when (state) {
                 is UiState.Loading -> {
@@ -76,13 +77,16 @@ class OrderDetailFragment : Fragment() {
                     binding.btnBuyAgain.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
+                is UiState.Idle -> {}
             }
         }
-        orderViewModel.orderItem.observe(viewLifecycleOwner){item ->
-            orderItemAdapter.submitList(item)
-        }
+//        orderViewModel.orderItem.observe(viewLifecycleOwner){item ->
+//            orderItemAdapter.submitList(item)
+//        }
     }
-    private fun setupAdapter(){
+
+    private fun setupAdapter() {
         orderItemAdapter = OrderItemAdapter()
         binding.recyclerView.apply {
             adapter = orderItemAdapter
@@ -102,7 +106,7 @@ class OrderDetailFragment : Fragment() {
         }
     }
 
-    private fun setupUi(order: Order){
+    private fun setupUi(order: Order) {
         order.createdAt?.let {
             val date =
                 SimpleDateFormat(
@@ -112,15 +116,23 @@ class OrderDetailFragment : Fragment() {
 
             binding.date.text = "Placed on ${date}"
         }
-        binding.orderId.text =  "#ORD-${order.id.takeLast(6)}"
+        binding.orderId.text = "#ORD-${order.id.takeLast(6)}"
         binding.txtStatus.text = order.status
         binding.phoneNumber.text = order.phoneNumber
         binding.location.text = order.address
         binding.payment.text = order.paymentMethod
         binding.subTotal.text = order.totalPrice.toString()
         binding.total.text = order.totalPrice.toString()
+        binding.shop.text = order.shopName
+        binding.totalItem.text =
+            if (order.totalQuantity == 1) {
+                "(${order.totalQuantity} item)"
+            } else {
+                "(${order.totalQuantity} items)"
+            }
     }
-    private fun setupClickListener(){
+
+    private fun setupClickListener() {
         binding.backBtn.setOnClickListener { parentFragmentManager.popBackStack() }
 
     }

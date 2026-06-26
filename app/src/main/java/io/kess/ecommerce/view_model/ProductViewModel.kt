@@ -22,17 +22,16 @@ class ProductViewModel : ViewModel() {
 
     val variants: LiveData<UiState<List<ProductVariant>>> =
         _variants
-
     private val _variantActionState = MutableLiveData<UiState<String>>()
     val variantActionState: LiveData<UiState<String>> = _variantActionState
     private val _actionState =
         MutableLiveData<UiState<String>>()
-
     val actionState: LiveData<UiState<String>> =
         _actionState
 
-
-
+    fun clearState(){
+        _actionState.value = UiState.Idle
+    }
     fun loadAllProducts() {
         _products.value = UiState.Loading
         repository.getProduct(onResult = { data ->
@@ -85,7 +84,6 @@ class ProductViewModel : ViewModel() {
     fun addProduct(
         product: Product
     ) {
-
         _actionState.value = UiState.Loading
 
         repository.addProduct(

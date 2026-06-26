@@ -10,7 +10,8 @@ fun showSnackBar(
     message: String,
     backgroundColor: Int,
     textColor: Int,
-    gravity: Int = Gravity.TOP
+    gravity: Int = Gravity.TOP,
+    onDismiss: (() -> Unit)? = null
 ) {
 
     val snackbar = Snackbar.make(
@@ -29,6 +30,10 @@ fun showSnackBar(
     params.setMargins(16, 100, 16, 0)
 
     snackbarView.layoutParams = params
-
+    snackbar.addCallback(object : Snackbar.Callback() {
+        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+            onDismiss?.invoke()
+        }
+    })
     snackbar.show()
 }

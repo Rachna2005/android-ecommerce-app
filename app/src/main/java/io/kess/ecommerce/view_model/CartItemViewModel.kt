@@ -4,22 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.kess.ecommerce.model.CartItem
+import io.kess.ecommerce.model.ShopCartGroup
 import io.kess.ecommerce.repository.AuthRepository
 import io.kess.ecommerce.repository.CartItemRepository
+import io.kess.ecommerce.util.UiState
+
 
 class CartViewModel : ViewModel() {
     private val authRepo = AuthRepository()
     private val repository = CartItemRepository(authRepo)
-
-    private val _cartItems = MutableLiveData<List<CartItem>>()
-    val cartItems: LiveData<List<CartItem>> = _cartItems
-
+    private val _cartItems = MutableLiveData<UiState<List<CartItem>>>()
+    val cartItems: LiveData<UiState<List<CartItem>>> = _cartItems
+    private val _cartGroup = MutableLiveData<List<ShopCartGroup>>()
+    val cartGroup: LiveData<List<ShopCartGroup>> = _cartGroup
     private val _loadingItems = MutableLiveData<Set<String>>(emptySet())
     val loadingItems: LiveData<Set<String>> = _loadingItems
-
     private val _message = MutableLiveData<String?>()
     val message: LiveData<String?> = _message
-
     private val _isAddingToCart = MutableLiveData(false)
     val isAddingToCart: LiveData<Boolean> = _isAddingToCart
 
@@ -38,41 +39,35 @@ class CartViewModel : ViewModel() {
     }
 
     fun loadCart() {
+        _cartItems.value = UiState.Loading
         repository.getAllCart(
             onResult = { data ->
-                _cartItems.value = data
+                _cartItems.value = UiState.Success(data)
+                buildCartUi(data)
             },
             onFailure = {
                 _message.value = it.message
+                _cartItems.value = UiState.Error(it.message.toString())
             }
         )
     }
 
+    private fun buildCartUi(carts: List<CartItem>) {
+        val grouped = carts.groupBy { it.shopId }
+        val result = grouped.map { (shopId, items) ->
+            ShopCartGroup(
+                shopId = shopId,
+                shopName = items.firstOrNull()?.shopName ?: "Unknown Shop",
+                items = items
+            )
+        }
+        _cartGroup.value = result
+    }
     fun addToCart(cartItem: CartItem) {
         if (_isAddingToCart.value == true) return
         _isAddingToCart.value = true
 
         repository.addCart(cartItem, onResult = { txt ->
-
-            val currentList = _cartItems.value?.toMutableList()
-                ?: mutableListOf()
-            val cartId = "${cartItem.productId}_${cartItem.variantId}"
-
-            val index = currentList.indexOfFirst {
-                it.productId == cartItem.productId &&
-                        it.variantId == cartItem.variantId
-            }
-
-            if (index != -1) {
-                val existing = currentList[index]
-                currentList[index] = existing.copy(
-                    quantity = existing.quantity + cartItem.quantity
-                )
-            } else {
-                currentList.add(cartItem.copy(id = cartId))
-            }
-
-            _cartItems.value = currentList
             _message.value = txt
             _isAddingToCart.value = false
 
@@ -86,16 +81,6 @@ class CartViewModel : ViewModel() {
         setLoading(cartId, true)
 
         repository.deleteCart(cartId, onResult = { message ->
-
-            val current = _cartItems.value
-                ?.toMutableList()
-                ?: return@deleteCart
-
-            val updateList = current.filter { item ->
-                item.id != cartId
-            }
-
-            _cartItems.value = updateList
             _message.value = message
             setLoading(cartId, false)
 
@@ -109,16 +94,6 @@ class CartViewModel : ViewModel() {
         setLoading(cartId, true)
 
         repository.increaseQuantity(cartId, onResult = { txt ->
-
-            val current = _cartItems.value.orEmpty()
-
-            val updateList = current.map { item ->
-                if (item.id == cartId) {
-                    item.copy(quantity = item.quantity + 1)
-                } else item
-            }
-
-            _cartItems.value = updateList
             _message.value = txt
             setLoading(cartId, false)
 
@@ -138,15 +113,6 @@ class CartViewModel : ViewModel() {
 
         repository.decreaseQuantity(cartId, onResult = { txt ->
 
-            val current = _cartItems.value.orEmpty()
-
-            val updateList = current.map { item ->
-                if (item.id == cartId) {
-                    item.copy(quantity = item.quantity - 1)
-                } else item
-            }
-
-            _cartItems.value = updateList
             _message.value = txt
             setLoading(cartId, false)
 
@@ -154,5 +120,10 @@ class CartViewModel : ViewModel() {
             _message.value = it.message
             setLoading(cartId, false)
         })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        repository.removeCartListener()
     }
 }

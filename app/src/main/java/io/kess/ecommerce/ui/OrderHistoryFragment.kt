@@ -57,7 +57,7 @@ class OrderHistoryFragment : Fragment() {
     private fun setupRecyclerView(){
         orderAdapter = OrderAdapter(onOrderClick = {order ->
             openOrderDetail(order.id)
-        }, onTrackingClick = {})
+        })
         binding.recyclerView.apply {
             adapter = orderAdapter
             layoutManager = GridLayoutManager(requireContext(), 1)
@@ -84,6 +84,7 @@ class OrderHistoryFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+                is UiState.Idle -> {}
             }
         }
     }
@@ -97,8 +98,7 @@ class OrderHistoryFragment : Fragment() {
     }
 
     private fun setupClickListener(){
-        binding.back.setOnClickListener { parentFragmentManager.popBackStack() }
-
+        binding.backBtn.setOnClickListener { parentFragmentManager.popBackStack() }
     }
 
     override fun onResume() {

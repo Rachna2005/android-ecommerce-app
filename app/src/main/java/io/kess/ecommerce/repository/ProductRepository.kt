@@ -110,7 +110,6 @@ class ProductRepository {
         onResult: (String) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-
         fireStore.collection("products")
             .document(productId)
             .set(product)
@@ -129,7 +128,6 @@ class ProductRepository {
         val productRef =
             fireStore.collection("products")
                 .document(productId)
-
         productRef.collection("variants")
             .get()
             .addOnSuccessListener { result ->
@@ -191,7 +189,6 @@ class ProductRepository {
                     productId,
                     onFailure
                 )
-
                 onResult("Variant updated successfully")
             }
             .addOnFailureListener(onFailure)
@@ -215,7 +212,6 @@ class ProductRepository {
                     productId,
                     onFailure
                 )
-
                 onResult("Variant deleted successfully")
             }
             .addOnFailureListener(onFailure)
@@ -226,7 +222,6 @@ class ProductRepository {
         onResult: (List<ProductVariant>) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-
         fireStore.collection("products")
             .document(productId)
             .collection("variants")
@@ -261,7 +256,6 @@ class ProductRepository {
                     result.documents.sumOf {
                         it.toObject(ProductVariant::class.java)?.stock ?: 0
                     }
-
                 productRef.update(
                     "totalStock",
                     totalStock
@@ -271,5 +265,4 @@ class ProductRepository {
                 onFailure?.invoke(it)
             }
     }
-
 }

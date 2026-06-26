@@ -1,5 +1,6 @@
 package io.kess.ecommerce.ui
 
+import android.content.Intent
 import android.media.Rating
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,12 +10,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProductDetailBinding
 import io.kess.ecommerce.databinding.FragmentReviewBinding
 import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.seller.ShopActivity
+import io.kess.ecommerce.util.UiState
+import io.kess.ecommerce.util.showSnackBar
 import io.kess.ecommerce.view_model.ReviewViewModel
 
 class ReviewFragment : Fragment() {
@@ -88,17 +93,26 @@ class ReviewFragment : Fragment() {
             val id = productId
 
             if (id.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), "Product not found", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Product not found", Toast.LENGTH_SHORT).show()
+                showSnackBar(requireView(), "Product not found",
+                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.red),
+                    textColor = ContextCompat.getColor(requireContext(), R.color.white))
                 return@setOnClickListener
             }
 
             if (rating == 0) {
-                Toast.makeText(requireContext(), "Please select rating", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Please select rating", Toast.LENGTH_SHORT).show()
+                showSnackBar(requireView(), "Please select rating",
+                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.primary),
+                    textColor = ContextCompat.getColor(requireContext(), R.color.white))
                 return@setOnClickListener
             }
 
             if (review.isBlank()) {
-                Toast.makeText(requireContext(), "Please write review", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Please write review", Toast.LENGTH_SHORT).show()
+                showSnackBar(requireView(), "Please write review",
+                    backgroundColor = ContextCompat.getColor(requireContext(), R.color.primary),
+                    textColor = ContextCompat.getColor(requireContext(), R.color.white))
                 return@setOnClickListener
             }
 
@@ -115,10 +129,43 @@ class ReviewFragment : Fragment() {
     }
 
     private fun observeData() {
-        reviewViewModel.message.observe(viewLifecycleOwner){message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            parentFragmentManager.popBackStack()
+//        reviewViewModel.message.observe(viewLifecycleOwner){message ->
+//
+//            parentFragmentManager.popBackStack()
+//        }
+        reviewViewModel.actionState.observe(viewLifecycleOwner){state ->
+            when (state) {
+                is UiState.Loading -> {
+                    showLoading(true)
+                }
+                is UiState.Success -> {
+                    showLoading(false)
+                    showSnackBar(
+                        requireView(),
+                        "Review Add successfully",
+                        ContextCompat.getColor(requireContext(), R.color.green),
+                        ContextCompat.getColor(requireContext(), android.R.color.white)
+                    ){
+                        parentFragmentManager.popBackStack()
+                    }
+                }
+
+                is UiState.Error -> {
+                    showLoading(false)
+                    showSnackBar(
+                        requireView(),
+                        state.message,
+                        ContextCompat.getColor(requireContext(), R.color.red),
+                        ContextCompat.getColor(requireContext(), android.R.color.white)
+                    )
+                }
+                is UiState.Idle -> {}
+            }
         }
+    }
+    private fun showLoading(show: Boolean) {
+        binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
+        binding.root.isEnabled = !show
     }
 
     private fun setupUi() {
@@ -130,6 +177,7 @@ class ReviewFragment : Fragment() {
         super.onResume()
         (activity as MainActivity).showButtonNav(show = false)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

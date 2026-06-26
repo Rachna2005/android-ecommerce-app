@@ -3,37 +3,50 @@ package io.kess.ecommerce.repository
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import io.kess.ecommerce.model.CartItem
+import kotlin.collections.remove
 
 class CartItemRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()
+    private var cartListener: ListenerRegistration? = null
 
-    fun getAllCart(onResult: (List<CartItem>) -> Unit, onFailure: (Exception) -> Unit) {
+    private fun requireUserId(
+        onFailure: (Exception) -> Unit
+    ): String? {
         val userId = authRepo.getUserId()
         if (userId == null) {
-            Log.d("User", "No user")
-            return
+            onFailure(Exception("User not logged in"))
+            return null
         }
-        fireStore.collection("users").document(userId).collection("cart").get()
-            .addOnSuccessListener { result ->
-                val cartList = result.documents.mapNotNull { doc ->
-                    doc.toObject(CartItem::class.java)?.apply {
-                        id = doc.id
+        return userId
+    }
+
+    fun getAllCart(onResult: (List<CartItem>) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = requireUserId (onFailure) ?: return
+        cartListener?.remove()
+        cartListener =
+            fireStore.collection("users")
+                .document(userId)
+                .collection("cart")
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null) {
+                        onFailure(error)
+                        return@addSnapshotListener
                     }
+                    val carts =
+                        snapshot?.documents?.mapNotNull { doc ->
+                            doc.toObject(CartItem::class.java)?.apply {
+                                id = doc.id
+                            }
+                        } ?: emptyList()
+                    onResult(carts)
                 }
-                onResult(cartList)
-            }.addOnFailureListener {e ->
-                onFailure(e)
-            }
     }
 
     fun addCart(cartItem: CartItem, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val cartId = "${cartItem.productId}_${cartItem.variantId}"
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
-        }
+        val userId = requireUserId (onFailure) ?: return
         val findCart =
             fireStore.collection("users").document(userId).collection("cart").document(cartId)
         findCart.get().addOnSuccessListener { doc ->
@@ -59,11 +72,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     }
 
     fun deleteCart(cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
-        }
+        val userId = requireUserId (onFailure) ?: return
         fireStore.collection("users").document(userId).collection("cart").document(cartId).delete()
             .addOnSuccessListener {
                 onResult("Cart delete successfully")
@@ -73,14 +82,9 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     }
 
     fun increaseQuantity(
-        cartId: String,onResult: (String) -> Unit, onFailure: (Exception) -> Unit
+        cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
-        }
-
+        val userId = requireUserId (onFailure) ?: return
         fireStore
             .collection("users")
             .document(userId)
@@ -104,11 +108,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     fun decreaseQuantity(
         cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
-        }
+        val userId = requireUserId (onFailure) ?: return
         val cartRef =
             fireStore
                 .collection("users")
@@ -124,6 +124,10 @@ class CartItemRepository(private val authRepo: AuthRepository) {
         }.addOnFailureListener {
             onFailure(it)
         }
+    }
+    fun removeCartListener() {
+        cartListener?.remove()
+        cartListener = null
     }
 
 }

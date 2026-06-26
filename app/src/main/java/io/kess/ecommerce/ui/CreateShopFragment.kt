@@ -28,7 +28,7 @@ import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.ShopViewModel
 
 class CreateShopFragment : Fragment() {
-    private  var _binding: FragmentCreateShopBinding? = null
+    private var _binding: FragmentCreateShopBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: AuthViewModel
     private lateinit var shopViewModel: ShopViewModel
@@ -63,11 +63,13 @@ class CreateShopFragment : Fragment() {
         observeData()
         setupOnClickListener()
     }
-    private fun initViewModel(){
+
+    private fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
         shopViewModel = ViewModelProvider(requireActivity())[ShopViewModel::class.java]
     }
-    private fun setupOnClickListener(){
+
+    private fun setupOnClickListener() {
         binding.backBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -104,7 +106,8 @@ class CreateShopFragment : Fragment() {
                 )
                 return@setOnClickListener
             }
-            uploadImage(selectedImageUri!!,
+            uploadImage(
+                selectedImageUri!!,
                 onSuccess = { imageUrl ->
                     val sellerId = (viewModel.authState.value as? UiState.Success)?.data?.id
                     if (sellerId == null) {
@@ -126,9 +129,9 @@ class CreateShopFragment : Fragment() {
                     )
                     shopViewModel.createShop(shop)
                 },
-
                 onError = { msg ->
-                    showSnackBar(requireView(), msg,
+                    showSnackBar(
+                        requireView(), msg,
                         ContextCompat.getColor(requireContext(), R.color.red),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
@@ -137,6 +140,7 @@ class CreateShopFragment : Fragment() {
 
         }
     }
+
     private fun uploadImage(
         imageUri: Uri,
         onSuccess: (String) -> Unit,
@@ -154,15 +158,14 @@ class CreateShopFragment : Fragment() {
                     requestId: String?,
                     bytes: Long,
                     totalBytes: Long
-                ) {}
+                ) {
+                }
 
                 override fun onSuccess(
                     requestId: String?,
                     resultData: Map<*, *>
                 ) {
-
                     val url = resultData["secure_url"]?.toString()
-
                     if (!url.isNullOrEmpty()) {
                         onSuccess(url)
                     } else {
@@ -186,37 +189,29 @@ class CreateShopFragment : Fragment() {
             })
             .dispatch()
     }
-    private fun observeData(){
+
+    private fun observeData() {
         shopViewModel.shopState.observe(viewLifecycleOwner) { state ->
-
             when (state) {
-
                 is UiState.Loading -> {
-                    binding.btnCreateAccount.isEnabled = false
-                    binding.btnCreateAccount.text = "Creating Shop..."
+                    showLoading(true)
                 }
-
                 is UiState.Success -> {
-
-                    binding.btnCreateAccount.isEnabled = true
-                    binding.btnCreateAccount.text = "Create Account"
-
+                    showLoading(false)
+                    binding.root.isEnabled = false
                     showSnackBar(
                         requireView(),
                         "Shop created successfully",
                         ContextCompat.getColor(requireContext(), R.color.green),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
-                    )
-
-                    startActivity(Intent(requireContext(), ShopActivity::class.java))
-                    requireActivity().finish()
+                    ) {
+                        startActivity(Intent(requireContext(), ShopActivity::class.java))
+                        requireActivity().finish()
+                    }
                 }
 
                 is UiState.Error -> {
-
-                    binding.btnCreateAccount.isEnabled = true
-                    binding.btnCreateAccount.text = "Create Account"
-
+                    showLoading(false)
                     showSnackBar(
                         requireView(),
                         state.message,
@@ -224,9 +219,17 @@ class CreateShopFragment : Fragment() {
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
                 }
+
+                is UiState.Idle -> {}
             }
         }
     }
+
+    private fun showLoading(show: Boolean) {
+        binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
+        binding.root.isEnabled = !show
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

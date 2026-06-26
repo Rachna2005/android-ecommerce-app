@@ -6,13 +6,18 @@ import io.kess.ecommerce.model.Product
 
 class FavoriteRepository(private val authRepo: AuthRepository) {
     val db = FirebaseFirestore.getInstance()
-
-    fun toggleFavorite(productId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
+    private fun requireUserId(
+        onFailure: (Exception) -> Unit
+    ): String? {
         val userId = authRepo.getUserId()
-        if(userId == null){
-            Log.d("User", "No user")
-            return
+        if (userId == null) {
+            onFailure(Exception("User not logged in"))
+            return null
         }
+        return userId
+    }
+    fun toggleFavorite(productId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = requireUserId (onFailure) ?: return
         Log.d("FIREBASE_DEBUG", "userId=$userId productId=$productId")
         val favorite =
             db.collection("users").document(userId).collection("favorites").document(productId)
@@ -29,11 +34,7 @@ class FavoriteRepository(private val authRepo: AuthRepository) {
     }
 
     fun getAllFavorite(onResult: (Set<String>) -> Unit, onFailure: (Exception) -> Unit) {
-        val userId = authRepo.getUserId()
-        if(userId == null){
-            Log.d("User", "No user")
-            return
-        }
+        val userId = requireUserId (onFailure) ?: return
         db.collection("users").document(userId).collection("favorites").get()
             .addOnSuccessListener { result ->
                 val ids = result.documents.map {

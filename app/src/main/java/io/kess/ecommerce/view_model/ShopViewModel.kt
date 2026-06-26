@@ -11,9 +11,13 @@ class ShopViewModel : ViewModel() {
 
     private val _shopState = MutableLiveData<UiState<Shop>>()
     val shopState: LiveData<UiState<Shop>> = _shopState
-
-    private val _actionState = MutableLiveData<UiState<String>>()
-    val actionState: LiveData<UiState<String>> = _actionState
+    private val _shops = MutableLiveData<UiState<List<Shop>>>()
+    val shops: LiveData<UiState<List<Shop>>> = _shops
+    private val _actionState = MutableLiveData<UiState<String>?>()
+    val actionState: LiveData<UiState<String>?> = _actionState
+    fun clearState(){
+        _actionState.value = null
+    }
 
     fun createShop(shop: Shop) {
 
@@ -29,6 +33,20 @@ class ShopViewModel : ViewModel() {
             onFailure = { e ->
                 _shopState.value =
                     UiState.Error(e.message ?: "Failed to create shop")
+            }
+        )
+    }
+
+    fun getAllShops() {
+        _shops.value = UiState.Loading
+
+        repository.getAllShops(
+            onSuccess = { shops ->
+                _shops.value = UiState.Success(shops)
+            },
+            onFailure = { e ->
+                _shops.value =
+                    UiState.Error(e.message ?: "Failed to load shops")
             }
         )
     }
@@ -52,7 +70,6 @@ class ShopViewModel : ViewModel() {
     fun getCurrentShop(): Shop? {
         return (_shopState.value as? UiState.Success)?.data
     }
-
     fun updateShop(
         shopId: String,
         shopName: String? = null,
@@ -61,7 +78,6 @@ class ShopViewModel : ViewModel() {
         address: String? = null,
         logoUrl: String? = null
     ) {
-
         _actionState.value = UiState.Loading
 
         repository.updateShop(
@@ -71,31 +87,26 @@ class ShopViewModel : ViewModel() {
             phone = phone,
             address = address,
             logoUrl = logoUrl,
-
             onSuccess = { message ->
+                val current = _shopState.value
 
-                val currentState = _shopState.value
+                if (current is UiState.Success) {
 
-                if (currentState is UiState.Success) {
+                    val oldShop = current.data
 
-                    val currentShop = currentState.data
-
-                    val updatedShop = currentShop.copy(
-                        shopName = shopName ?: currentShop.shopName,
-                        description = description ?: currentShop.description,
-                        phone = phone ?: currentShop.phone,
-                        address = address ?: currentShop.address,
-                        logoUrl = logoUrl ?: currentShop.logoUrl
+                    val updatedShop = oldShop.copy(
+                        shopName = shopName ?: oldShop.shopName,
+                        description = description ?: oldShop.description,
+                        phone = phone ?: oldShop.phone,
+                        address = address ?: oldShop.address,
+                        logoUrl = logoUrl ?: oldShop.logoUrl
                     )
-
-                    updatedShop.id = currentShop.id
-
+                    updatedShop.id = oldShop.id
                     _shopState.value = UiState.Success(updatedShop)
                 }
 
                 _actionState.value = UiState.Success(message)
             },
-
             onFailure = { e ->
                 _actionState.value =
                     UiState.Error(e.message ?: "Update failed")

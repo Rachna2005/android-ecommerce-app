@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import io.kess.ecommerce.databinding.ActivityOnboardingPaymentBinding
-import io.kess.ecommerce.ui.LoginActivity
-import io.kess.ecommerce.ui.RegisterActivity
+import io.kess.ecommerce.ui.activity.LoginActivity
+import io.kess.ecommerce.ui.activity.RegisterActivity
 
 class Onboarding2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingPaymentBinding

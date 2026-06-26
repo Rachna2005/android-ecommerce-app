@@ -25,6 +25,7 @@ import com.cloudinary.android.callback.UploadCallback;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.kess.ecommerce.R;
 import io.kess.ecommerce.databinding.FragmentCreateProductBinding;
@@ -55,7 +56,19 @@ public class CreateProductFragment extends Fragment {
     private boolean isEdit = false;
     private String productId;
     private String imageUrl;
-
+    private Product originalProduct;
+    private int totalVariantOperations = 0;
+    private int completedVariantOperations = 0;
+    private boolean variantHasError = false;
+    private boolean waitingForProductUpdate = false;
+    private final List<ProductVariant> originalVariants =
+            new ArrayList<>();
+    private final List<ProductVariant> addedVariants =
+            new ArrayList<>();
+    private final List<ProductVariant> updatedVariants =
+            new ArrayList<>();
+    private final List<ProductVariant> deletedVariants =
+            new ArrayList<>();
     private ActivityResultLauncher<String> pickImage;
     private final List<ProductVariant> variants =
             new ArrayList<>();
@@ -91,11 +104,10 @@ public class CreateProductFragment extends Fragment {
         setupClickListener();
         setupVariantRecyclerView();
         observeData();
-
     }
 
     private void initViewModel() {
-        productViewModel = new ViewModelProvider((requireActivity())).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         shopViewModel = new ViewModelProvider((requireActivity())).get(ShopViewModel.class);
         categoryVM = new ViewModelProvider(this).get(CategoryViewModel.class);
     }
@@ -108,7 +120,7 @@ public class CreateProductFragment extends Fragment {
             return;
         }
 
-        productId = args.getString("PRODUCT_ID");
+        productId = args.getString("Product_Id");
 
         if (productId != null) {
 
@@ -230,17 +242,14 @@ public class CreateProductFragment extends Fragment {
         binding.btnSaveProduct.setOnClickListener(v -> {
 //            createProduct();
             if (isEdit) {
-
                 updateProduct();
-
             } else {
-
                 createProduct();
             }
         });
-        binding.btnDiscard.setOnClickListener(v -> {
-
-        });
+//        binding.btnDiscard.setOnClickListener(v -> {
+//
+//        });
         binding.dropdownCategory.setOnClickListener(v -> {
             showCategoryDialog();
         });
@@ -275,44 +284,86 @@ public class CreateProductFragment extends Fragment {
         binding.loadingOverlay.setVisibility(
                 show ? View.VISIBLE : View.GONE
         );
-
         binding.getRoot().setEnabled(!show);
     }
 
     private void observeData() {
-//        productViewModel.getActionState().removeObserver(getViewLifecycleOwner());
         productViewModel.getActionState().observe(getViewLifecycleOwner(), state -> {
             if (state instanceof UiState.Loading) {
                 showLoading(true);
             } else if (state instanceof UiState.Success) {
-                String productId = ((UiState.Success<String>) state).getData();
-                uploadVariants(productId);
+                if (waitingForProductUpdate) {
+                    waitingForProductUpdate = false;
+                    processVariantUpdates();
+                } else {
+                    String productId = ((UiState.Success<String>) state).getData();
+                    uploadVariants(productId);
+                }
             } else if (state instanceof UiState.Error) {
                 showLoading(false);
-
             }
         });
         categoryVM.getCategories().observe(getViewLifecycleOwner(), categories -> {
             categoryList.clear();
             categoryList.addAll(categories);
         });
-
         productViewModel.getProductDetail()
                 .observe(
                         getViewLifecycleOwner(),
                         state -> {
-
                             if (state instanceof UiState.Success) {
 
                                 ProductDetail detail =
                                         ((UiState.Success<ProductDetail>) state)
                                                 .getData();
+                                Product product = detail.getProduct();
+                                originalProduct = product;
 
                                 fillProductInfo(
-                                        detail.getProduct()
+                                        product
+                                );
+                                variants.clear();
+                                variants.addAll(
+                                        detail.getVariant()
+                                );
+                                originalVariants.clear();
+                                originalVariants.addAll(
+                                        detail.getVariant()
+                                );
+                                variantAdapter.submitList(
+                                        new ArrayList<>(variants)
                                 );
                             }
                         });
+        productViewModel.getVariantActionState()
+                .observe(getViewLifecycleOwner(), state -> {
+                    if (state instanceof UiState.Success) {
+                        completedVariantOperations++;
+                        if (completedVariantOperations
+                                == totalVariantOperations
+                                && !variantHasError) {
+                            showLoading(false);
+                            Toast.makeText(
+                                    requireContext(),
+                                    "Product updated successfully",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            getParentFragmentManager()
+                                    .popBackStack();
+                        }
+                    } else if (state instanceof UiState.Error) {
+
+                        variantHasError = true;
+
+                        showLoading(false);
+
+                        Toast.makeText(
+                                requireContext(),
+                                ((UiState.Error) state).getMessage(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                });
     }
 
     private void fillProductInfo(
@@ -341,7 +392,6 @@ public class CreateProductFragment extends Fragment {
                     )
             );
         }
-
         selectedCategoryId =
                 product.getCategoryId();
 
@@ -351,6 +401,117 @@ public class CreateProductFragment extends Fragment {
         Glide.with(this)
                 .load(product.getImage())
                 .into(binding.productImage);
+    }
+
+    private void detectVariantChanges() {
+
+        addedVariants.clear();
+        updatedVariants.clear();
+
+        for (ProductVariant current : variants) {
+
+            ProductVariant original = findOriginalVariant(
+                    current.getId()
+            );
+
+            if (original == null) {
+
+                addedVariants.add(current);
+
+            } else if (!current.equals(original)) {
+
+                updatedVariants.add(current);
+            }
+        }
+        deletedVariants.clear();
+
+        for (ProductVariant original : originalVariants) {
+
+            boolean stillExists = false;
+
+            for (ProductVariant current : variants) {
+
+                if (original.getId()
+                        .equals(current.getId())) {
+
+                    stillExists = true;
+                    break;
+                }
+            }
+
+            if (!stillExists) {
+                deletedVariants.add(original);
+            }
+        }
+    }
+
+
+    private ProductVariant findOriginalVariant(
+            String id
+    ) {
+
+        for (ProductVariant variant : originalVariants) {
+
+            if (variant.getId().equals(id)) {
+                return variant;
+            }
+        }
+        return null;
+    }
+
+    private boolean isProductChanged() {
+        String name =
+                binding.etProductName
+                        .getText()
+                        .toString()
+                        .trim();
+
+        String description =
+                binding.etDescription
+                        .getText()
+                        .toString()
+                        .trim();
+
+        double price =
+                Double.parseDouble(
+                        binding.etBasePrice
+                                .getText()
+                                .toString()
+                                .trim()
+                );
+
+        Double discount =
+                binding.etDiscount
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
+                        ? null
+                        : Double.parseDouble(
+                        binding.etDiscount
+                                .getText()
+                                .toString()
+                                .trim()
+                );
+
+        return !name.equals(
+                originalProduct.getName()
+        )
+                || !description.equals(
+                originalProduct.getDescription()
+        )
+                || price !=
+                originalProduct.getPrice()
+                || !Objects.equals(
+                discount,
+                originalProduct.getDiscountPercentage()
+        )
+                || !selectedCategoryId.equals(
+                originalProduct.getCategoryId()
+        )
+                || !imageUrl.equals(
+                originalProduct.getImage()
+        );
     }
 
     private void uploadVariants(String productId) {
@@ -372,13 +533,11 @@ public class CreateProductFragment extends Fragment {
         productViewModel.getVariantActionState().observe(getViewLifecycleOwner(), state -> {
 
             if (state instanceof UiState.Success) {
-
                 successCount[0]++;
 
                 if (successCount[0] == total && !hasError[0]) {
 
                     showLoading(false);
-
                     Toast.makeText(requireContext(),
                             "Product created successfully",
                             Toast.LENGTH_SHORT).show();
@@ -410,10 +569,10 @@ public class CreateProductFragment extends Fragment {
             binding.etProductName.setError("Product name required");
             return;
         }
-        if (selectedImageUri == null) {
-            Toast.makeText(requireContext(), "Select image first", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (selectedImageUri == null) {
+//            Toast.makeText(requireContext(), "Select image first", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         if (description.isEmpty()) {
             binding.etDescription.setError("Description required");
@@ -446,12 +605,15 @@ public class CreateProductFragment extends Fragment {
                         }
                         Shop shop = shopViewModel.getCurrentShop();
                         String shopId = null;
+                        String shopName = null;
                         if (shop != null) {
                             shopId = shop.getId();
+                            shopName = shop.getShopName();
                         }
                         Product product = new Product(
                                 "",
                                 shopId,
+                                shopName,
                                 imageUrl,
                                 name,
                                 selectedCategoryId,
@@ -480,59 +642,127 @@ public class CreateProductFragment extends Fragment {
     }
 
     private void updateProduct() {
+        detectVariantChanges();
+        boolean productChanged =
+                isProductChanged();
 
-        double price =
-                Double.parseDouble(
-                        binding.etBasePrice
-                                .getText()
-                                .toString()
-                );
+        boolean hasVariantChanges =
+                !addedVariants.isEmpty()
+                        || !updatedVariants.isEmpty()
+                        || !deletedVariants.isEmpty();
 
-        Double discount = null;
+        if (!productChanged &&
+                !hasVariantChanges) {
 
-        String discountText =
-                binding.etDiscount
-                        .getText()
-                        .toString()
-                        .trim();
+            Toast.makeText(
+                    requireContext(),
+                    "No changes detected",
+                    Toast.LENGTH_SHORT
+            ).show();
 
-        if (!discountText.isEmpty()) {
-            discount =
-                    Double.parseDouble(
-                            discountText
+            return;
+        }
+
+        if (productChanged) {
+            waitingForProductUpdate = true;
+            Product updatedProduct =
+                    new Product(
+                            originalProduct.getId(),
+                            originalProduct.getShopId(),
+                            originalProduct.getShopName(),
+                            imageUrl,
+                            binding.etProductName
+                                    .getText()
+                                    .toString()
+                                    .trim(),
+                            selectedCategoryId,
+                            Double.parseDouble(
+                                    binding.etBasePrice
+                                            .getText()
+                                            .toString()
+                                            .trim()
+                            ),
+                            binding.etDiscount
+                                    .getText()
+                                    .toString()
+                                    .trim()
+                                    .isEmpty()
+                                    ? null
+                                    : Double.parseDouble(
+                                    binding.etDiscount
+                                            .getText()
+                                            .toString()
+                                            .trim()
+                            ),
+                            binding.etDescription
+                                    .getText()
+                                    .toString()
+                                    .trim(),
+                            originalProduct.getStatus(),
+                            originalProduct.getTotalStock(),
+                            originalProduct.getCreatedAt()
                     );
+
+            productViewModel.updateProduct(
+                    productId,
+                    updatedProduct
+            );
         }
-        Shop shop = shopViewModel.getCurrentShop();
-        String shopId = null;
-        if (shop != null) {
-            shopId = shop.getId();
+//        updateVariants();
+        else {
+            processVariantUpdates();
+        }
+    }
+
+    private void processVariantUpdates() {
+        showLoading(true);
+        totalVariantOperations =
+                addedVariants.size()
+                        + updatedVariants.size()
+                        + deletedVariants.size();
+
+        completedVariantOperations = 0;
+        variantHasError = false;
+
+        if (totalVariantOperations == 0) {
+
+            showLoading(false);
+
+            Toast.makeText(
+                    requireContext(),
+                    "Product updated successfully",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            getParentFragmentManager().popBackStack();
+
+            return;
         }
 
-        Product product =
-                new Product(
-                        productId,
-                        shopId,
-                        imageUrl,
-                        binding.etProductName
-                                .getText()
-                                .toString()
-                                .trim(),
-                        selectedCategoryId,
-                        price,
-                        discount,
-                        binding.etDescription
-                                .getText()
-                                .toString()
-                                .trim(),
-                        "ACTIVE",
-                        0,
-                        null
-                );
+        for (ProductVariant variant : addedVariants) {
 
-        productViewModel.updateProduct(
-                productId,
-                product
-        );
+            productViewModel.addVariant(
+                    productId,
+                    variant
+            );
+        }
+
+        for (ProductVariant variant : updatedVariants) {
+
+            productViewModel.updateVariant(
+                    productId,
+                    variant.getId(),
+                    variant
+            );
+        }
+
+        for (ProductVariant variant : deletedVariants) {
+
+            productViewModel.deleteVariant(
+                    productId,
+                    variant.getId()
+            );
+        }
     }
 
     private void uploadImage(

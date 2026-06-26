@@ -72,12 +72,10 @@ class AuthViewModel : ViewModel() {
         address: String? = null,
         phoneNumber: String? = null
     ) {
-
         repository.updateUser(
             name = name,
             address = address,
             phoneNumber = phoneNumber,
-
             onSuccess = { message ->
 
                 val currentState = _authState.value
@@ -94,7 +92,6 @@ class AuthViewModel : ViewModel() {
 
                     _authState.value = UiState.Success(updatedUser)
                 }
-
                 // optional: if no current user, still emit success message logic is NOT needed anymore
             },
 

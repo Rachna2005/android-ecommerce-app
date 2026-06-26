@@ -144,6 +144,7 @@ class ProductListFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                is UiState.Idle -> {}
             }
         }
 

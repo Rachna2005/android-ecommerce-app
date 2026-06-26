@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.ActivityMainBinding
@@ -30,6 +31,7 @@ class ShopActivity : AppCompatActivity() {
     private val manageProductFragment = ManageProductFragment()
     private val orderFragment = ManageOrderFragment()
     private val profileFragment = SellerProfileFragment()
+    private var isProgrammaticNav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,20 +74,17 @@ class ShopActivity : AppCompatActivity() {
                 if (fragment == fragmentToShow) show(fragment)
                 else hide(fragment)
             }
-
         }.commit()
     }
 
     private fun checkSellerShop(){
             userViewModel.authState.observe(this) { state ->
-
                 if (state is UiState.Success) {
                     shopViewModel.getShopByOwner(state.data.id)
                 }
             }
             return
     }
-
     private fun observeData(){
         shopViewModel.shopState.observe(this) { state ->
             when (state) {
@@ -111,29 +110,50 @@ class ShopActivity : AppCompatActivity() {
                         ContextCompat.getColor(this, android.R.color.white)
                     )
                 }
+                is UiState.Idle -> {}
             }
         }
     }
-
     private fun setupBottomNav() {
 
         binding.bottomNav.setOnItemSelectedListener { item ->
+            if (isProgrammaticNav) return@setOnItemSelectedListener true
 
             when (item.itemId) {
-                R.id.nav_inventory -> showFragment(manageProductFragment)
-                R.id.nav_order -> showFragment(orderFragment)
-                R.id.nav_shop -> showFragment(profileFragment)
+                R.id.nav_inventory -> goToBottomTab("PRODUCT")
+                R.id.nav_order -> goToBottomTab("ORDER")
+                R.id.nav_shop -> goToBottomTab("PROFILE")
             }
             true
         }
     }
 
-//    fun replaceFragment(fragment: Fragment) {
-//
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.container, fragment)
-//            .commit()
-//    }
+    fun goToBottomTab(tab: String) {
+        isProgrammaticNav = true
+        supportFragmentManager.popBackStack(
+            null,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+        val target = when (tab) {
+            "PRODUCT" -> manageProductFragment
+            "ORDER" -> orderFragment
+            "PROFILE" -> profileFragment
+            else -> manageProductFragment
+        }
+
+        showFragment(target)
+
+        // 3. Sync bottom nav UI
+        val itemId = when (tab) {
+            "PRODUCT" -> R.id.nav_inventory
+            "ORDER" -> R.id.nav_order
+            "PROFILE" -> R.id.nav_shop
+            else -> R.id.nav_inventory
+        }
+
+        binding.bottomNav.selectedItemId = itemId
+        isProgrammaticNav = false
+    }
 
     fun navigate(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

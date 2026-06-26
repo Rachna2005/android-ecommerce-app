@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentMainRegisterBinding
 import io.kess.ecommerce.databinding.FragmentRegisterCustomerBinding
+import io.kess.ecommerce.ui.activity.LoginActivity
+import io.kess.ecommerce.ui.activity.RegisterActivity
 
 class MainRegisterFragment : Fragment() {
 

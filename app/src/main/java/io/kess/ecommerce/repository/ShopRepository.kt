@@ -39,6 +39,30 @@ class ShopRepository {
             }
     }
 
+    fun getAllShops(
+        onSuccess: (List<Shop>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+
+        firestore.collection(SHOP_COLLECTION)
+            .whereEqualTo("isActive", true) // optional
+            .get()
+            .addOnSuccessListener { snapshot ->
+
+                val shops = snapshot.documents.mapNotNull { doc ->
+
+                    doc.toObject(Shop::class.java)?.apply {
+                        id = doc.id
+                    }
+                }
+
+                onSuccess(shops)
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
+    }
+
 //    fun getShop(
 //        shopId: String,
 //        onSuccess: (Shop) -> Unit,
@@ -115,7 +139,6 @@ class ShopRepository {
         phone?.let { updates["phone"] = it }
         address?.let { updates["address"] = it }
         logoUrl?.let { updates["logoUrl"] = it }
-
         if (updates.isEmpty()) {
             onFailure(Exception("No fields to update"))
             return

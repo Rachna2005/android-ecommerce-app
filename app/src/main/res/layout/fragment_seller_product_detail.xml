@@ -9,8 +9,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:layout_height="?attr/actionBarSize">
 
         <ImageView
             android:id="@+id/btnBack"
@@ -29,107 +28,24 @@
             android:textColor="@color/primary"
             android:textSize="18sp" />
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/btnCart"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_gravity="top|end">
-
-            <ImageView
-                android:id="@+id/btnWishlist"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_circle_transparent"
-                android:padding="6dp"
-                android:src="@drawable/ic_heart" />
-
-            <ProgressBar
-                android:id="@+id/wishlistProgress"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/btnCart"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="8dp"
-                android:background="@drawable/bg_circle_transparent"
-                android:padding="6dp"
-                android:src="@drawable/ic_cart_shopping"
-                app:tint="@color/primary" />
-
-            <TextView
-                android:id="@+id/txtBadge"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="top|end"
-                android:background="@drawable/bg_notification_badge"
-                android:backgroundTint="@color/primary"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                android:visibility="gone"
-                 />
-
-        </FrameLayout>
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_circle_transparent"
+            android:padding="6dp"
+            android:src="@drawable/ic_cart_shopping"
+            app:tint="@color/primary" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <LinearLayout
-        android:id="@+id/bottomButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:paddingLeft="30dp"
-        android:paddingTop="10dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginEnd="20dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addToCart"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/primary"
-                android:text="Add to Cart"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                app:cornerRadius="30dp"
-                app:strokeWidth="1dp" />
-
-            <ProgressBar
-                android:id="@+id/cart_progressBar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-        </FrameLayout>
-
-    </LinearLayout>
-    <!-- ScrollView above the pinned buttons -->
     <ScrollView
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomButtons"
         android:layout_below="@id/toolbar"
-        android:background="#F6F7F9"
         android:fillViewport="true">
 
         <LinearLayout
@@ -137,6 +53,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bottom_card"
             android:orientation="vertical"
+
             android:paddingBottom="20dp">
 
             <ImageView
@@ -198,61 +115,11 @@
                     android:src="@drawable/ic_star_fill" />
 
                 <TextView
-                    android:id="@+id/avgRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4.9 (428 Reviews)" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/quantityContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_stepper_container"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp">
-
-                <TextView
-                    android:id="@+id/decrease"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/white"
-                    android:gravity="center"
-                    android:text="−"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/quantity"
-                    android:layout_width="44dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#111111"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/increase"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/bg_circle"
-                    android:backgroundTint="@color/white"
-                    android:gravity="center"
-                    android:text="+"
-                    android:textColor="#333333"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
 
             <TextView
                 android:id="@+id/color"
@@ -318,7 +185,6 @@
                     android:src="@drawable/ic_chevron_down" />
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/descriptionContent"
                 android:layout_width="wrap_content"
@@ -327,51 +193,14 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp" />
 
-            <TextView
-                android:id="@+id/shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/manrope_bold"
-                android:paddingLeft="20dp"
-                android:text="Shop"
-                android:textColor="@color/primary"
-                android:textSize="20dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp">
-
-                <ImageView
-                    android:id="@+id/shopImage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_notification_badge"
-                    android:clipToOutline="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_product_detail" />
-
-                <TextView
-                    android:id="@+id/shopName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:text="Shoppp"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/userRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                >
 
                 <TextView
                     android:id="@+id/title"
@@ -382,18 +211,7 @@
                     android:textColor="@color/primary"
                     android:textSize="20dp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/writeReview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="write a review"
-                    android:textColor="@color/secondary"
-                    android:textSize="15sp" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

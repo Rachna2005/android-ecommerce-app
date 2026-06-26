@@ -31,11 +31,9 @@ public class SellerProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -52,6 +50,7 @@ public class SellerProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initViewModel();
         observeData();
+        setupClickListener();
     }
     private void initViewModel() {
         shopViewModel = new ViewModelProvider((requireActivity())).get(ShopViewModel.class);
@@ -62,13 +61,10 @@ public class SellerProfileFragment extends Fragment {
         authViewModel.getAuthState().observe(
                 getViewLifecycleOwner(),
                 state -> {
-
                     if (state instanceof UiState.Success) {
-
                         User user =
                                 ((UiState.Success<User>) state)
                                         .getData();
-
                         binding.uName.setText(
                                 user.getName()
                         );
@@ -97,7 +93,6 @@ public class SellerProfileFragment extends Fragment {
 
                         setupUi(shop);
                     }
-
                     else if (state instanceof UiState.Error) {
 
                         Toast.makeText(
@@ -122,7 +117,7 @@ public class SellerProfileFragment extends Fragment {
 
     private void setupClickListener(){
         binding.shopInfo.setOnClickListener(v -> {
-
+            ((ShopActivity) getActivity()).navigate(new EditShopInfoFragment());
         });
     }
 

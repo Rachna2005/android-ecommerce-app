@@ -54,7 +54,7 @@
 <!--            android:textColor="@color/primary"-->
 <!--            android:textStyle="bold" />-->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateAccount"
+            android:id="@+id/reCustomer"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
 
@@ -73,10 +73,10 @@
 <!--            android:text="Register as Seller"-->
 <!--            android:textColor="@color/primary"-->
 <!--            android:textStyle="bold"-->
-
 <!--            />-->
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn"
+            android:id="@+id/reSeller"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
 

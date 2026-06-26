@@ -7,6 +7,7 @@ data class Product(
     @get:Exclude
     var id: String = "",
     val shopId: String = "",
+    val shopName: String = "",
     val image: String = "",
     val name: String = "",
     val categoryId: String = "",

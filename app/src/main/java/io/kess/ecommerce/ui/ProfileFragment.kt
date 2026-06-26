@@ -32,8 +32,6 @@ class ProfileFragment : Fragment() {
     private var totalOrder: Int = 0
     private var totalCart: Int = 0
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,9 +62,21 @@ class ProfileFragment : Fragment() {
             totalWishlist = favorite.count()
             updateUi()
         }
-        cartViewModel.cartItems.observe(viewLifecycleOwner){cart ->
-            totalCart = cart.count()
-            updateUi()
+        cartViewModel.cartItems.observe(viewLifecycleOwner){state ->
+            when (state) {
+                is UiState.Success -> {
+                    totalCart = state.data.count()
+                    updateUi()
+                }
+                is UiState.Error -> {
+                    // Handle error
+                }
+                is UiState.Loading -> {
+                    // Show loading
+                }
+                is UiState.Idle -> {}
+            }
+
         }
 
 //        userViewModel.authData.observe(viewLifecycleOwner){

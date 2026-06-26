@@ -22,7 +22,6 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_product_detail"
             android:background="@drawable/bg_icon_rounded"
             android:clipToOutline="true"
             android:layout_marginRight="15dp"/>

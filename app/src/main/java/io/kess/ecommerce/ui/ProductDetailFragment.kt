@@ -1,5 +1,6 @@
 package io.kess.ecommerce.ui
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
@@ -32,11 +33,14 @@ import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ReviewAdapter
 import io.kess.ecommerce.ui.adapter.SizeAdapter
+import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
+import io.kess.ecommerce.util.showSnackBar
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 import io.kess.ecommerce.view_model.ReviewViewModel
+import io.kess.ecommerce.view_model.ShopViewModel
 
 class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
@@ -45,6 +49,7 @@ class ProductDetailFragment : Fragment() {
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var viewModel: ProductViewModel
     private lateinit var cartViewModel: CartViewModel
+    private lateinit var shopViewModel: ShopViewModel
     private lateinit var reviewViewModel: ReviewViewModel
     private var productDetail: ProductDetail = ProductDetail()
     private lateinit var colorAdapter: ColorAdapter
@@ -59,8 +64,7 @@ class ProductDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         productId = arguments?.getString("ID")
-//        productId = requireArguments().getString("ID")
-//            ?: throw IllegalArgumentException("Product ID required")
+
     }
 
     override fun onCreateView(
@@ -89,12 +93,11 @@ class ProductDetailFragment : Fragment() {
         cartViewModel =
             ViewModelProvider(requireActivity())[CartViewModel::class.java]
         reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
-
+        shopViewModel = ViewModelProvider(requireActivity())[ShopViewModel::class.java]
         productId?.let {
             reviewViewModel.loadReviews(it)
         }
     }
-
     private fun setupAdapters() {
 
         colorAdapter = ColorAdapter { variant ->
@@ -155,6 +158,17 @@ class ProductDetailFragment : Fragment() {
 
     }
 
+    fun updateCartBadge(count: Int){
+
+        if(count > 0 ){
+            binding.txtBadge.visibility =View.VISIBLE
+            binding.txtBadge.text = count.toString()
+        }
+        else{
+            binding.txtBadge.visibility = View.GONE
+        }
+    }
+
     private fun setupButtonClick() {
 
         binding.increase.setOnClickListener {
@@ -186,14 +200,21 @@ class ProductDetailFragment : Fragment() {
                 null
             }
             if (selectedVariant == null && productDetail.variant.isNotEmpty()) {
-                Toast.makeText(requireContext(), "Please Select color and size", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(requireContext(), "Please Select color and size", Toast.LENGTH_SHORT)
+//                    .show()
+                showSnackBar(
+                    requireView(),
+                    "Please Select color and size",
+                    ContextCompat.getColor(requireContext(), R.color.primary),
+                    ContextCompat.getColor(requireContext(), android.R.color.white)
+                )
                 return@setOnClickListener
             }
-
             val cart = CartItem(
                 productId = productDetail.product.id,
                 variantId = selectedVariant?.id ?: "",
+                shopId =  productDetail.product.shopId,
+                shopName = productDetail.product.shopName,
                 name = productDetail.product.name,
                 quantity = totalQuantity,
                 image = productDetail.product.image,
@@ -228,7 +249,6 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun observeData() {
-
         viewModel.productDetail.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -250,6 +270,7 @@ class ProductDetailFragment : Fragment() {
                     binding.mainContent.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+                is UiState.Idle -> {}
             }
         }
         cartViewModel.message.observe(viewLifecycleOwner) { message ->
@@ -258,13 +279,64 @@ class ProductDetailFragment : Fragment() {
                 cartViewModel.clearMessage()
             }
         }
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    val totalCount = state.data.sumOf { it.quantity }
+                    updateCartBadge(totalCount)
+                }
+
+                is UiState.Error -> {
+                    // Handle error
+                }
+
+                is UiState.Loading -> {
+                    // Show loading
+                }
+
+                is UiState.Idle -> {}
+            }
+        }
         favoriteViewModel.favorite.observe(viewLifecycleOwner) { favorite ->
             favoriteSet = favorite
             setupFavorite()
         }
 
-        reviewViewModel.reviews.observe(viewLifecycleOwner) { review ->
-            reviewAdapter.submitList(review)
+        reviewViewModel.reviews.observe(viewLifecycleOwner) { state ->
+//            reviewAdapter.submitList(review)
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    reviewAdapter.submitList(state.data)
+                    val totalReview = state.data.size
+                    val averageRating = if(totalReview > 0){
+                        state.data.sumOf { it.rating }.toDouble()/ totalReview
+                    }else{
+                        0.0
+                    }
+                    binding.avgRating.text = "${String.format("%.1f", averageRating)} ($totalReview Review)"
+                }
+                is UiState.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+                is UiState.Idle -> {}
+            }
+        }
+        shopViewModel.shops.observe(viewLifecycleOwner){state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+                is UiState.Success -> {
+                    val shop = state.data.find { it.id == productDetail.product.shopId }
+                    binding.shopName.text = shop?.shopName ?: "Shop name"
+                    Glide.with(requireContext()).load(shop?.logoUrl).into(binding.shopImage)
+                }
+                is UiState.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+                is UiState.Idle -> {}
+            }
         }
         cartViewModel.isAddingToCart.observe(viewLifecycleOwner){isLoading ->
             binding.addToCart.isEnabled = !isLoading
@@ -310,7 +382,6 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun setupUi(product: ProductDetail) {
-
         binding.mainProductTitle.text = product.product.name
         binding.text.text = product.product.name
         binding.descriptionContent.text = product.product.description

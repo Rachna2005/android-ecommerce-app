@@ -9,73 +9,66 @@ import io.kess.ecommerce.model.cartToOrderItem
 
 class OrderRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()
-    fun getAllOrder( onResult: (List<Order>) -> Unit, onFailure: (Exception) -> Unit){
+
+    private fun requireUserId(
+        onFailure: (Exception) -> Unit
+    ): String? {
         val userId = authRepo.getUserId()
-        if(userId == null){
-            Log.d("User", "No user")
-            return
+        if (userId == null) {
+            onFailure(Exception("User not logged in"))
+            return null
         }
-        fireStore.collection("orders").whereEqualTo("userId", userId).get().addOnSuccessListener {result ->
-            val order = result.documents.mapNotNull { doc ->
-                doc.toObject(Order::class.java)?.apply {
-                    id = doc.id
+        return userId
+    }
+    fun getAllOrder(onResult: (List<Order>) -> Unit, onFailure: (Exception) -> Unit) {
+        val userId = requireUserId (onFailure) ?: return
+        fireStore.collection("orders").whereEqualTo("userId", userId).get()
+            .addOnSuccessListener { result ->
+                val order = result.documents.mapNotNull { doc ->
+                    doc.toObject(Order::class.java)?.apply {
+                        id = doc.id
+                    }
                 }
-            }
-            onResult(order)
-        }.addOnFailureListener {
-            Log.e("order_Firebase", "Failed to load orders")
+                onResult(order)
+            }.addOnFailureListener {
             onFailure(it)
         }
     }
 
-    fun placeOrder(
-        order: Order,
-        items: List<CartItem>,
-        onResult: (String) -> Unit,onFailure: (Exception) -> Unit
+    fun placeOrders(
+        orders: List<Pair<Order, List<CartItem>>>,
+        onResult: () -> Unit,
+        onFailure: (Exception) -> Unit
     ) {
+        val userId = requireUserId(onFailure) ?: return
 
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
+        val batch = fireStore.batch()
+
+        orders.forEach { (order, items) ->
+
+            val orderRef = fireStore.collection("orders").document()
+
+            val previewImages = items
+                .take(3)
+                .map { it.image }
+
+            val newOrder = order.copy(
+                userId = userId,
+                previewImages = previewImages
+            )
+
+            batch.set(orderRef, newOrder)
+
+            val itemCollection = orderRef.collection("items")
+
+            items.map(::cartToOrderItem).forEach { item ->
+                batch.set(itemCollection.document(), item)
+            }
         }
 
-        val setOrder = fireStore.collection("orders").document()
-
-        val orderItems = items.map { cartToOrderItem(it) }
-
-        val previewImages = items
-            .take(3)
-            .map { it.image }
-
-        val newOrder = order.copy(
-            userId = userId,
-            previewImages = previewImages
-        )
-
-        setOrder.set(newOrder)
-            .addOnSuccessListener {
-
-                val batch = fireStore.batch()
-                val itemCol = setOrder.collection("items")
-
-                orderItems.forEach { item ->
-                    val itemRef = itemCol.document()
-                    batch.set(itemRef, item)
-                }
-
-                batch.commit()
-                    .addOnSuccessListener {
-                        onResult("Order placed successfully")
-                    }
-                    .addOnFailureListener {
-                        onResult("Order saved but items failed")
-                    }
-
-            }
-            .addOnFailureListener {
-                onFailure(it)
-            }
+        batch.commit()
+            .addOnSuccessListener { onResult() }
+            .addOnFailureListener { onFailure(it) }
     }
 
     fun getOrderDetail(
@@ -83,12 +76,7 @@ class OrderRepository(private val authRepo: AuthRepository) {
         onResult: (Order) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val userId = authRepo.getUserId()
-        if (userId == null) {
-            Log.d("User", "No user")
-            return
-        }
-
+        val userId = requireUserId (onFailure) ?: return
         fireStore.collection("orders")
             .document(orderId)
             .get()
@@ -96,27 +84,31 @@ class OrderRepository(private val authRepo: AuthRepository) {
                 val order = doc.toObject(Order::class.java)?.apply {
                     id = doc.id
                 }
-                if(order == null){
+                if (order == null) {
                     onFailure(Exception("Order history not found"))
                     return@addOnSuccessListener
                 }
                 onResult(order)
             }
             .addOnFailureListener { e ->
-                Log.e("order_Firebase", "Failed to load order detail", e)
                 onFailure(e)
             }
     }
 
-    fun getOrderItem(orderId: String, onResult: (List<OrderItem>) -> Unit, onFailure: (Exception) -> Unit){
-        fireStore.collection("orders").document(orderId).collection("items").get().addOnSuccessListener { result ->
-            val items = result.documents.mapNotNull {
-                it.toObject(OrderItem::class.java)?.apply {
-                    id = it.id
+    fun getOrderItem(
+        orderId: String,
+        onResult: (List<OrderItem>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        fireStore.collection("orders").document(orderId).collection("items").get()
+            .addOnSuccessListener { result ->
+                val items = result.documents.mapNotNull {
+                    it.toObject(OrderItem::class.java)?.apply {
+                        id = it.id
+                    }
                 }
-            }
-            onResult(items)
-        }.addOnFailureListener {
+                onResult(items)
+            }.addOnFailureListener {
             onFailure(it)
         }
     }

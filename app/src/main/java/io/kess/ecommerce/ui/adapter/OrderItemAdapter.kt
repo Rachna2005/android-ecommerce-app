@@ -13,7 +13,7 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.OrderItem
 
-class OrderItemAdapter :
+class OrderItemAdapter() :
     ListAdapter<OrderItem, OrderItemAdapter.OrderViewHolder>(DiffCallback) {
     class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
@@ -51,6 +51,7 @@ class OrderItemAdapter :
             override fun areItemsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
                 return oldItem.id == newItem.id
             }
+
             override fun areContentsTheSame(oldItem: OrderItem, newItem: OrderItem): Boolean {
                 return oldItem == newItem
             }
