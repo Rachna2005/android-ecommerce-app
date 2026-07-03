@@ -46,7 +46,6 @@
                     android:text="Chronos Eli..."
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:maxLines="1" />
 
 <!--                <TextView-->

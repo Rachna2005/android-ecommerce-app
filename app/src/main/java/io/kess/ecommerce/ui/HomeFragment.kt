@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -209,6 +210,26 @@ class HomeFragment : Fragment() {
 //        }
     }
 
+    private fun showFilterBottomSheet(){
+        val view = layoutInflater.inflate(R.layout.filter_bottom_sheet, null)
+        val sheet = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        sheet.setContentView(view)
+
+        val slider = view.findViewById<com.google.android.material.slider.RangeSlider>(R.id.sliderPrice)
+        slider.valueFrom = 0f
+        slider.valueTo = 2000f
+        slider.values = listOf(0f, 2000f)
+
+        val tvPriceRange = view.findViewById<TextView>(R.id.tvPriceRange)
+        slider.addOnChangeListener { s, _, _ ->
+            val min = s.values[0].toInt()
+            val max = s.values[1].toInt()
+            tvPriceRange.text = "$$min - $$max"
+        }
+        sheet.show()
+    }
+
+
     private fun setupClickListeners(view: View) {
 
         val search = view.findViewById<ImageView>(R.id.search)
@@ -217,17 +238,21 @@ class HomeFragment : Fragment() {
             navigation(SearchFragment())
         }
 
-        val discountMore = view.findViewById<TextView>(R.id.discount_all)
-        discountMore.setOnClickListener {
-            openProductList("DISCOUNT")
-        }
-        val newMore = view.findViewById<TextView>(R.id.new_more)
-        newMore.setOnClickListener {
-            openProductList("NEW_ARRIVAL")
-        }
-        val allMore = view.findViewById<TextView>(R.id.all_seeMore)
-        allMore.setOnClickListener {
-            openProductList("ALL")
+//        val discountMore = view.findViewById<TextView>(R.id.discount_all)
+//        discountMore.setOnClickListener {
+//            openProductList("DISCOUNT")
+//        }
+//        val newMore = view.findViewById<TextView>(R.id.new_more)
+//        newMore.setOnClickListener {
+//            openProductList("NEW_ARRIVAL")
+//        }
+//        val allMore = view.findViewById<TextView>(R.id.all_seeMore)
+//        allMore.setOnClickListener {
+//            openProductList("ALL")
+//        }
+
+        binding.profile.setOnClickListener {
+            showFilterBottomSheet()
         }
     }
 

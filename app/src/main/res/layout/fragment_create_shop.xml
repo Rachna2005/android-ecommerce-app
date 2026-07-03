@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F6F7F9"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F6F7F9">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,11 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
+
             <ImageView
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_back" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,14 +27,14 @@
                 android:text="Become a Seller"
                 android:textColor="@color/primary"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </com.google.android.material.appbar.MaterialToolbar>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
-            android:layout_marginBottom="20dp"
-            >
+            android:layout_marginBottom="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +49,7 @@
                     android:text="Create Your Shop"
                     android:textColor="@color/primary"
                     android:textSize="30sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -58,14 +61,14 @@
                     android:id="@+id/inputContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/subTitle"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_rounded_bg"
                     android:orientation="vertical"
-                    android:layout_below="@id/subTitle"
                     android:padding="30dp"
-                    android:layout_marginBottom="20dp"
 
                     >
 
@@ -73,11 +76,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Shop Logo"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
                         android:letterSpacing="0.1"
-                        android:fontFamily="@font/manrope_bold" />
+
+                        android:text="Shop Logo"
+                        android:textSize="11sp"
+                        app:fontFamily="@font/manrope_bold" />
 
 
                     <!--                <LinearLayout-->
@@ -110,9 +113,8 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:background="@drawable/bg_dashed_border"
                         android:layout_marginTop="15dp"
-                        >
+                        android:background="@drawable/bg_dashed_border">
 
                         <ImageView
                             android:id="@+id/shopLogo"
@@ -154,42 +156,39 @@
                     </FrameLayout>
 
 
-
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Shop Name"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:letterSpacing="0.1"
                         android:layout_marginTop="20dp"
-                        android:fontFamily="@font/manrope_bold" />
+                        android:letterSpacing="0.1"
+                        android:text="Shop Name"
+                        android:textSize="11sp"
+                        app:fontFamily="@font/manrope_bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         app:boxBackgroundColor="#F8F9FA"
-                        app:boxCornerRadiusTopStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
                         app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
                         app:startIconDrawable="@drawable/ic_shop"
-                        app:startIconTint="#CCCCCC"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        app:startIconTint="#CCCCCC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/inputName"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Enter your your shop name"
-                            android:textColorHint="#CCCCCC"
-                            android:inputType="textCapWords"
                             android:background="@null"
-                            android:paddingStart="60dp"/>
+                            android:hint="Enter your your shop name"
+                            android:inputType="textCapWords"
+                            android:paddingStart="60dp"
+                            android:textColorHint="#CCCCCC" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,46 +196,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Shop Description"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+
+                            android:text="Shop Description"
+                            android:textSize="11sp"
+                            app:fontFamily="@font/manrope_bold" />
 
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         app:boxBackgroundColor="#F8F9FA"
-                        app:boxCornerRadiusTopStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
                         app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-                        app:startIconTint="#CCCCCC"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        app:startIconTint="#CCCCCC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/inputShopDescription"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:gravity="top|start"
                             android:hint="Tell customers about your shop"
                             android:inputType="textMultiLine"
-                            android:minLines="4"
                             android:maxLines="6"
-                            android:gravity="top|start"
-                            android:textColorHint="#CCCCCC"
-                            android:background="@null" />
+                            android:minLines="4"
+                            android:textColorHint="#CCCCCC" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -244,47 +243,47 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="phone number"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+
+                            android:text="phone number"
+                            android:textSize="11sp"
+                            app:fontFamily="@font/manrope_bold" />
 
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         app:boxBackgroundColor="#F8F9FA"
-                        app:boxCornerRadiusTopStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
                         app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-                        app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="#CCCCCC"
-
                         app:endIconTint="#CCCCCC"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="#CCCCCC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/inputPhone"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Phone Number"
-                            android:textColorHint="#CCCCCC"
-                            android:inputType="phone"
                             android:background="@null"
-                            android:paddingStart="60dp"/>
+                            android:hint="Phone Number"
+                            android:inputType="phone"
+                            android:paddingStart="60dp"
+                            android:textColorHint="#CCCCCC" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -292,46 +291,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Shop Address"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+
+                            android:text="Shop Address"
+                            android:textSize="11sp"
+                            app:fontFamily="@font/manrope_bold" />
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         app:boxBackgroundColor="#F8F9FA"
-                        app:boxCornerRadiusTopStart="14dp"
-                        app:boxCornerRadiusTopEnd="14dp"
-                        app:boxCornerRadiusBottomStart="14dp"
                         app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
-                        app:startIconDrawable="@drawable/ic_location"
-                        app:startIconTint="#CCCCCC"
-
                         app:endIconTint="#CCCCCC"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="#CCCCCC">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/inputLocation"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Your shop location"
-                            android:textColorHint="#CCCCCC"
-                            android:inputType="textPostalAddress"
                             android:background="@null"
-                            android:paddingStart="60dp"/>
+                            android:hint="Your shop location"
+                            android:inputType="textPostalAddress"
+                            android:paddingStart="60dp"
+                            android:textColorHint="#CCCCCC" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -341,11 +340,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_marginTop="28dp"
+                        android:backgroundTint="@color/primary"
+                        android:fontFamily="@font/manrope_bold"
                         android:text="Create Account"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
-                        android:fontFamily="@font/manrope_bold"
-                        android:backgroundTint="@color/primary"
                         app:cornerRadius="30dp" />
 
                 </LinearLayout>
@@ -353,12 +352,11 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
                     android:layout_below="@id/inputContainer"
                     android:layout_centerHorizontal="true"
-                    >
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -370,17 +368,16 @@
                         android:id="@+id/signIn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="40dp"
                         android:text="Log In"
                         android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="40dp"
-                        />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
-
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"

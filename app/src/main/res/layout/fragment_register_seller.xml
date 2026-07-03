@@ -58,12 +58,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="40dp"
                     android:background="@drawable/bg_rounded_bg"
                     android:orientation="vertical"
                     android:layout_below="@id/subTitle"
                     android:padding="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
 
                     >
 
@@ -72,10 +72,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FULL NAME"
-                        android:textColor="#767683"
                         android:textSize="11sp"
                         android:letterSpacing="0.1"
-                        android:fontFamily="@font/manrope_bold" />
+                        app:fontFamily="@font/manrope_bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -117,10 +116,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="EMAIL ADDRESS"
-                            android:textColor="#767683"
                             android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+                            app:fontFamily="@font/manrope_bold" />
 
                     </LinearLayout>
 
@@ -165,10 +163,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="PASSWORD"
-                            android:textColor="#767683"
                             android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+                            app:fontFamily="@font/manrope_bold" />
 
                     </LinearLayout>
 
@@ -213,10 +210,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="CONFIRM PASSWORD"
-                            android:textColor="#767683"
                             android:textSize="11sp"
                             android:letterSpacing="0.1"
-                            android:fontFamily="@font/manrope_bold" />
+                            app:fontFamily="@font/manrope_bold" />
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -285,7 +281,6 @@
                         android:text="Log In"
                         android:textColor="@color/primary"
                         android:textStyle="bold"
-
                         />
                 </LinearLayout>
                 <TextView

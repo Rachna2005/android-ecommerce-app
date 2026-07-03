@@ -331,7 +331,7 @@
                             android:background="@drawable/bg_card_white_rounded"
                             android:backgroundTint="#F5F6FA"
                             android:gravity="top|start"
-                            android:hint="Describe the craftsmanship, materials, and fit..."
+                            android:hint="Describe your product..."
                             android:inputType="textMultiLine"
                             android:paddingStart="14dp"
                             android:paddingTop="12dp"

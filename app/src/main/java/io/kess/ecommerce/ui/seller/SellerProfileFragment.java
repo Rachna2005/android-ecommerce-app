@@ -119,6 +119,9 @@ public class SellerProfileFragment extends Fragment {
         binding.shopInfo.setOnClickListener(v -> {
             ((ShopActivity) getActivity()).navigate(new EditShopInfoFragment());
         });
+        binding.btnLogout.setOnClickListener(v -> {
+            authViewModel.logout();
+        });
     }
 
     public void onDestroyView(){

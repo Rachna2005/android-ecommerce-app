@@ -14,40 +14,40 @@
             android:id="@+id/profileContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_rounded_bg"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:paddingBottom="20dp"
+            android:background="@drawable/bg_rounded_bg"
+            android:orientation="vertical"
             android:paddingTop="20dp"
-            >
+            android:paddingBottom="20dp">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/img_profile_avata"
-                app:shapeAppearanceOverlay="@style/CircleImage"
                 android:layout_gravity="center"
-                />
+                android:src="@drawable/img_profile_avata"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
             <TextView
                 android:id="@+id/shopName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/manrope_bold"
                 android:text="Julian Alexander"
                 android:textColor="@color/primary"
-                android:layout_gravity="center_horizontal"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                app:fontFamily="@font/manrope_bold" />
+
             <TextView
                 android:id="@+id/u_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-             android:layout_gravity="center"
                 android:text="Julian Alexander"
                 android:textSize="15sp" />
 
@@ -61,24 +61,6 @@
                 android:textColor="#999999"
                 android:textSize="13sp" />
         </LinearLayout>
-
-<!--        <TextView-->
-<!--            android:id="@+id/luxMember"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/u_name"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:background="@drawable/bg_rounded_border"-->
-
-<!--            android:padding="5dp"-->
-<!--            android:text="SHOPIX MEMBER"-->
-<!--            android:textColor="@color/secondary"-->
-<!--            android:textSize="10dp"-->
-
-<!--            />-->
-
-
 
         <LinearLayout
             android:id="@+id/menuCard"
@@ -118,14 +100,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
                         android:text="Edit Shop Info"
                         android:textColor="@color/primary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/manrope_bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Track, return, or buy again"
+                        android:text="Update your shop name  and description"
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
@@ -135,8 +118,7 @@
                     android:id="@+id/shopInfo"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_chevron_right"
-                    />
+                    android:src="@drawable/ic_chevron_right" />
 
             </LinearLayout>
 
@@ -147,7 +129,6 @@
                 android:layout_marginEnd="16dp"
                 android:background="#F0F0F5" />
 
-            <!-- Wishlist -->
             <LinearLayout
                 android:id="@+id/wishlist"
                 android:layout_width="match_parent"
@@ -174,10 +155,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
                         android:text="Update Logo"
                         android:textColor="@color/primary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/manrope_bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -195,6 +176,7 @@
                     android:src="@drawable/ic_chevron_right" />
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -227,15 +209,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
-                        android:text="Manage Shop Adding Address"
+                        android:text="Manage Shop Address"
                         android:textColor="@color/primary"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/manrope_bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Adding your location and phone number"
+                        android:text="Update shop address and contact number"
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
@@ -248,58 +230,6 @@
                     android:src="@drawable/ic_chevron_right" />
 
             </LinearLayout>
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:background="#F0F0F5" />-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/setting"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:padding="16dp">-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:background="@drawable/bg_icon_rounded"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:src="@drawable/ic_setting" />-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:fontFamily="@font/manrope_bold"-->
-<!--                        android:text="Settings"-->
-<!--                        android:textColor="@color/primary"-->
-<!--                        android:textSize="14sp" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Preferences, security &amp; privacy"-->
-<!--                        android:textColor="#999999"-->
-<!--                        android:textSize="12sp" />-->
-
-<!--                </LinearLayout>-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/settings"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:src="@drawable/ic_chevron_right"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton

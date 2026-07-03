@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.ProductDetail
+import io.kess.ecommerce.model.ProductFilter
 import io.kess.ecommerce.model.ProductVariant
 import io.kess.ecommerce.repository.ProductRepository
 import io.kess.ecommerce.util.UiState
@@ -29,17 +30,51 @@ class ProductViewModel : ViewModel() {
     val actionState: LiveData<UiState<String>> =
         _actionState
 
-    fun clearState(){
+    private val _isLoadingMore = MutableLiveData(false)
+    val isLoadingMore: LiveData<Boolean> = _isLoadingMore
+    var isLastPage = false
+
+    //    var isLoading = false
+    private var currentFilter = ProductFilter()
+    fun getCurrentFilter() = currentFilter
+
+    fun clearState() {
         _actionState.value = UiState.Idle
+
     }
-    fun loadAllProducts() {
-        _products.value = UiState.Loading
-        repository.getProduct(onResult = { data ->
-            _products.value = UiState.Success(data)
-        }, onFailure = { e ->
-            Log.d("GET_ALL_PRODUCT", e.message.toString())
-            _products.value = UiState.Error(e.message.toString())
-        })
+
+    fun loadAllProducts(
+        isRefresh: Boolean = false,
+        limit: Int,
+        filter: ProductFilter = ProductFilter()
+    ) {
+        currentFilter = filter
+        if (isRefresh) {
+            _products.value = UiState.Loading
+            isLastPage = false
+//            isLoading = false
+        } else {
+            _isLoadingMore.value = true
+        }
+        if (isLastPage) return
+//        isLoading = true
+        repository.getProduct(
+            isRefresh = isRefresh,
+            limit = limit,
+            filter = filter,
+            onResult = { data, lastPage ->
+//            isLoading = false
+                isLastPage = lastPage
+                _isLoadingMore.value = false
+                val current = (_products.value as? UiState.Success)?.data ?: emptyList()
+                val newList = if (isRefresh) data else current + data
+                _products.value = UiState.Success(newList)
+            },
+            onFailure = { e ->
+                _isLoadingMore.value = false
+//            isLoading = false
+                _products.value = UiState.Error(e.message.toString())
+            })
     }
 
     fun getProductDetail(productId: String) {
@@ -48,7 +83,6 @@ class ProductViewModel : ViewModel() {
             productId = productId,
             onResult = { data -> _productDetail.value = UiState.Success(data) },
             onFailure = { e ->
-                Log.d("Get_All_Product", e.message.toString())
                 _productDetail.value = UiState.Error(e.message.toString())
             })
     }
@@ -81,6 +115,7 @@ class ProductViewModel : ViewModel() {
             }
         )
     }
+
     fun addProduct(
         product: Product
     ) {

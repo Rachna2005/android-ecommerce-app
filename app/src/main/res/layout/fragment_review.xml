@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#F6F7F9">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,23 +11,26 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:elevation="0dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            app:title="Add Review"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:titleTextColor="@color/black">
+            android:background="@color/white">
 
             <ImageView
-                android:id="@+id/btn_close"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="end|center_vertical"
-                android:src="@drawable/ic_close_small" />
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Write a Review"
+                android:textColor="@color/primary"
+                android:textSize="18sp" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -186,7 +189,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:boxBackgroundColor="#F8F9FA"
+                    app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"

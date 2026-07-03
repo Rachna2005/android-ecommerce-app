@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="Color"
                 android:textSize="13sp"
-                android:textColor="#666666"
+                app:fontFamily="@font/manrope_bold"
                 android:layout_marginBottom="6dp" />
 
             <EditText
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="Size"
                 android:textSize="13sp"
-                android:textColor="#666666"
+                app:fontFamily="@font/manrope_bold"
                 android:layout_marginBottom="6dp" />
 
             <LinearLayout
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:text="Stock"
                 android:textSize="13sp"
-                android:textColor="#666666"
+            app:fontFamily="@font/manrope_bold"
                 android:layout_marginBottom="6dp" />
 
             <LinearLayout

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F6F7F9"
     android:orientation="vertical">
     <com.google.android.material.appbar.MaterialToolbar
@@ -20,7 +21,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:text="Wishlist"
             android:textColor="@color/primary"

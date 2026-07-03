@@ -22,15 +22,18 @@
             <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             <!--            </intent-filter>-->
         </activity>
-        <activity
-            android:name=".test.HomeTestActivity"
-            android:exported="false">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
 
-        </activity> <!-- <activity -->
+<!--        <activity-->
+<!--            android:name=".test.HomeTestActivity"-->
+<!--            android:exported="false">-->
+<!--            &lt;!&ndash;            <intent-filter>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+<!--            &lt;!&ndash;                <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+<!--            &lt;!&ndash;            </intent-filter>&ndash;&gt;-->
+
+<!--        </activity> -->
+
+        <!-- <activity -->
         <!-- android:name=".ui.CategoryActivity" -->
         <!-- android:exported="false"> -->
         <!-- <intent-filter> -->
@@ -56,10 +59,10 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:exported="false">
-            <!--                        <intent-filter>-->
-            <!--                            <action android:name="android.intent.action.MAIN" />-->
-            <!--                            <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--                        </intent-filter>-->
+            <!--                                    <intent-filter>-->
+            <!--                                        <action android:name="android.intent.action.MAIN" />-->
+            <!--                                        <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--                                    </intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.RegisterActivity"
@@ -83,21 +86,25 @@
 
             <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             <!--            </intent-filter>-->
-        </activity> <!-- <activity -->
-        <!-- android:name=".TestActivity" -->
-        <!-- android:exported="false"> -->
-        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
-        <!-- &lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt; -->
-        <!-- &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt; -->
-        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
-        <!-- </activity> -->
+        </activity>
+
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".TestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="false">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
     </application>
 

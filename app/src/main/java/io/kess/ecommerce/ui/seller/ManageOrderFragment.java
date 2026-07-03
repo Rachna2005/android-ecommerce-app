@@ -20,9 +20,10 @@ import io.kess.ecommerce.model.Order;
 import io.kess.ecommerce.model.Product;
 import io.kess.ecommerce.model.Shop;
 import io.kess.ecommerce.ui.SellerProductDetailFragment;
-import io.kess.ecommerce.ui.adapter.ManageProductAdapter;
-import io.kess.ecommerce.ui.adapter.OrderItemAdapter;
+import io.kess.ecommerce.ui.adapter.OrderAdapter;
+
 import io.kess.ecommerce.util.UiState;
+
 import io.kess.ecommerce.view_model.OrderViewModel;
 import io.kess.ecommerce.view_model.ProductViewModel;
 import io.kess.ecommerce.view_model.ShopViewModel;
@@ -34,13 +35,12 @@ public class ManageOrderFragment extends Fragment {
     private OrderViewModel orderViewModel;
     private ProductViewModel productViewModel;
     private ShopViewModel shopViewModel;
-    private OrderItemAdapter orderAdapter;
+    private OrderAdapter orderAdapter;
     private String shopId;
 
     public ManageOrderFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,59 +64,42 @@ public class ManageOrderFragment extends Fragment {
         setupRecyclerView();
         observeData();
     }
+
     private void initViewModel() {
         orderViewModel = new ViewModelProvider((requireActivity())).get(OrderViewModel.class);
         shopViewModel = new ViewModelProvider((requireActivity())).get(ShopViewModel.class);
         productViewModel = new ViewModelProvider((requireActivity())).get(ProductViewModel.class);
     }
+
     private void setupClickListener() {
 //        binding.createProduct.setOnClickListener(v -> {
 //            ((ShopActivity) getActivity()).navigate(new CreateProductFragment());
 //        });
-        binding.addProduct.setOnClickListener(v -> {
-            ((ShopActivity) getActivity()).navigate(new CreateProductFragment());
-        });
     }
 
     private void setupRecyclerView() {
-//        orderAdapter = new OrderItemAdapter(
-//                new Function1<Order, Unit>() {
-//                    @Override
-//                    public Unit invoke(Order order) {
-////                        openOrderDetail(order);
-//                        return Unit.INSTANCE;
-//                    }
-//                },
-//                new Function1<Order, Unit>() {
-//                    @Override
-//                    public Unit invoke(Order order) {
-//
-//                        return Unit.INSTANCE;
-//                    }
-//                }
-//        );
+        orderAdapter = new OrderAdapter(
+                new Function1<Order, Unit>() {
+                    @Override
+                    public Unit invoke(Order order) {
+                        openOrderDetail(order);
+                        return Unit.INSTANCE;
+                    }
+                }
+        );
 
         binding.recyclerView.setLayoutManager(
                 new LinearLayoutManager(requireContext())
         );
         binding.recyclerView.setAdapter(orderAdapter);
     }
-
-//    private void openEditProduct(Product product) {
-//        CreateProductFragment fragment = new CreateProductFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("Product_Id", product.getId());
-//        fragment.setArguments(bundle);
-//        ((ShopActivity) requireActivity()).navigate(fragment);
-//    }
-
-//    private void openProductDetail(Product product) {
-//        SellerProductDetailFragment fragment = new SellerProductDetailFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("ID", product.getId());
-//        fragment.setArguments(bundle);
-//        ((ShopActivity) requireActivity()).navigate(fragment);
-//    }
+    private void openOrderDetail(Order order) {
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("ID", order.getId());
+        fragment.setArguments(bundle);
+        ((ShopActivity) requireActivity()).navigate(fragment);
+    }
 
     private void observeData() {
         shopViewModel.getShopState().observe(getViewLifecycleOwner(), new Observer<UiState<Shop>>() {
@@ -126,7 +109,7 @@ public class ManageOrderFragment extends Fragment {
                 } else if (state instanceof UiState.Success) {
                     Shop shop = ((UiState.Success<Shop>) state).getData();
                     shopId = shop.getId();
-                    productViewModel.observeProductsByShop(shopId);
+                    orderViewModel.getOrderByShop(shopId);
                 } else if (state instanceof UiState.Error) {
                     String msg = ((UiState.Error) state).getMessage();
                     Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
@@ -134,9 +117,9 @@ public class ManageOrderFragment extends Fragment {
             }
         });
 
-        productViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<UiState<List<Product>>>() {
+        orderViewModel.getOrders().observe(getViewLifecycleOwner(), new Observer<UiState<List<Order>>>() {
             @Override
-            public void onChanged(UiState<List<Product>> state) {
+            public void onChanged(UiState<List<Order>> state) {
 
                 if (state instanceof UiState.Loading) {
                     binding.progressBar.setVisibility(View.VISIBLE);
@@ -145,11 +128,11 @@ public class ManageOrderFragment extends Fragment {
 
                 } else if (state instanceof UiState.Success) {
 
-                    UiState.Success<List<Product>> success = (UiState.Success<List<Product>>) state;
-                    List<Product> products = success.getData();
-//                    orderAdapter.submitList();
+                    UiState.Success<List<Order>> success = (UiState.Success<List<Order>>) state;
+                    List<Order> orders = success.getData();
+                    orderAdapter.submitList(orders);
                     binding.progressBar.setVisibility(View.GONE);
-                    if (products == null || products.isEmpty()) {
+                    if (orders == null || orders.isEmpty()) {
                         binding.layoutEmptyProduct.setVisibility(View.VISIBLE);
                         binding.search.setVisibility(View.GONE);
                     }
@@ -165,7 +148,7 @@ public class ManageOrderFragment extends Fragment {
         });
     }
 
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }

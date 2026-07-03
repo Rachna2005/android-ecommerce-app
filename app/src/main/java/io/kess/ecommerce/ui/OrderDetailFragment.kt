@@ -52,6 +52,7 @@ class OrderDetailFragment : Fragment() {
 
     private fun initViewModel() {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        orderId?.let { orderViewModel.getOrderDetail(it) }
     }
 
     private fun observeData() {

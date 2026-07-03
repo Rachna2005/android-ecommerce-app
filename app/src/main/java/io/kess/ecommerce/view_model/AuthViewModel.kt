@@ -23,8 +23,15 @@ class AuthViewModel : ViewModel() {
     private val repository = AuthRepository()
     private val _authState = MutableLiveData<UiState<User>>()
     val authState: LiveData<UiState<User>> = _authState
-//    private val _userId = MutableLiveData<String?>()
+
+    //    private val _userId = MutableLiveData<String?>()
 //    val userId: LiveData<String?> = _userId
+    private val _actionState = MutableLiveData<UiState<User>>()
+    val actionState: LiveData<UiState<User>> = _actionState
+
+    fun clearState() {
+        _actionState.value = UiState.Idle
+    }
 
     fun register(name: String, email: String, password: String, role: UserRole) {
 
@@ -46,6 +53,7 @@ class AuthViewModel : ViewModel() {
             }
         )
     }
+
     fun login(email: String, password: String) {
 
         _authState.value = UiState.Loading
@@ -125,7 +133,10 @@ class AuthViewModel : ViewModel() {
     }
 
     fun logout() {
-        repository.logout()
+        _actionState.value = UiState.Loading
+        repository.logout(onSuccess = {
+
+        }, onFailure = {})
     }
 
 }

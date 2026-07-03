@@ -12,4 +12,26 @@
         <item name="shapeAppearance">@null</item>
     </style>
 
+    <style name="AppTextViewStyle">
+        <item name="fontFamily">@font/manrope_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppButtonStyle" parent="Widget.Material3.Button">
+        <item name="fontFamily">@font/manrope_medium</item>
+    </style>
+
+    <style name="AppEditTextStyle" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:fontFamily">@font/manrope_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTextInputLayoutStyle" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <item name="hintTextAppearance">@font/manrope_medium</item>
+
+<!--        <item name="hintTextColor">@color/text_secondary</item>-->
+
+    </style>
+
 </resources>

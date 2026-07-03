@@ -5,110 +5,63 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/mainTitle"
+        android:src="@drawable/ic_bag_check"
+        />
+    <!--    <com.google.android.material.imageview.ShapeableImageView-->
+    <!--        android:id="@+id/profile"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_marginTop="25dp"-->
+    <!--        android:src="@drawable/img_splash_screen"-->
+    <!--        app:shapeAppearanceOverlay="@style/CircleImage"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/mainTitle"-->
+    <!--        />-->
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope"
+        android:text="SHOPIX"
+        android:textColor="@color/primary"
+        android:textSize="50dp"
+
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/img_app_logo"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Everything you need at your fingertips."
-            android:textColor="@color/primary"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
+    <!--    <View-->
+    <!--        android:id="@+id/line"-->
+    <!--        android:layout_width="30dp"-->
+    <!--        android:layout_height="2dp"-->
+    <!--        android:background="@color/white"-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/mainTitle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/manrope"-->
-<!--        android:text="SHOPIX"-->
-<!--        android:textColor="@color/primary"-->
-<!--        android:textSize="50dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/mainTitle" />-->
 
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-
-<!--        />-->
-
-<!--    <View-->
-<!--        android:id="@+id/line"-->
-<!--        android:layout_width="30dp"-->
-<!--        android:layout_height="2dp"-->
-<!--        android:background="@color/secondary"-->
-
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/mainTitle" />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="ELEGANCE  DEFINED"-->
-<!--        android:textColor="@color/primary"-->
-
-<!--        app:layout_constraintBottom_toTopOf="@id/mainTitle"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="The world's most exclusive"-->
-<!--        android:textColor="@color/primary"-->
-<!--        android:paddingTop="10dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/line"-->
-
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="marketplace at your fingertips."-->
-<!--        android:textColor="@color/primary"-->
-<!--        android:paddingTop="5dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/text" />-->
-
-    <!--<com.beardedhen.androidbootstrap.BootstrapProgressBar-->
-    <!--    android:layout_width="200dp"-->
-    <!--    android:layout_height="3dp"-->
-    <!--   app:layout_constraintBottom_toTopOf="@id/loading"-->
-    <!--    app:layout_constraintStart_toStartOf="parent"-->
-    <!--    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--    android:layout_marginBottom="10dp"-->
-    <!--    />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/loading"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Loading..."-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:textColor="@color/primary"-->
-<!--        android:textSize="15sp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/loading"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="40dp"-->
+    <!--        android:text="Loading..."-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="15sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

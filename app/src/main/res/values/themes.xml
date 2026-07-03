@@ -3,17 +3,25 @@
     <style name="Base.Theme.ECommerce" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="android:progressBarStyle">@style/Widget.AppCompat.ProgressBar</item>
         <item name="progressBarStyle">@style/Widget.AppCompat.ProgressBar</item>
     </style>
 
     <style name="Theme.ECommerce" parent="Base.Theme.ECommerce" />
+
     <style name="CircleImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+
     <style name="Theme.MyApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:fontFamily"> @font/manrope</item>
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+        <item name="materialButtonStyle">@style/AppButtonStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
+        <item name="textInputStyle">@style/AppTextInputLayoutStyle</item>
     </style>
+
 </resources>

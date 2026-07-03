@@ -1,3 +1,5 @@
+package io.kess.ecommerce.ui.adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

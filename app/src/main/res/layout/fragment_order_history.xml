@@ -22,7 +22,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:text="Order History"
             android:textColor="@color/primary"

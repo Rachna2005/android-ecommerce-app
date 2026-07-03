@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:paddingLeft="140dp"
             android:text="SHOPIX"
             android:textColor="@color/primary"
@@ -27,22 +27,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:text="Skip"
             android:layout_marginEnd="20dp"
-            android:textColor="@color/secondary"
+            android:textColor="@color/primary"
             />
     </com.google.android.material.appbar.MaterialToolbar>
 
-<!--    <ImageView-->
-<!--        android:id="@+id/image"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/toolbar"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:src="@drawable/img_mage1"-->
-<!--        android:background="@drawable/bg_rounded_bg"-->
-<!--       />-->
 
     <FrameLayout
         android:id="@+id/imageContainer"
@@ -56,9 +47,9 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/img_mage1"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/img_image1"
             android:padding="8dp"
             android:layout_gravity="center"/>
 
@@ -82,8 +73,8 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
-            android:text="Secure Payments"
+            app:fontFamily="@font/manrope_bold"
+            android:text="Shop with Confidence"
             android:textColor="@color/primary"
             android:textSize="30sp" />
 
@@ -93,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="Shop with absolute peace of mind using our encrypted and secure payment gateways."
+            android:text="Enjoy a simple and convenient shopping experience from browsing to placing your order"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -134,6 +125,7 @@
                 android:layout_marginStart="4dp"
                 android:text="Sign In"
                 android:textColor="@color/primary"
+                app:fontFamily="@font/manrope_bold"
                 android:textSize="13sp"
                  />
 

@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadData(){
         favoriteViewModel.loadFavorite()
         cartViewModel.loadCart()
-        productViewModel.loadAllProducts()
+//        productViewModel.loadAllProducts()
         categoryViewModel.loadCategories()
         userViewModel.getUser()
         shopViewModel.getAllShops()

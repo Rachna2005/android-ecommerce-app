@@ -3,27 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F7F9"
-    >
+    android:background="#F6F7F9">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/manrope_bold"
+                app:fontFamily="@font/manrope_bold"
                 android:gravity="center"
                 android:text="SHOPIX"
                 android:textColor="@color/primary"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textSize="18sp" />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView
@@ -32,12 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar"
             android:layout_centerInParent="true"
-            android:textStyle="bold"
+            app:fontFamily="@font/manrope_bold"
             android:text="Welcome Back"
             android:textColor="@color/primary"
             android:textSize="30sp"
-            android:layout_marginTop="70dp"
-            />
+            android:layout_marginTop="70dp" />
 
         <TextView
             android:id="@+id/subTitle"
@@ -45,7 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_centerInParent="true"
-            android:text="Step back into the world of luxury." />
+            android:fontFamily="@font/manrope_medium"
+            android:text="Log In to continue shopping with Shopix"
+
+            />
 
         <LinearLayout
             android:id="@+id/inputContainer"
@@ -67,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="EMAIL ADDRESS"
-                android:textColor="#767683"
+
                 android:textSize="11sp"
                 android:letterSpacing="0.1"
                 android:fontFamily="@font/manrope_bold" />
@@ -92,10 +93,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:hint="name@example.com"
+
                     android:textColorHint="#CCCCCC"
                     android:inputType="textEmailAddress"
                     android:background="@null"
-                    android:paddingStart="60dp"/>
+                    android:paddingStart="60dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +114,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="PASSWORD"
-                    android:textColor="#767683"
                     android:textSize="11sp"
                     android:letterSpacing="0.1"
                     android:fontFamily="@font/manrope_bold" />
@@ -122,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Forgot?"
-                    android:textColor="@color/secondary"
+                    android:textColor="@color/primary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -152,7 +153,7 @@
                     android:textColorHint="#CCCCCC"
                     android:inputType="textPassword"
                     android:background="@null"
-                    android:paddingStart="60dp"/>
+                    android:paddingStart="60dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,8 +179,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_below="@id/inputContainer"
-            android:layout_centerHorizontal="true"
-            >
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -193,12 +193,13 @@
                 android:layout_height="wrap_content"
                 android:text="Register"
                 android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_marginBottom="50dp"
-                />
+                app:fontFamily="@font/manrope_bold"
+                android:layout_marginBottom="50dp" />
+
         </LinearLayout>
 
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"

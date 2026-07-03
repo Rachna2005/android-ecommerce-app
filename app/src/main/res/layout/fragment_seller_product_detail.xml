@@ -21,7 +21,7 @@
             android:id="@+id/mainProductTitle"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:maxLines="1"
             android:text=""
@@ -127,11 +127,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/manrope_bold"
+                app:fontFamily="@font/manrope_bold"
                 android:paddingLeft="20dp"
                 android:text="Color"
                 android:textColor="@color/primary"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerColor"
@@ -143,12 +143,12 @@
                 android:id="@+id/caseSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/manrope_bold"
+                app:fontFamily="@font/manrope_bold"
                 android:paddingLeft="20dp"
                 android:paddingBottom="10dp"
                 android:text="Case Size"
                 android:textColor="@color/primary"
-                android:textSize="20dp" />
+                android:textSize="18dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerSize"
@@ -168,10 +168,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/manrope_bold"
+                    app:fontFamily="@font/manrope_bold"
                     android:text="Descriptions"
                     android:textColor="@color/primary"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -206,10 +206,10 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_bold"
+                    app:fontFamily="@font/manrope_bold"
                     android:text="User Reviews"
                     android:textColor="@color/primary"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
 
             </LinearLayout>

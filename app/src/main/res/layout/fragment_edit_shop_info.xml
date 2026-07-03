@@ -123,10 +123,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
+                        app:fontFamily="@font/manrope_bold"
                         android:letterSpacing="0.1"
                         android:text="Shop Name"
-                        android:textColor="@color/black"
 
                         android:textSize="11sp" />
 
@@ -168,7 +167,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
+                            app:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="Shop Description"
                             android:textColor="@color/black"
@@ -215,7 +214,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
+                            app:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="phone number"
                             android:textColor="@color/black"
@@ -263,10 +262,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/manrope_bold"
+                            app:fontFamily="@font/manrope_bold"
                             android:letterSpacing="0.1"
                             android:text="Shop Address"
-                            android:textColor="@color/black"
+
                             android:textSize="11sp" />
                     </LinearLayout>
 

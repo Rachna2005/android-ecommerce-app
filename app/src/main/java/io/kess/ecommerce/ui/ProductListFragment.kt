@@ -58,7 +58,7 @@ class ProductListFragment : Fragment() {
         setupSearch()
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
     }
@@ -80,15 +80,15 @@ class ProductListFragment : Fragment() {
     private fun setupRecyclerView() {
         productAdapter = when (type) {
             "DISCOUNT" -> {
-                ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
+                ProductAdapter(emptySet(), loadingFavorite = emptySet(), { product ->
                     favoriteViewModel.toggleFavorite(product.id)
-                }, {product -> openProductDetail(product.id)})
+                }, { product -> openProductDetail(product.id) })
             }
 
             else -> {
-                ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
+                ProductAdapter(emptySet(), loadingFavorite = emptySet(), { product ->
                     favoriteViewModel.toggleFavorite(product.id)
-                }, {product -> openProductDetail(product.id)})
+                }, { product -> openProductDetail(product.id) })
             }
         }
         binding.listProduct.apply {
@@ -97,7 +97,7 @@ class ProductListFragment : Fragment() {
         }
     }
 
-    private fun openProductDetail(productId: String){
+    private fun openProductDetail(productId: String) {
         val fragment = ProductDetailFragment().apply {
             arguments = Bundle().apply {
                 putString("ID", productId)
@@ -106,13 +106,14 @@ class ProductListFragment : Fragment() {
         (activity as MainActivity).navigate(fragment)
     }
 
-    private fun loadProduct(){
-        when (type){
+    private fun loadProduct() {
+        when (type) {
             "CATEGORY" -> {
-                categoryId?.let{viewModel.categoryProduct(it)}
+                categoryId?.let { viewModel.categoryProduct(it) }
             }
+
             else -> {
-                viewModel.loadAllProducts()
+//                viewModel.loadAllProducts()
             }
         }
     }
@@ -144,6 +145,7 @@ class ProductListFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 is UiState.Idle -> {}
             }
         }
@@ -152,7 +154,7 @@ class ProductListFragment : Fragment() {
             favoriteSet = favorites
             updateUi(productList, favoriteSet)
         }
-        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner) {
             productAdapter.updateLoadingFavorite(it)
         }
     }
@@ -163,6 +165,7 @@ class ProductListFragment : Fragment() {
                 binding.title.text = arguments?.getString("CATEGORY_NAME") ?: "Category"
                 products
             }
+
             "DISCOUNT" -> {
                 binding.title.text = "Discount Products"
                 products.filter { (it.discountPercentage ?: 0.0) > 0 }
@@ -182,7 +185,10 @@ class ProductListFragment : Fragment() {
                 binding.title.text = "My Wishlist"
                 binding.filterContainer.visibility = View.GONE
                 binding.searchContainer.visibility = View.GONE
-                products.filter { favorite.contains(it.id) }
+                val favoriteProduct = products.filter { favorite.contains(it.id) }
+                binding.layoutEmptyCart.visibility =
+                    if (favoriteProduct.isEmpty()) View.VISIBLE else View.GONE
+                favoriteProduct
             }
 
             else -> {
@@ -200,7 +206,7 @@ class ProductListFragment : Fragment() {
         }
         binding.btnCart.setOnClickListener {
             parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            (activity as MainActivity).selectBottomNav( R.id.nav_cart)
+            (activity as MainActivity).selectBottomNav(R.id.nav_cart)
         }
     }
 

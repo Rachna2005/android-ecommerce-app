@@ -22,7 +22,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:text="SHOPIX"
             android:textColor="@color/primary"
@@ -40,174 +40,272 @@
             app:tint="@color/primary" />
     </com.google.android.material.appbar.MaterialToolbar>
 
+<!--    <LinearLayout-->
+<!--        android:id="@+id/searchContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:background="@drawable/bg_search_bar"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingStart="16dp"-->
+<!--        android:paddingEnd="16dp">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/search"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@null"-->
+<!--            android:hint="Search Product..."-->
+
+<!--            android:inputType="text"-->
+<!--            android:minHeight="48dp"-->
+<!--            android:singleLine="true"-->
+<!--            android:textColor="#1A1A2E"-->
+<!--            android:textSize="15sp" />-->
+
+<!--    </LinearLayout>-->
+
     <LinearLayout
-        android:id="@+id/searchContainer"
+        android:id="@+id/searchSection"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_search_bar"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_below="@id/appBar"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <EditText
-            android:id="@+id/search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="Search Product..."
-
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:singleLine="true"
-            android:textColor="#1A1A2E"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <HorizontalScrollView
-        android:id="@+id/filterContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal">
+            android:id="@+id/searchContainer"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_bar"
+            android:backgroundTint="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-            <LinearLayout
-                android:id="@+id/chip_category"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_chip_outline"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="14dp">
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Search Product..."
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#1A1A2E"
+                android:textSize="15sp"
+                android:drawableEnd="@drawable/ic_search"/>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search"/>
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Category"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+        <View
+            android:layout_width="12dp"
+            android:layout_height="match_parent" />
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_chevron_down" />
+        <LinearLayout
+            android:id="@+id/filterContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/bg_icon_rounded"
+            android:backgroundTint="@color/white">
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/chip_price"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_chip_outline"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Price"
-                    android:textColor="@color/black"
-
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_chevron_down" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/chip_color"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_chip_outline"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Color"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_chevron_down" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/chip_size"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_chip_outline"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="Size"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/ic_chevron_down" />
-
-            </LinearLayout>
-
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_filter_svgrepo"
+                app:tint="@color/primary"/>
 
         </LinearLayout>
 
-    </HorizontalScrollView>
+    </LinearLayout>
 
- <FrameLayout
-     android:layout_width="match_parent"
-     android:layout_height="match_parent">
-     <androidx.recyclerview.widget.RecyclerView
-         android:id="@+id/listProduct"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
 
-         android:layout_marginTop="10dp"
-         />
-     <ProgressBar
-         android:id="@+id/progressBar"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center"
-         android:visibility="gone"/>
- </FrameLayout>
+<!--    <HorizontalScrollView-->
+<!--        android:id="@+id/filterContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/chip_category"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@drawable/bg_chip_outline"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="18dp"-->
+<!--                android:paddingEnd="14dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="6dp"-->
+<!--                    android:text="Category"-->
+<!--                    android:textSize="14sp" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="10dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:src="@drawable/ic_chevron_down" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/chip_price"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@drawable/bg_chip_outline"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="18dp"-->
+<!--                android:paddingEnd="14dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="6dp"-->
+<!--                    android:text="Price"-->
+
+<!--                    android:textSize="14sp" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="10dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:src="@drawable/ic_chevron_down" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/chip_color"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@drawable/bg_chip_outline"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="18dp"-->
+<!--                android:paddingEnd="14dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="6dp"-->
+<!--                    android:text="Color"-->
+<!--                    android:textSize="14sp" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="10dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:src="@drawable/ic_chevron_down" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/chip_size"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@drawable/bg_chip_outline"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="18dp"-->
+<!--                android:paddingEnd="14dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="6dp"-->
+<!--                    android:text="Size"-->
+<!--                    android:textSize="14sp" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="10dp"-->
+<!--                    android:layout_height="10dp"-->
+<!--                    android:src="@drawable/ic_chevron_down" />-->
+
+<!--            </LinearLayout>-->
+
+
+<!--        </LinearLayout>-->
+
+<!--    </HorizontalScrollView>-->
+
+    <LinearLayout
+        android:id="@+id/layoutEmptyCart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_marginBottom="80dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_heart"
+            app:tint="#94A3B8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Your Wishlist is empty"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Looks like you haven't added anything yet."
+            android:textColor="#777777"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listProduct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="10dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

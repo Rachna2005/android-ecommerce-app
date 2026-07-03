@@ -24,7 +24,7 @@ class AuthRepository {
                     onFailure(Exception("User not found"))
                 }
             }.addOnFailureListener { e ->
-            onFailure(e)
+            onFailure(Exception("Failed to get user"))
         }
     }
 
@@ -61,12 +61,25 @@ class AuthRepository {
                 onSuccess("Profile updated successfully")
             }
             .addOnFailureListener {
-                onFailure(it)
+                onFailure(Exception("Failed to updated profile"))
             }
     }
 
-    fun logout() {
-        FirebaseAuth.getInstance().signOut()
+    fun logout(
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        try {
+            FirebaseAuth.getInstance().signOut()
+
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                onSuccess()
+            } else {
+                onFailure(Exception("Logout failed"))
+            }
+        } catch (e: Exception) {
+            onFailure(Exception("Logout failed"))
+        }
     }
 
     fun getUserId(): String? {

@@ -1,10 +1,12 @@
 package io.kess.ecommerce.repository
 
 import android.util.Log
+import androidx.lifecycle.liveData
 import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
 import io.kess.ecommerce.model.OrderItem
+import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.cartToOrderItem
 
 class OrderRepository(private val authRepo: AuthRepository) {
@@ -20,8 +22,9 @@ class OrderRepository(private val authRepo: AuthRepository) {
         }
         return userId
     }
+
     fun getAllOrder(onResult: (List<Order>) -> Unit, onFailure: (Exception) -> Unit) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         fireStore.collection("orders").whereEqualTo("userId", userId).get()
             .addOnSuccessListener { result ->
                 val order = result.documents.mapNotNull { doc ->
@@ -31,8 +34,8 @@ class OrderRepository(private val authRepo: AuthRepository) {
                 }
                 onResult(order)
             }.addOnFailureListener {
-            onFailure(it)
-        }
+                onFailure(it)
+            }
     }
 
     fun placeOrders(
@@ -71,12 +74,54 @@ class OrderRepository(private val authRepo: AuthRepository) {
             .addOnFailureListener { onFailure(it) }
     }
 
+    fun getOrderByShop(
+        shopId: String,
+        onResult: (List<Order>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        fireStore.collection("orders").whereEqualTo("shopId", shopId).get()
+            .addOnSuccessListener { data ->
+                val orders = data.documents.mapNotNull { doc ->
+                    doc.toObject(Order::class.java)?.apply {
+                        id = doc.id
+                    }
+                }
+                onResult(orders)
+            }
+            .addOnFailureListener { onFailure(it) }
+    }
+
+    fun updateOrderStatus(
+        orderId: String,
+        newStatus: String,
+        onResult: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+
+        val orderRef = fireStore.collection("orders").document(orderId)
+
+        orderRef.get()
+            .addOnSuccessListener { doc ->
+                val order = doc.toObject(Order::class.java)
+
+                if (order == null) {
+                    onFailure(Exception("Order not found"))
+                    return@addOnSuccessListener
+                }
+
+                orderRef.update("status", newStatus)
+                    .addOnSuccessListener { onResult() }
+                    .addOnFailureListener(onFailure)
+            }
+            .addOnFailureListener(onFailure)
+    }
+
     fun getOrderDetail(
         orderId: String,
         onResult: (Order) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         fireStore.collection("orders")
             .document(orderId)
             .get()
@@ -109,7 +154,7 @@ class OrderRepository(private val authRepo: AuthRepository) {
                 }
                 onResult(items)
             }.addOnFailureListener {
-            onFailure(it)
-        }
+                onFailure(it)
+            }
     }
 }

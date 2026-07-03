@@ -123,9 +123,9 @@ class ReviewFragment : Fragment() {
             )
 
         }
-        binding.btnClose.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+//        binding.btnClose.setOnClickListener {
+//            parentFragmentManager.popBackStack()
+//        }
     }
 
     private fun observeData() {

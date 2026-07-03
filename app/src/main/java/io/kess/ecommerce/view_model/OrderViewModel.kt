@@ -73,4 +73,24 @@ class OrderViewModel : ViewModel() {
             onResult = { data -> _orderItem.value = UiState.Success(data) },
             onFailure = { _orderItem.value = UiState.Error(it.message.toString()) })
     }
+
+    fun updateStatus(orderId: String, txt: String) {
+        _actionState.value = UiState.Loading
+        repository.updateOrderStatus(orderId, txt, onResult = {
+            _actionState.value = UiState.Success(
+                Unit
+            )
+        }, onFailure = { _actionState.value = UiState.Error(it.message.toString()) })
+    }
+
+    fun getOrderByShop(orderId: String) {
+        _orders.value = UiState.Loading
+        repository.getOrderByShop(
+            orderId,
+            onResult = { data -> _orders.value = UiState.Success(data) },
+            onFailure = {
+                _orders.value =
+                    UiState.Error(it.message.toString())
+            })
+    }
 }

@@ -66,15 +66,7 @@
                     android:text="Stock: 24 "
                     android:textSize="12sp"
                     android:textColor="#888888"
-                    android:layout_marginTop="2dp" />
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Active"-->
-<!--                    android:textSize="12sp"-->
-<!--                    android:textColor="#888888"-->
-<!--                    android:layout_marginTop="2dp"-->
-<!--                    android:layout_marginLeft="10dp"/>-->
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 

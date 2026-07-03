@@ -1,6 +1,5 @@
 package io.kess.ecommerce.ui
 
-import OrderAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +16,7 @@ import io.kess.ecommerce.databinding.FragmentHomeBinding
 import io.kess.ecommerce.databinding.FragmentOrderHistoryBinding
 import io.kess.ecommerce.model.Order
 import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.adapter.OrderAdapter
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.OrderViewModel
 import io.kess.ecommerce.view_model.ProductViewModel

@@ -26,7 +26,7 @@
             android:layout_below="@id/profile"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/manrope_bold"
+            app:fontFamily="@font/manrope_bold"
             android:text="Julian Alexander"
             android:textColor="@color/primary"
             android:textSize="25sp" />
@@ -39,10 +39,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/bg_rounded_border"
-
             android:padding="5dp"
             android:text="SHOPIX MEMBER"
-            android:textColor="@color/secondary"
+            android:textColor="@color/primary"
             android:textSize="10dp"
 
             />
@@ -82,9 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_regular"
                     android:text="Orders"
-                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -112,9 +109,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_regular"
                     android:text="Wishlist"
-                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -141,9 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/manrope_regular"
                     android:text="Cart"
-                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -187,7 +180,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
+                        app:fontFamily="@font/manrope_bold"
                         android:text="Order History"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />
@@ -243,7 +236,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
+                        app:fontFamily="@font/manrope_bold"
                         android:text="Wishlist"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />
@@ -296,7 +289,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
+                        app:fontFamily="@font/manrope_bold"
                         android:text="Adding Address"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />
@@ -349,7 +342,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope_bold"
+                        app:fontFamily="@font/manrope_bold"
                         android:text="Settings"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />

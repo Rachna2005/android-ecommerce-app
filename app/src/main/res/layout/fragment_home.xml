@@ -7,96 +7,98 @@
     android:layout_height="match_parent"
     android:background="#F6F7F9">
 
-       <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/appBar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingTop="20dp"
-            android:paddingBottom="12dp"
-            tools:ignore="MissingConstraints">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
+            <!-- Profile Avatar -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/img_profile_avata"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
+            <!-- Greeting Text Block -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <!-- Profile Avatar -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/img_profile_avata"
-                    app:shapeAppearanceOverlay="@style/CircleImage" />
-
-                <!-- Greeting Text Block -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvGreeting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hi, Jonathan"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/manrope_bold"/>
-
-                    <TextView
-                        android:id="@+id/tvSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Let\'s go shopping"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <!-- Search Icon -->
-                <ImageView
-                    android:id="@+id/search"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="10dp"
-
-                    android:src="@drawable/ic_search" />
-
-                <!-- Notification Icon with Badge -->
-                <FrameLayout
+                <TextView
+                    android:id="@+id/tvGreeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp">
-                    <ImageView
-                        android:id="@+id/notification"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_notification_bell" />
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Hi, Jonathan"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-                    <View
-                        android:id="@+id/notificationBadge"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_gravity="top|end"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="1dp"
-                        android:background="@drawable/bg_notification_badge" />
-                </FrameLayout>
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Let\'s go shopping"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
-        </com.google.android.material.appbar.MaterialToolbar>
+            <!-- Search Icon -->
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+
+                android:src="@drawable/ic_search" />
+
+            <!-- Notification Icon with Badge -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_notification_bell" />
+
+                <View
+                    android:id="@+id/notificationBadge"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:background="@drawable/bg_notification_badge" />
+            </FrameLayout>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <ScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/appBar">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -106,53 +108,69 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
+
                 <LinearLayout
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
-                    >
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:id="@+id/iv_product"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:scaleType="centerCrop"
                         android:background="@drawable/bg_notification_badge"
                         android:clipToOutline="true"
-                        android:src="@drawable/img_product_detail"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_product_detail" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text = "Shoe"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:maxLines="1"
-                        />
+                        android:text="Shoe" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Discounted Products"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
+                        app:fontFamily="@font/manrope_bold"
+
                         />
-                    <TextView
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
                         android:id="@+id/discount_all"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="See More"
-                        android:textColor="@color/primary" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="View All"
+                            android:textColor="@color/primary"
+                            android:layout_marginRight="7dp"/>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_arrow_forward_long"
+                            app:tint="@color/primary"/>
+                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -160,6 +178,7 @@
                     android:id="@+id/view_discount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
@@ -173,7 +192,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPagerBanner"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"/>
+                        android:layout_height="200dp" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
@@ -181,24 +200,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="New Arrival"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <TextView
+<!--                    <TextView-->
+<!--                        android:id="@+id/new_more"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="end"-->
+<!--                        android:text="See More"-->
+<!--                        android:textColor="@color/primary" />-->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
                         android:id="@+id/new_more"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="See More"
-                        android:textColor="@color/primary" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="View All"
+                            android:textColor="@color/primary"
+                            android:layout_marginRight="7dp"/>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_arrow_forward_long"
+                            app:tint="@color/primary"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -206,40 +249,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="530dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="All Shop"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"
-                    />
-
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/bg_icon_rounded"
-                        android:src="@drawable/img_product_detail"
-                        android:clipToOutline="true"
-                        android:layout_marginEnd="14dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text = "Shoe"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:maxLines="1"
-                        />
-
-                </LinearLayout>
 
 
                 <LinearLayout
@@ -247,24 +256,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="All Product"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <TextView
+<!--                    <TextView-->
+<!--                        android:id="@+id/all_seeMore"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="end"-->
+<!--                        android:text="See More"-->
+<!--                        android:textColor="@color/primary" />-->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
                         android:id="@+id/all_seeMore"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="See More"
-                        android:textColor="@color/primary" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:text="View All"
+                            android:textColor="@color/primary"
+                            android:layout_marginRight="7dp"/>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_arrow_forward_long"
+                            app:tint="@color/primary"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -273,22 +306,23 @@
                     android:layout_height="match_parent" />
 
             </LinearLayout>
-<!--            <View-->
-<!--                android:id="@+id/loadingOverlay"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="#80000000"-->
-<!--                android:visibility="gone"/>-->
+            <!--            <View-->
+            <!--                android:id="@+id/loadingOverlay"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:background="#80000000"-->
+            <!--                android:visibility="gone"/>-->
 
             <!-- Progress bar on top -->
 
         </FrameLayout>
     </ScrollView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

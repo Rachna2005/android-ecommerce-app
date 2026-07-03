@@ -63,18 +63,21 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_cart_shopping" />
+            android:src="@drawable/ic_shop_menu"
+            app:tint="@color/stroke_default"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Your cart is empty"
+            android:text="Your Store is Empty"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
@@ -83,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Looks like you haven't added anything yet."
+            android:text="Add your first product to start selling."
             android:textColor="#777777"
             android:textSize="14sp" />
 
