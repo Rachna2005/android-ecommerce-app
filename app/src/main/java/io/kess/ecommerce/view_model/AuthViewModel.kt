@@ -8,6 +8,7 @@ import io.kess.ecommerce.model.User
 import io.kess.ecommerce.model.UserRole
 import io.kess.ecommerce.repository.AuthRepository
 import io.kess.ecommerce.util.UiState
+import io.kess.ecommerce.view_model.TestVM.Event
 
 //enum class MessageType {
 //    SUCCESS,
@@ -28,6 +29,8 @@ class AuthViewModel : ViewModel() {
 //    val userId: LiveData<String?> = _userId
     private val _actionState = MutableLiveData<UiState<User>>()
     val actionState: LiveData<UiState<User>> = _actionState
+    private val _message = MutableLiveData<Event<String>>()
+    val message: LiveData<Event<String>> = _message
 
     fun clearState() {
         _actionState.value = UiState.Idle
@@ -45,11 +48,13 @@ class AuthViewModel : ViewModel() {
             onSuccess = { user ->
                 _authState.value = UiState.Success(user)
 //                _userId.value = user.id
+
             },
             onFailure = { e ->
                 _authState.value = UiState.Error(
                     e.message ?: "Register failed"
                 )
+                _message.value = Event("Register Failed. Try again later")
             }
         )
     }
@@ -65,12 +70,14 @@ class AuthViewModel : ViewModel() {
             onSuccess = { user ->
                 _authState.value = UiState.Success(user)
 //                _userId.value = user.id
+
             },
 
             onFailure = { e ->
                 _authState.value = UiState.Error(
                     e.message ?: "Login failed"
                 )
+                _message.value = Event("Login failed. Incorrect email or password")
             }
         )
     }
@@ -112,9 +119,7 @@ class AuthViewModel : ViewModel() {
     }
 
     fun getUser() {
-
         _authState.value = UiState.Loading
-
         repository.getCurrentUser(
             onSuccess = { user ->
                 _authState.value = UiState.Success(user)

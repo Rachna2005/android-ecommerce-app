@@ -2,21 +2,18 @@ package io.kess.ecommerce.ui.seller
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.material3.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentOrderDetailBinding
-import io.kess.ecommerce.databinding.FragmentOrderHistoryDetailBinding
 import io.kess.ecommerce.model.Order
-import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.OrderItemAdapter
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
@@ -85,10 +82,11 @@ class OrderDetailFragment : Fragment() {
                     binding.btnChangeStatus.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is UiState.Idle -> {}
             }
         }
-        orderViewModel.orderItem.observe(viewLifecycleOwner){state ->
+        orderViewModel.orderItem.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
 
@@ -107,7 +105,7 @@ class OrderDetailFragment : Fragment() {
 //            orderItemAdapter.submitList(item)
         }
 
-        orderViewModel.actionState.observe(viewLifecycleOwner){ state ->
+        orderViewModel.actionState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                     showLoading(true)
@@ -120,11 +118,11 @@ class OrderDetailFragment : Fragment() {
                         "Status Updated successfully",
                         ContextCompat.getColor(requireContext(), R.color.green),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
-                    ){
-                        val intent = Intent(requireContext(), ShopActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    }
+                    )
+//                    val intent = Intent(requireContext(), ShopActivity::class.java)
+//                    startActivity(intent)
+//                    requireActivity().finish()
+                    parentFragmentManager.popBackStack()
                 }
 
                 is UiState.Error -> {
@@ -136,10 +134,12 @@ class OrderDetailFragment : Fragment() {
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
                 }
+
                 is UiState.Idle -> {}
             }
         }
     }
+
     private fun showLoading(show: Boolean) {
         binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
         binding.root.isEnabled = !show
@@ -212,7 +212,7 @@ class OrderDetailFragment : Fragment() {
         }
         binding.btnChangeStatus.setOnClickListener {
             if (selectedStatus == null || currentStatus == null) return@setOnClickListener
-            if(selectedStatus == currentStatus){
+            if (selectedStatus == currentStatus) {
                 showSnackBar(
                     requireView(),
                     "Status not changed",
@@ -230,13 +230,16 @@ class OrderDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).showButtonNav(show = false)
+//        (activity as MainActivity).showButtonNav(show = false)
+//        (getActivity() as ShopActivity).showButtonNav(false)
+        (activity as ShopActivity).showButtonNav(false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        (activity as MainActivity).showButtonNav(show = true)
+//        (activity as MainActivity).showButtonNav(show = true)
+        (activity as ShopActivity).showButtonNav(true)
     }
 
 }

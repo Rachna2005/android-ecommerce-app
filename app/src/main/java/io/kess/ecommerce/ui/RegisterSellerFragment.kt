@@ -97,23 +97,34 @@ class RegisterSellerFragment : Fragment() {
                         "Seller Register successfully",
                         ContextCompat.getColor(requireContext(), R.color.green),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
-                    ){
+                    )
                         val intent = Intent(requireContext(), ShopActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()
-                    }
+
                 }
 
                 is UiState.Error -> {
                     showLoading(false)
+//                    showSnackBar(
+//                        requireView(),
+//                        state.message,
+//                        ContextCompat.getColor(requireContext(), R.color.red),
+//                        ContextCompat.getColor(requireContext(), android.R.color.white)
+//                    )
+                }
+                is UiState.Idle -> {}
+            }
+            viewModel.message.observe(viewLifecycleOwner) { message ->
+                message.getContentIfNotHandled()?.let { txt ->
+
                     showSnackBar(
                         requireView(),
-                        state.message,
+                        txt,
                         ContextCompat.getColor(requireContext(), R.color.red),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
                 }
-                is UiState.Idle -> {}
             }
         }
     }

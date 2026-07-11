@@ -109,35 +109,43 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="70dp"
+<!--                <LinearLayout-->
+<!--                    android:layout_width="70dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    android:orientation="vertical">-->
+<!--                    -->
+<!--                        <ImageView-->
+<!--                            android:id="@+id/iv_product"-->
+<!--                            android:layout_width="60dp"-->
+<!--                            android:layout_height="60dp"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:clipToOutline="true"-->
+<!--                            android:scaleType="centerCrop"-->
+<!--                            android:src="@drawable/shoes"-->
+<!--                            android:background="@drawable/bg_notification_badge"-->
+<!--                            android:backgroundTint="#EEF2FF"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:text="Shoe" />-->
+<!--                </LinearLayout>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryRecyclerView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/iv_product"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="@drawable/bg_notification_badge"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img_product_detail" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:maxLines="1"
-                        android:text="Shoe" />
-                </LinearLayout>
+                    android:layout_marginBottom="10dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -157,19 +165,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
-                            android:textColor="@color/primary"
-                            android:layout_marginRight="7dp"/>
+                            android:textColor="@color/primary" />
 
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="22dp"
                             android:src="@drawable/ic_arrow_forward_long"
-                            app:tint="@color/primary"/>
+                            app:tint="@color/primary" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -181,14 +190,14 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="180dp"
                     android:layout_marginTop="16dp"
                     app:cardCornerRadius="13dp">
-                    <!--                <ImageView-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="match_parent"-->
-                    <!--                    android:scaleType="centerCrop"-->
-                    <!--                    android:src="@drawable/img_poster" />-->
+<!--                                    <ImageView-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="match_parent"-->
+<!--                                        android:scaleType="centerCrop"-->
+<!--                                        android:src="@drawable/img_product_detail" />-->
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPagerBanner"
                         android:layout_width="match_parent"
@@ -209,15 +218,15 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/new_more"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="end"-->
-<!--                        android:text="See More"-->
-<!--                        android:textColor="@color/primary" />-->
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/new_more"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_alignParentEnd="true"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:text="See More"-->
+                    <!--                        android:textColor="@color/primary" />-->
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -228,19 +237,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
-                            android:textColor="@color/primary"
-                            android:layout_marginRight="7dp"/>
+                            android:textColor="@color/primary" />
 
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="22dp"
                             android:src="@drawable/ic_arrow_forward_long"
-                            app:tint="@color/primary"/>
+                            app:tint="@color/primary" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -248,7 +258,6 @@
                     android:id="@+id/view_new_arrival"
                     android:layout_width="match_parent"
                     android:layout_height="530dp" />
-
 
 
                 <LinearLayout
@@ -265,15 +274,15 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/all_seeMore"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="end"-->
-<!--                        android:text="See More"-->
-<!--                        android:textColor="@color/primary" />-->
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/all_seeMore"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_alignParentEnd="true"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:gravity="end"-->
+                    <!--                        android:text="See More"-->
+                    <!--                        android:textColor="@color/primary" />-->
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -284,19 +293,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
-                            android:textColor="@color/primary"
-                            android:layout_marginRight="7dp"/>
+                            android:textColor="@color/primary" />
 
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="22dp"
                             android:src="@drawable/ic_arrow_forward_long"
-                            app:tint="@color/primary"/>
+                            app:tint="@color/primary" />
                     </LinearLayout>
                 </LinearLayout>
 

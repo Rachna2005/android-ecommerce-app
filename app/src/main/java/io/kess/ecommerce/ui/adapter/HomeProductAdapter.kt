@@ -19,12 +19,12 @@ import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.ListAdapter
 
-class ProductAdapter(
+class HomeProductAdapter(
     private var favoriteIds: Set<String>,
     private var loadingFavorite: Set<String>,
     private val onFavoriteClick: (Product) -> Unit,
     private val onProductClick: (Product) -> Unit
-) : PagingDataAdapter<Product, ProductAdapter.ViewHolder>(DiffCallback()) {
+) : ListAdapter<Product, HomeProductAdapter.ViewHolder>(DiffCallback()) {
 
     fun updateFavorites(newFavorites: Set<String>) {
         favoriteIds = newFavorites
@@ -66,7 +66,7 @@ class ProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val product = getItem(position) ?: return
+        val product = getItem(position)
 
         val discount = product.price * ((product.discountPercentage ?: 0.0) / 100)
         val priceAfterDiscount = product.price - discount

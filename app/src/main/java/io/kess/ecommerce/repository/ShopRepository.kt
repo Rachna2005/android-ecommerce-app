@@ -88,6 +88,21 @@ class ShopRepository {
 //            }
 //    }
 
+    fun getShopDetail(shopId: String, onSuccess: (Shop) -> Unit, onFailure: (Exception) -> Unit) {
+        firestore.collection(SHOP_COLLECTION).document(shopId).get().addOnSuccessListener { doc ->
+            val shop = doc.toObject(Shop::class.java)
+            if (shop != null) {
+                shop.id = doc.id
+                onSuccess(shop)
+            } else {
+                onFailure(Exception("Shop not found"))
+            }
+        }.addOnFailureListener {
+            onFailure(it)
+        }
+    }
+
+
     fun getShopByOwner(
         ownerId: String,
         onSuccess: (Shop) -> Unit,

@@ -26,11 +26,19 @@
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope"
             android:text="SHOPIX"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/subTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHOPPING  SHOPIX"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:letterSpacing="0.2"
+            />
 
     </LinearLayout>
 

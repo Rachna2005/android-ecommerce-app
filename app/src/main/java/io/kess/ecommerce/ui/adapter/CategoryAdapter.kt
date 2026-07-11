@@ -30,11 +30,11 @@ class CategoryAdapter(private var onCategoryClick: (Category) -> Unit) :
     }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val cateoryContainer = view.findViewById<RelativeLayout>(R.id.container)
+        val cateoryContainer = view.findViewById<LinearLayout>(R.id.container)
         val img = view.findViewById<ImageView>(R.id.image)
         val title = view.findViewById<TextView>(R.id.title)
-        val count = view.findViewById<TextView>(R.id.count)
-        val container = view.findViewById<LinearLayout>(R.id.textContainer)
+//        val count = view.findViewById<TextView>(R.id.count)
+//        val container = view.findViewById<LinearLayout>(R.id.textContainer)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,22 +48,22 @@ class CategoryAdapter(private var onCategoryClick: (Category) -> Unit) :
     ) {
         val item = getItem(position)
         holder.title.text = item.name
-        holder.count.text = "${item.productCount} Products"
+//        holder.count.text = "${item.productCount} Products"
         Glide.with(holder.itemView.context).load(item.image).into(holder.img)
-        val para = holder.container.layoutParams as RelativeLayout.LayoutParams
+//        val para = holder.container.layoutParams as LinearLayout.LayoutParams
         holder.cateoryContainer.setOnClickListener { onCategoryClick(item) }
-        if (item.alignRight) {
-            para.addRule(RelativeLayout.ALIGN_PARENT_END)
-            para.removeRule(RelativeLayout.ALIGN_PARENT_START)
-            holder.title.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
-            holder.count.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
-        } else {
-            para.addRule(RelativeLayout.ALIGN_PARENT_START)
-            para.removeRule(RelativeLayout.ALIGN_PARENT_END)
-            holder.title.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-            holder.count.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-        }
-        holder.container.layoutParams = para
+//        if (item.alignRight) {
+//            para.addRule(RelativeLayout.ALIGN_PARENT_END)
+//            para.removeRule(RelativeLayout.ALIGN_PARENT_START)
+//            holder.title.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+//            holder.count.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+//        } else {
+//            para.addRule(RelativeLayout.ALIGN_PARENT_START)
+//            para.removeRule(RelativeLayout.ALIGN_PARENT_END)
+//            holder.title.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+//            holder.count.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+//        }
+//        holder.container.layoutParams = para
     }
 
 

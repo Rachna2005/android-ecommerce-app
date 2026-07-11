@@ -32,13 +32,13 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-     <!--   <androidx.recyclerview.widget.RecyclerView
+ <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerShop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/appBar"
             android:paddingTop="16dp"
-            />-->
+            />
 
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->

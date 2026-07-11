@@ -9,7 +9,6 @@ import io.kess.ecommerce.repository.AuthRepository
 import io.kess.ecommerce.repository.CartItemRepository
 import io.kess.ecommerce.util.UiState
 
-
 class CartViewModel : ViewModel() {
     private val authRepo = AuthRepository()
     private val repository = CartItemRepository(authRepo)

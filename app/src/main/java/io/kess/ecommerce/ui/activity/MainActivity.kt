@@ -23,7 +23,7 @@ import io.kess.ecommerce.view_model.ShopViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-//    private val homeFragment = HomeFragment()
+    //    private val homeFragment = HomeFragment()
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var cartViewModel: CartViewModel
     private lateinit var productViewModel: ProductViewModel
@@ -32,11 +32,6 @@ class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private lateinit var shopViewModel: ShopViewModel
 
-//    private val categoryFragment = CategoryFragment()
-//    private val cartFragment = CartFragment()
-//    private val profileFragment = ProfileFragment()
-//
-//    private var activeFragment: Fragment = homeFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,7 +44,8 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
         observeData()
     }
-    private fun initViewModel(){
+
+    private fun initViewModel() {
         favoriteViewModel = ViewModelProvider(this)[FavoriteViewModel::class.java]
         cartViewModel = ViewModelProvider(this)[CartViewModel::class.java]
         productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
@@ -57,15 +53,20 @@ class MainActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         shopViewModel = ViewModelProvider(this)[ShopViewModel::class.java]
     }
-    private fun loadData(){
+
+    private fun loadData() {
         favoriteViewModel.loadFavorite()
         cartViewModel.loadCart()
 //        productViewModel.loadAllProducts()
         categoryViewModel.loadCategories()
         userViewModel.getUser()
         shopViewModel.getAllShops()
+        productViewModel.getNewArrival(4)
+        productViewModel.getAllProduct(6)
+        productViewModel.getDiscountProduct(8)
     }
-    private fun observeData(){
+
+    private fun observeData() {
         cartViewModel.cartItems.observe(this) { state ->
             when (state) {
                 is UiState.Success -> {
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupBottomNav() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -96,12 +98,14 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
     fun replaceFragment(fragment: Fragment) {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
             .commit()
     }
+
     fun navigate(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
@@ -109,21 +113,20 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun updateCartBadge(count: Int){
+    fun updateCartBadge(count: Int) {
         val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_cart)
         badge.backgroundColor = ContextCompat.getColor(this, R.color.primary)
-        if(count > 0 ){
+        if (count > 0) {
             badge.isVisible = true
             badge.number = count
-        }
-        else{
+        } else {
             binding.bottomNav.removeBadge(
                 R.id.nav_cart
             )
         }
     }
 
-//    private fun showFragment(fragmentToShow: Fragment) {
+    //    private fun showFragment(fragmentToShow: Fragment) {
 //
 //        val fragments = listOf(homeFragment, categoryFragment, cartFragment, profileFragment)
 //
@@ -139,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.selectedItemId = itemId
     }
 
-//    fun navigation(fragment: Fragment) {
+    //    fun navigation(fragment: Fragment) {
 //        supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
 //            .addToBackStack(null).commit()
 //    }

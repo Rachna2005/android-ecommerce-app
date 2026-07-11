@@ -98,6 +98,7 @@ class ProductDetailFragment : Fragment() {
             reviewViewModel.loadReviews(it)
         }
     }
+
     private fun setupAdapters() {
 
         colorAdapter = ColorAdapter { variant ->
@@ -130,6 +131,15 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
+    private fun openShopDetail() {
+        val fragment = ShopDetailFragment().apply {
+            arguments = Bundle().apply {
+                putString("ID", productDetail.product.shopId)
+            }
+        }
+        (activity as MainActivity).navigate(fragment)
+    }
+
     private fun setupRecyclerViews() {
         binding.recyclerColor.apply {
             adapter = colorAdapter
@@ -158,13 +168,12 @@ class ProductDetailFragment : Fragment() {
 
     }
 
-    fun updateCartBadge(count: Int){
+    fun updateCartBadge(count: Int) {
 
-        if(count > 0 ){
-            binding.txtBadge.visibility =View.VISIBLE
+        if (count > 0) {
+            binding.txtBadge.visibility = View.VISIBLE
             binding.txtBadge.text = count.toString()
-        }
-        else{
+        } else {
             binding.txtBadge.visibility = View.GONE
         }
     }
@@ -174,6 +183,10 @@ class ProductDetailFragment : Fragment() {
         binding.increase.setOnClickListener {
             totalQuantity++
             updateQuantityUI()
+        }
+
+        binding.shopContainer.setOnClickListener {
+            openShopDetail()
         }
 
         binding.decrease.setOnClickListener {
@@ -213,7 +226,7 @@ class ProductDetailFragment : Fragment() {
             val cart = CartItem(
                 productId = productDetail.product.id,
                 variantId = selectedVariant?.id ?: "",
-                shopId =  productDetail.product.shopId,
+                shopId = productDetail.product.shopId,
                 shopName = productDetail.product.shopName,
                 name = productDetail.product.name,
                 quantity = totalQuantity,
@@ -270,12 +283,13 @@ class ProductDetailFragment : Fragment() {
                     binding.mainContent.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is UiState.Idle -> {}
             }
         }
         cartViewModel.message.observe(viewLifecycleOwner) { message ->
-            if (message != null){
-                showSuccessSnackBar( message)
+            if (message != null) {
+                showSuccessSnackBar(message)
                 cartViewModel.clearMessage()
             }
         }
@@ -307,48 +321,56 @@ class ProductDetailFragment : Fragment() {
             when (state) {
                 is UiState.Loading -> {
                 }
+
                 is UiState.Success -> {
                     reviewAdapter.submitList(state.data)
                     val totalReview = state.data.size
-                    val averageRating = if(totalReview > 0){
-                        state.data.sumOf { it.rating }.toDouble()/ totalReview
-                    }else{
+                    val averageRating = if (totalReview > 0) {
+                        state.data.sumOf { it.rating }.toDouble() / totalReview
+                    } else {
                         0.0
                     }
-                    binding.avgRating.text = "${String.format("%.1f", averageRating)} ($totalReview Review)"
+                    binding.avgRating.text =
+                        "${String.format("%.1f", averageRating)} ($totalReview Review)"
                 }
+
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is UiState.Idle -> {}
             }
         }
-        shopViewModel.shops.observe(viewLifecycleOwner){state ->
+        shopViewModel.shops.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
+
                 is UiState.Success -> {
                     val shop = state.data.find { it.id == productDetail.product.shopId }
                     binding.shopName.text = shop?.shopName ?: "Shop name"
                     Glide.with(requireContext()).load(shop?.logoUrl).into(binding.shopImage)
                 }
+
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
                 is UiState.Idle -> {}
             }
         }
-        cartViewModel.isAddingToCart.observe(viewLifecycleOwner){isLoading ->
+        cartViewModel.isAddingToCart.observe(viewLifecycleOwner) { isLoading ->
             binding.addToCart.isEnabled = !isLoading
             binding.addToCart.alpha = if (isLoading) 0.5f else 1f
         }
-        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner){favorite ->
+        favoriteViewModel.loadingFavorites.observe(viewLifecycleOwner) { favorite ->
             val favoriteLoading = favorite.contains(productId)
-            binding.wishlistProgress.visibility = if(favoriteLoading) View.VISIBLE else View.GONE
+            binding.wishlistProgress.visibility = if (favoriteLoading) View.VISIBLE else View.GONE
             binding.btnWishlist.visibility =
                 if (favoriteLoading) View.INVISIBLE else View.VISIBLE
         }
     }
+
     fun showSuccessSnackBar(message: String) {
         val snackbar = Snackbar.make(
             requireActivity().findViewById(android.R.id.content),

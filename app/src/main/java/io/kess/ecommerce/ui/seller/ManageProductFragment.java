@@ -139,6 +139,7 @@ public class ManageProductFragment extends Fragment {
                 if (state instanceof UiState.Loading) {
                     binding.progressBar.setVisibility(View.VISIBLE);
                     binding.layoutEmptyProduct.setVisibility(View.GONE);
+
                     binding.search.setVisibility(View.VISIBLE);
 
                 } else if (state instanceof UiState.Success) {

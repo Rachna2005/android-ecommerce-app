@@ -35,7 +35,7 @@
             android:text="Welcome Back"
             android:textColor="@color/primary"
             android:textSize="30sp"
-            android:layout_marginTop="70dp" />
+            android:layout_marginTop="50dp" />
 
         <TextView
             android:id="@+id/subTitle"

@@ -19,10 +19,13 @@ constraintlayout = "2.2.1"
 googleServices = "4.4.4"
 firebaseAuth = "24.1.0"
 materialVersion = "1.12.0"
+pagingCommon = "3.4.2"
+pagingRuntimeKtx = "3.3.6"
 ui = "1.11.2"
 remoteCreationCore = "1.0.0-alpha11"
 googleMaterial = "1.14.0"
 benchmarkCommon = "1.4.1"
+leanbackPaging = "1.1.0"
 
 [libraries]
 androidbootstrap = { module = "com.beardedhen:androidbootstrap", version.ref = "androidbootstrap" }
@@ -32,6 +35,8 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "pagingCommon" }
+androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 cloudinary-android = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinaryAndroid" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
@@ -53,6 +58,7 @@ androidx-compose-remote-creation-core = { group = "androidx.compose.remote", nam
 google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 material-v1120 = { module = "com.google.android.material:material", version.ref = "googleMaterialVersion" }
 androidx-benchmark-common = { group = "androidx.benchmark", name = "benchmark-common", version.ref = "benchmarkCommon" }
+androidx-leanback-paging = { group = "androidx.leanback", name = "leanback-paging", version.ref = "leanbackPaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

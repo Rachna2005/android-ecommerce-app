@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/values/arrays.xml -->
-<resources>
-    <!-- Default min/max values for the price RangeSlider -->
-    <array name="price_range_defaults">
-        <item>0</item>
-        <item>2000</item>
-    </array>
-</resources>

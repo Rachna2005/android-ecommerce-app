@@ -83,11 +83,12 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.espresso.core)
-    implementation(libs.firebase.auth)
+//    implementation(libs.firebase.auth)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.compose.remote.creation.core)
     implementation(libs.google.material)
-    implementation(libs.androidx.benchmark.common)
+//    implementation(libs.androidx.benchmark.common)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -107,4 +108,7 @@ dependencies {
     annotationProcessor(libs.compiler)
     implementation(libs.material.v1120)
     implementation(libs.cloudinary.android)
+    implementation(libs.androidx.paging.common)
+
+    implementation(libs.androidx.paging.runtime.ktx)
 }

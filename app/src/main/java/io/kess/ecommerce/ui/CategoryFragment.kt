@@ -10,11 +10,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.databinding.FragmentCategoryBinding
 import io.kess.ecommerce.model.Category
+import io.kess.ecommerce.model.Shop
 import io.kess.ecommerce.model.User
 import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.CategoryAdapter
@@ -49,8 +51,8 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         setupClickListener()
-//        setupRecyclerView()
-//        observeData()
+        setupRecyclerView()
+        observeData()
     }
     private fun initViewModel(){
         shopViewModel = ViewModelProvider(requireActivity())[ShopViewModel::class.java]
@@ -61,44 +63,56 @@ class CategoryFragment : Fragment() {
 //            (activity as MainActivity).navigate(SearchFragment())
         }
     }
-//    private fun setupRecyclerView(){
-//        shopAdapter = ShopAdapter() {}
-//        binding.recyclerShop.apply {
-//            adapter = shopAdapter
-//            layoutManager =  GridLayoutManager(requireContext(), 3)
+    private fun setupRecyclerView(){
+        shopAdapter = ShopAdapter{shop ->
+            openShopDetail(shop)
+        }
+        binding.recyclerShop.apply {
+            adapter = shopAdapter
+            layoutManager =  LinearLayoutManager(requireContext())
+        }
+    }
+//    private fun openProductByCategory(category: Category) {
+//        val fragment = ProductListFragment().apply {
+//            arguments = Bundle().apply {
+//                putString("TYPE", "CATEGORY")
+//                putString("CATEGORY_ID", category.id)
+//                putString("CATEGORY_NAME", category.name)
+//            }
 //        }
+//        (activity as MainActivity).navigate(fragment)
 //    }
-    private fun openProductByCategory(category: Category) {
-        val fragment = ProductListFragment().apply {
+
+    private fun openShopDetail(shop: Shop) {
+        val fragment = ShopDetailFragment().apply {
             arguments = Bundle().apply {
-                putString("TYPE", "CATEGORY")
-                putString("CATEGORY_ID", category.id)
-                putString("CATEGORY_NAME", category.name)
+                putString("ID", shop.id)
             }
         }
         (activity as MainActivity).navigate(fragment)
     }
 
-//    private fun observeData() {
-//        shopViewModel.shops.observe(viewLifecycleOwner) { state ->
-//            when (state) {
-//                is UiState.Loading -> {
-//                    binding.progressBar.visibility =
-//                        View.VISIBLE
-//                    binding.recyclerShop.visibility = View.GONE
-//                }
-//                is UiState.Success -> {
-//                    binding.progressBar.visibility = View.GONE
-//                    binding.recyclerShop.visibility = View.VISIBLE
-//                    shopAdapter.submitList(state.data)
-//                }
-//                is UiState.Error -> {
-//                    binding.progressBar.visibility = View.GONE
-//                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
+    private fun observeData() {
+        shopViewModel.shops.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visibility =
+                        View.VISIBLE
+                    binding.recyclerShop.visibility = View.GONE
+                }
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerShop.visibility = View.VISIBLE
+                    shopAdapter.submitList(state.data)
+                }
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+                is UiState.Idle -> {}
+            }
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

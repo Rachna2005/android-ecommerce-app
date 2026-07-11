@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
     }
+
     private fun setupClick() {
 
         binding.btnLogIn.setOnClickListener {
@@ -42,12 +43,13 @@ class LoginActivity : AppCompatActivity() {
                     findViewById(R.id.content), "All fields need to be fill",
                     backgroundColor = ContextCompat.getColor(
                         this,
-                        io.kess.ecommerce.R.color.yellow
+                        io.kess.ecommerce.R.color.primary
                     ),
                     textColor = ContextCompat.getColor(this, io.kess.ecommerce.R.color.white)
                 )
                 return@setOnClickListener
             }
+
             viewModel.login(email, password)
         }
 
@@ -63,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
                 is UiState.Loading -> {
                     showLoading(true)
                 }
+
                 is UiState.Success -> {
                     showLoading(false)
                     showSnackBar(
@@ -70,26 +73,38 @@ class LoginActivity : AppCompatActivity() {
                         "Login successfully",
                         ContextCompat.getColor(this, io.kess.ecommerce.R.color.green),
                         ContextCompat.getColor(this, android.R.color.white)
-                    ) {
-                        if (state.data.role == UserRole.SELLER.name) {
-                            startActivity(Intent(this, ShopActivity::class.java))
-                        } else {
-                            startActivity(Intent(this, MainActivity::class.java))
-                        }
-                        finish()
+                    )
+                    if (state.data.role == UserRole.SELLER.name) {
+                        startActivity(Intent(this, ShopActivity::class.java))
+                    } else {
+                        startActivity(Intent(this, MainActivity::class.java))
                     }
+                    finish()
+
                 }
+
                 is UiState.Error -> {
                     showLoading(false)
-
-                    showSnackBar(
-                        findViewById(R.id.content),
-                        state.message,
-                        ContextCompat.getColor(this, io.kess.ecommerce.R.color.red),
-                        ContextCompat.getColor(this, R.color.white)
-                    )
+//                    showSnackBar(
+//                        findViewById(R.id.content),
+//                        state.message,
+//                        ContextCompat.getColor(this, io.kess.ecommerce.R.color.red),
+//                        ContextCompat.getColor(this, R.color.white)
+//                    )
                 }
+
                 is UiState.Idle -> {}
+            }
+        }
+
+        viewModel.message.observe(this) { message ->
+            message.getContentIfNotHandled()?.let { txt ->
+                showSnackBar(
+                    findViewById(R.id.content),
+                    txt,
+                    ContextCompat.getColor(this, io.kess.ecommerce.R.color.red),
+                    ContextCompat.getColor(this, R.color.white)
+                )
             }
         }
     }

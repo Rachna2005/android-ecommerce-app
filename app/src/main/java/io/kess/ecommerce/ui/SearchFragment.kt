@@ -58,7 +58,7 @@ class SearchFragment : Fragment() {
         searchAdapter = ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
         }, {product -> openProductDetail(product.id)})
-        binding.recyclerView.adapter = searchAdapter
+//        binding.recyclerView.adapter = searchAdapter
         binding.recyclerView.layoutManager =  GridLayoutManager(requireContext(), 2)
     }
 
@@ -108,12 +108,12 @@ class SearchFragment : Fragment() {
 
     private fun setupSearch(query: String) {
             if (query.isBlank()) {
-                searchAdapter.submitList(emptyList())
+//                searchAdapter.submitList(emptyList())
             } else {
                 val filteredList = productList.filter {
                     it.name.contains(query, ignoreCase = true)
                 }
-                searchAdapter.submitList(filteredList)
+//                searchAdapter.submitList(filteredList)
             }
     }
     private fun openProductDetail(productId: String){

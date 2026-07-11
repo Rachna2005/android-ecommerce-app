@@ -1,17 +1,30 @@
 package io.kess.ecommerce.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import java.util.Date
 import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.ProductDetail
 import io.kess.ecommerce.model.ProductFilter
+import io.kess.ecommerce.model.ProductQuery
 import io.kess.ecommerce.model.ProductVariant
-import org.junit.runner.notification.Failure
-import kotlin.text.get
+import io.kess.ecommerce.util.ProductPagingSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+
+
+enum class ProductDisplayType {
+    ALL,
+    DISCOUNT,
+    NEW_ARRIVAL
+}
 
 class ProductRepository {
     val fireStore = FirebaseFirestore.getInstance()
@@ -21,57 +34,145 @@ class ProductRepository {
     private var isLoading = false
     private var currentQuery: Query? = null
     private var lastCreatedAt: Timestamp? = null
+    val oneWeekAgo = Timestamp(Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000))
 
-    fun getProduct(
+    //    fun getProduct(
+//        limit: Int,
+//        filter: ProductFilter,
+//        isRefresh: Boolean = false,
+//        disPlayType: ProductDisplayType,
+//        onResult: (List<Product>, Boolean) -> Unit,
+//        onFailure: (Exception) -> Unit
+//    ) {
+//        if (isRefresh) {
+//            lastCreatedAt = null
+//            isLastPage = false
+//            isLoading = false
+//        }
+//        if (isLoading || isLastPage) return
+//        isLoading = true
+//        var query: Query = fireStore.collection("products")
+//
+//        filter.categoryId?.let {
+//            query = query.whereEqualTo("categoryId", it)
+//        }
+//        filter.shopId?.let {
+//            query = query.whereEqualTo("shopId", it)
+//        }
+//        filter.minPrice?.let {
+//            query = query.whereGreaterThanOrEqualTo("price", it)
+//        }
+//        filter.maxPrice?.let {
+//            query = query.whereLessThanOrEqualTo("price", it)
+//        }
+////        query = query.orderBy("createdAt")
+//        when (disPlayType) {
+//            ProductDisplayType.ALL -> {
+//                query = query.orderBy("createdAt")
+//            }
+//
+//            ProductDisplayType.NEW_ARRIVAL -> {
+//                query = query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
+//                    .orderBy("createdAt", Query.Direction.DESCENDING)
+//            }
+//
+//            ProductDisplayType.DISCOUNT -> {
+//                query = query.whereGreaterThan("discountPercentage", 0)
+//                    .orderBy("createdAt", Query.Direction.DESCENDING)
+//            }
+//        }
+//
+//        if (lastCreatedAt != null) {
+//            query = query.startAfter(lastCreatedAt)
+//        }
+//        query.limit(limit.toLong()).get()
+//            .addOnSuccessListener { result ->
+//                val productList = result.documents.mapNotNull { doc ->
+//                    doc.toObject(Product::class.java)?.apply { id = doc.id }
+//                }
+//                lastCreatedAt = result.documents.lastOrNull()?.getTimestamp("createdAt")
+//                if ((productList.size < 6) || productList.isEmpty()) {
+//                    isLastPage = true
+//                }
+//                isLoading = false
+//                onResult(productList, isLastPage)
+//            }.addOnFailureListener { e ->
+//                isLoading = false
+//                onFailure(e)
+//            }
+//    }
+    fun homeProduct(
+        displayType: ProductDisplayType,
         limit: Int,
-        filter: ProductFilter,
-        isRefresh: Boolean = false,
-        onResult: (List<Product>, Boolean) -> Unit,
+        onResult: (List<Product>) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-
-        if (isRefresh) {
-            lastCreatedAt = null
-            isLastPage = false
-            isLoading = false
-        }
-        if (isLoading || isLastPage) return
-        isLoading = true
         var query: Query = fireStore.collection("products")
+        when (displayType) {
+            ProductDisplayType.ALL -> {}
+            ProductDisplayType.DISCOUNT -> {
+                query = query.whereGreaterThan("discountPercentage", 0)
+            }
 
-        filter.categoryId?.let {
-            query = query.whereEqualTo("categoryId", it)
+            ProductDisplayType.NEW_ARRIVAL -> {
+                query = query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
+            }
         }
-        filter.shopId?.let {
-            query = query.whereEqualTo("shopId", it)
-        }
-        filter.minPrice?.let {
-            query = query.whereGreaterThanOrEqualTo("price", it)
-        }
-        filter.maxPrice?.let {
-            query = query.whereLessThanOrEqualTo("price", it)
-        }
-        query = query.orderBy("createdAt")
-
-        if (lastCreatedAt != null) {
-            query = query.startAfter(lastCreatedAt)
-        }
-
+        query.orderBy("createdAt")
         query.limit(limit.toLong()).get()
             .addOnSuccessListener { result ->
                 val productList = result.documents.mapNotNull { doc ->
                     doc.toObject(Product::class.java)?.apply { id = doc.id }
                 }
-                lastCreatedAt = result.documents.lastOrNull()?.getTimestamp("createdAt")
-                if ((productList.size < 6) || productList.isEmpty()) {
-                    isLastPage = true
-                }
-                isLoading = false
-                onResult(productList, isLastPage)
+                onResult(productList)
             }.addOnFailureListener { e ->
-                isLoading = false
                 onFailure(e)
             }
+    }
+
+    fun getProduct(query: ProductQuery): Flow<PagingData<Product>> {
+        Log.d("PAGING", "Create Pager with query = $query")
+        val fireStoreQuery = buildQuery(query)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 8,
+                initialLoadSize = 8,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                ProductPagingSource(fireStoreQuery)
+            }
+        ).flow
+    }
+
+    private fun buildQuery(productQuery: ProductQuery): Query {
+        var query: Query = fireStore.collection("products")
+        productQuery.categoryId?.let {
+            query = query.whereEqualTo("categoryId", it)
+        }
+        productQuery.shopId?.let {
+            query = query.whereEqualTo("shopId", it)
+        }
+        productQuery.minPrice?.let {
+            Log.d("FILTER", "Min price = $it")
+            query = query.whereGreaterThanOrEqualTo("price", it.toDouble())
+        }
+        productQuery.maxPrice?.let {
+            Log.d("FILTER", "Max price = $it")
+            query = query.whereLessThanOrEqualTo("price", it.toDouble())
+            query.orderBy("price")
+        }
+        when (productQuery.displayType) {
+            ProductDisplayType.ALL -> {}
+            ProductDisplayType.DISCOUNT -> {
+                query = query.whereGreaterThan("discountPercentage", 0.0)
+            }
+
+            ProductDisplayType.NEW_ARRIVAL -> {
+                query = query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
+            }
+        }
+        return query.orderBy("createdAt")
     }
 
     fun debugBrokenProducts() {
@@ -90,101 +191,6 @@ class ProductRepository {
                 }
             }
     }
-
-//    fun getProduct(
-//        isRefresh: Boolean = false,
-//        onResult: (List<Product>) -> Unit,
-//        onFailure: (Exception) -> Unit
-//    ) {
-//
-//        Log.d("PAGINATION", "==============================")
-//        Log.d("PAGINATION", "CALL getProduct() isRefresh=$isRefresh")
-//        Log.d("PAGINATION", "lastVisible BEFORE = ${lastVisible?.id}")
-//        Log.d("PAGINATION", "isLoading=$isLoading isLastPage=$isLastPage")
-//
-//        if (isRefresh) {
-//            Log.d("PAGINATION", "RESET pagination state")
-//
-//            lastVisible = null
-//            isLastPage = false
-//            isLoading = false
-//        }
-//
-//        if (isLoading || isLastPage) {
-//            Log.d("PAGINATION", "BLOCKED → isLoading=$isLoading isLastPage=$isLastPage")
-//            return
-//        }
-//
-//        isLoading = true
-//
-//        var query: Query = fireStore.collection("products")
-//            .orderBy("createdAt")
-//
-//        Log.d("PAGINATION", "BASE QUERY created")
-//
-//        if (lastVisible != null) {
-//            Log.d("PAGINATION", "Applying startAfter lastVisible=${lastVisible?.id}")
-//            query = query.startAfter(lastVisible)
-//        } else {
-//            Log.d("PAGINATION", "FIRST PAGE (no startAfter)")
-//        }
-//
-//        query.limit(6)
-//            .get()
-//            .addOnSuccessListener { result ->
-//
-//                Log.d("PAGINATION", "SUCCESS RESPONSE RECEIVED")
-//                Log.d("PAGINATION", "RAW SIZE = ${result.size()}")
-//                Log.d("PAGINATION", "DOC COUNT = ${result.documents.size}")
-//
-//                if (result.documents.isEmpty()) {
-//                    Log.d("PAGINATION", "EMPTY RESULT → END OF DATA")
-//                    isLastPage = true
-//                    isLoading = false
-//                    onResult(emptyList())
-//                    return@addOnSuccessListener
-//                }
-//
-//                val productList = result.documents.mapNotNull { doc ->
-//                    val product = doc.toObject(Product::class.java)
-//                    Log.d(
-//                        "PAGINATION",
-//                        "MAP DOC → id=${doc.id} createdAt=${doc.getTimestamp("createdAt")}"
-//                    )
-//                    product?.apply { id = doc.id }
-//                }
-//
-//                val newLast = result.documents.lastOrNull()
-//
-//                Log.d("PAGINATION", "NEW LAST DOC ID = ${newLast?.id}")
-//                Log.d("PAGINATION", "NEW LAST createdAt = ${newLast?.getTimestamp("createdAt")}")
-//
-//                lastVisible = newLast
-//
-//                Log.d("PAGINATION", "UPDATED lastVisible = ${lastVisible?.id}")
-//
-//                if (productList.size < 6) {
-//                    Log.d("PAGINATION", "LESS THAN LIMIT → LAST PAGE")
-//                    isLastPage = true
-//                }
-//
-//                isLoading = false
-//
-//                Log.d("PAGINATION", "FINAL RESULT SIZE = ${productList.size}")
-//                Log.d("PAGINATION", "==============================")
-//
-//                onResult(productList)
-//            }
-//            .addOnFailureListener { e ->
-//
-//                Log.e("PAGINATION", "FAILED QUERY", e)
-//
-//                isLoading = false
-//                Log.d("PAGINATION", "RESET isLoading=false due to error")
-//
-//                onFailure(e)
-//            }
-//    }
 
     fun getProductDetail(
         productId: String,
@@ -222,6 +228,23 @@ class ProductRepository {
             }.addOnFailureListener { e ->
                 onFailure(e)
             }
+    }
+
+    fun getProductByShop(
+        shopId: String,
+        onResult: (List<Product>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        fireStore.collection("products")
+            .whereEqualTo("shopId", shopId).get().addOnSuccessListener { doc ->
+                val products = doc.documents.mapNotNull { data ->
+                    data.toObject(Product::class.java)?.apply { id = data.id }
+                }
+                onResult(products)
+            }.addOnFailureListener {
+                onFailure(it)
+            }
+
     }
 
     fun observeProductsByShop(

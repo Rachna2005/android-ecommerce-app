@@ -50,6 +50,14 @@ class ShopViewModel : ViewModel() {
             }
         )
     }
+    fun getShopDetail(shopId: String){
+        _shopState.value = UiState.Loading
+        repository.getShopDetail(shopId = shopId, onSuccess = { shop ->
+            _shopState.value = UiState.Success(shop)
+        }, onFailure = {
+            _shopState.value = UiState.Error(it.message.toString())
+        })
+    }
 
     fun getShopByOwner(ownerId: String) {
 

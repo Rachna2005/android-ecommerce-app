@@ -10,14 +10,19 @@ import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import io.kess.ecommerce.databinding.ActivityMainBinding
+import io.kess.ecommerce.databinding.FragmentDisplayProductBinding
 import io.kess.ecommerce.databinding.TestBinding
-import io.kess.ecommerce.ui.FragmentTest
+//import io.kess.ecommerce.ui.FragmentTest
+import io.kess.ecommerce.ui.ProductListFragment
+import io.kess.ecommerce.ui.ProductShopFragment
+import io.kess.ecommerce.ui.ShopDetailFragment
+import io.kess.ecommerce.ui.ShopInfoFragment
 
-data class Product(
-    val id: String,
-    val title: String,
-    val price: Double
-)
+//data class Product(
+//    val id: String,
+//    val title: String,
+//    val price: Double
+//)
 
 class TestActivity : AppCompatActivity() {
     private lateinit var binding: TestBinding
@@ -27,7 +32,7 @@ class TestActivity : AppCompatActivity() {
         binding = TestBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, FragmentTest())
+            .replace(R.id.container, ProductListFragment())
             .commit()
     }
 
@@ -44,7 +49,8 @@ class TestActivity : AppCompatActivity() {
         val sheet = com.google.android.material.bottomsheet.BottomSheetDialog(this)
         sheet.setContentView(view)
 
-        val slider = view.findViewById<com.google.android.material.slider.RangeSlider>(R.id.sliderPrice)
+        val slider =
+            view.findViewById<com.google.android.material.slider.RangeSlider>(R.id.sliderPrice)
 
         slider.valueFrom = 0f
         slider.valueTo = 2000f

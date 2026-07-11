@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,8 +34,10 @@ class ShopAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.image)
-        val title: TextView = view.findViewById(R.id.title)
+        val image: ImageView = view.findViewById(R.id.img)
+        val title: TextView = view.findViewById(R.id.shopName)
+        val address: TextView = view.findViewById(R.id.location)
+        val container: CardView = view.findViewById(R.id.container)
     }
 
     override fun onCreateViewHolder(
@@ -55,14 +58,13 @@ class ShopAdapter(
         val shop = getItem(position)
 
         holder.title.text = shop.shopName
+        holder.address.text = shop.address
 
         Glide.with(holder.itemView.context)
             .load(shop.logoUrl)
-            .placeholder(R.drawable.ic_shop)
-            .error(R.drawable.ic_shop)
             .into(holder.image)
 
-        holder.itemView.setOnClickListener {
+        holder.container.setOnClickListener {
             onShopClick(shop)
         }
     }

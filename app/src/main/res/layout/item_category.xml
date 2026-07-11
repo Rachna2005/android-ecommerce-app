@@ -1,51 +1,81 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="140dp"-->
+<!--    xmlns:ndroid="http://schemas.android.com/tools"-->
+<!--    android:layout_marginBottom="16dp"-->
+<!--    app:cardCornerRadius="16dp"-->
+<!--    app:cardElevation="0dp">-->
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--             />-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/textContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:orientation="vertical"-->
+<!--            android:paddingStart="20dp"-->
+<!--            android:paddingEnd="20dp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/title"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/black"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/count"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="@color/black"/>-->
+<!--        </LinearLayout>-->
+
+<!--    </RelativeLayout>-->
+<!--</androidx.cardview.widget.CardView>-->
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="140dp"
-    xmlns:ndroid="http://schemas.android.com/tools"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp">
+    android:id="@+id/container"
+    android:layout_width="70dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_notification_badge"
+        android:backgroundTint="#EEF2FF"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/shoes" />
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-             />
-
-        <LinearLayout
-            android:id="@+id/textContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="4dp"
-                android:textSize="14sp"
-                android:textColor="@color/black"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:text="Shoe" />
+</LinearLayout>

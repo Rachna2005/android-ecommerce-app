@@ -339,7 +339,8 @@
                 android:textSize="18dp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/shopContainer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
@@ -352,7 +353,7 @@
                     android:background="@drawable/bg_notification_badge"
                     android:clipToOutline="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_product_detail" />
+                    android:backgroundTint="@color/stroke_default" />
 
                 <TextView
                     android:id="@+id/shopName"
