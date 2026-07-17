@@ -187,6 +187,7 @@
                             android:hint="e.g. Premium Silk Blazer"
                             android:paddingStart="14dp"
                             android:paddingEnd="14dp"
+                            android:fontFamily="@font/manrope_medium"
                             android:singleLine="true"
                             android:textColor="#111111"
                             android:textColorHint="#BBBBBB"
@@ -330,7 +331,7 @@
                         <EditText
                             android:id="@+id/et_description"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/bg_card_white_rounded"
                             android:backgroundTint="#F5F6FA"
                             android:gravity="top|start"

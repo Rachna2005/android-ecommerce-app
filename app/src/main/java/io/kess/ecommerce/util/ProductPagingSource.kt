@@ -31,7 +31,8 @@ class ProductPagingSource(private val query: Query) : PagingSource<DocumentSnaps
 //                    "Start after createdAt=${params.key!!.get("createdAt")}"
 //                )
 
-                currentQuery = currentQuery.startAfter(params.key!!.getTimestamp("createdAt"))
+                currentQuery = currentQuery.startAfter(params.key!!)
+//                currentQuery = currentQuery.startAfter(params.key!!.getTimestamp("createdAt"))
             }
             val snapshot = currentQuery.limit(params.loadSize.toLong()).get().await()
             Log.d(
@@ -68,6 +69,7 @@ class ProductPagingSource(private val query: Query) : PagingSource<DocumentSnaps
                 nextKey = snapshot.documents.lastOrNull()
             )
         } catch (e: Exception) {
+            Log.e("PAGING", "Load failed", e)
             LoadResult.Error(e)
         }
     }

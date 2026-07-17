@@ -504,24 +504,24 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_buy_again"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/primary"
-        android:drawablePadding="8dp"
-        android:drawableTint="#FFFFFF"
-        android:stateListAnimator="@null"
+<!--    <Button-->
+<!--        android:id="@+id/btn_buy_again"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="56dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:backgroundTint="@color/primary"-->
+<!--        android:drawablePadding="8dp"-->
+<!--        android:drawableTint="#FFFFFF"-->
+<!--        android:stateListAnimator="@null"-->
 
-        android:text="Buy Again"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:cornerRadius="28dp" />
+<!--        android:text="Buy Again"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:cornerRadius="28dp" />-->
 
     <ProgressBar
         android:id="@+id/progressBar"

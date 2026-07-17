@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-//        setUpBanner()
+        setUpBanner()
         observeData()
         setupRecyclerView()
         setupClickListeners(view)
@@ -83,24 +83,25 @@ class HomeFragment : Fragment() {
 
     private fun setUpBanner() {
         val imageList = listOf(
-            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1779176445/banner3_splvfi.png",
-            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1779176445/banner3_splvfi.png",
-            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1779176444/banner2_kwjqie.png"
+            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1784169538/poster4_mitlde.jpg",
+            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1784169523/poster3_vpccwn.jpg",
+            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1784169509/poster2_hw30lw.jpg",
+            "https://res.cloudinary.com/dcao8vmuc/image/upload/v1784168852/poster1_r6kgnf.jpg"
         )
 
-        imgSlide.adapter = BannerAdapter(imageList)
+        binding.viewPagerBanner.adapter = BannerAdapter(imageList)
 
         handler.postDelayed(object : Runnable {
             override fun run() {
 
-                val current = imgSlide.currentItem
+                val current =  binding.viewPagerBanner.currentItem
                 val next = if (current == imageList.size - 1) 0 else current + 1
 
-                imgSlide.currentItem = next
-
+                binding.viewPagerBanner.setCurrentItem(next, true)
                 handler.postDelayed(this, 3000)
             }
         }, 3000)
+
     }
 
     private fun setupUi(user: User?) {
@@ -236,23 +237,17 @@ class HomeFragment : Fragment() {
             Log.d("Category", it.count().toString())
         }
         userViewModel.authState.observe(viewLifecycleOwner) { state ->
-//            setupUi(it)
+
             when (state) {
                 is UiState.Loading -> {
-//                    binding.progressBar.visibility =
-//                        View.VISIBLE
-//                    binding.content.visibility = View.GONE
                 }
 
                 is UiState.Success -> {
-//                    binding.progressBar.visibility = View.GONE
-//                    binding.contentLayout.visibility = View.VISIBLE
-//                    binding.content.visibility = View.VISIBLE
                     setupUi(state.data)
                 }
 
                 is UiState.Error -> {
-//                    binding.progressBar.visibility = View.GONE
+
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -268,19 +263,6 @@ class HomeFragment : Fragment() {
         search.setOnClickListener {
             navigation(SearchFragment())
         }
-
-//        val discountMore = view.findViewById<TextView>(R.id.discount_all)
-//        discountMore.setOnClickListener {
-//            openProductList("DISCOUNT")
-//        }
-//        val newMore = view.findViewById<TextView>(R.id.new_more)
-//        newMore.setOnClickListener {
-//            openProductList("NEW_ARRIVAL")
-//        }
-//        val allMore = view.findViewById<TextView>(R.id.all_seeMore)
-//        allMore.setOnClickListener {
-//            openProductList("ALL")
-//        }
         binding.discountAll.setOnClickListener {
             openProductList("DISCOUNT")
         }
@@ -291,9 +273,6 @@ class HomeFragment : Fragment() {
             openProductList("ALL")
         }
 
-        binding.profile.setOnClickListener {
-//            showFilterBottomSheet()
-        }
     }
 
     private fun openProductByCategory(category: Category) {

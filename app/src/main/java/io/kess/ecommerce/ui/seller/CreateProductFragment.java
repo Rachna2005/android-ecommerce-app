@@ -313,12 +313,12 @@ public class CreateProductFragment extends Fragment {
 
         imageUrl = product.getImage();
 
-        binding.etStock.setText(product.getTotalStock());
+        binding.etStock.setText("${product.getTotalStock()}");
 
         if (isEdit && variants.isEmpty()) {
             binding.stockContainer.setVisibility(View.VISIBLE);
             binding.btnAddStock.setVisibility(View.VISIBLE);
-            binding.etStock.setText(product.getTotalStock());
+            binding.etStock.setText(String.valueOf(product.getTotalStock()));
         }
 
         Glide.with(this).load(product.getImage()).into(binding.productImage);
@@ -548,7 +548,11 @@ public class CreateProductFragment extends Fragment {
 
         if (productChanged) {
             waitingForProductUpdate = true;
-            Product updatedProduct = new Product(originalProduct.getId(), originalProduct.getShopId(), originalProduct.getShopName(), imageUrl, binding.etProductName.getText().toString().trim(), selectedCategoryId, Double.parseDouble(binding.etBasePrice.getText().toString().trim()), binding.etDiscount.getText().toString().trim().isEmpty() ? null : Double.parseDouble(binding.etDiscount.getText().toString().trim()), binding.etDescription.getText().toString().trim(), originalProduct.getStatus(), originalProduct.getTotalStock(), originalProduct.getCreatedAt());
+            Product updatedProduct = new Product(originalProduct.getId(), originalProduct.getShopId(),
+                    originalProduct.getShopName(), imageUrl, binding.etProductName.getText().toString().trim(), selectedCategoryId,
+                    Double.parseDouble(binding.etBasePrice.getText().toString().trim()),
+                    binding.etDiscount.getText().toString().trim().isEmpty() ? null : Double.parseDouble(binding.etDiscount.getText().toString().trim()),
+                    binding.etDescription.getText().toString().trim(), originalProduct.getStatus(), originalProduct.getTotalStock(), originalProduct.getCreatedAt());
 
             productViewModel.updateProduct(productId, updatedProduct);
         }

@@ -64,7 +64,7 @@
                         android:layout_height="100dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="25dp"
-                        android:src="@drawable/img_profile_avata"
+                        android:src="@drawable/img_profile"
                         app:shapeAppearanceOverlay="@style/CircleImage"/>
 
                 </FrameLayout>

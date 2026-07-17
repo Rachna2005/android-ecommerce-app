@@ -62,29 +62,46 @@ class OrderDetailFragment : Fragment() {
                 is UiState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.content.visibility = View.GONE
-                    binding.btnBuyAgain.visibility = View.GONE
+//                    binding.btnBuyAgain.visibility = View.GONE
                 }
 
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.content.visibility = View.VISIBLE
-                    binding.btnBuyAgain.visibility = View.VISIBLE
+//                    binding.btnBuyAgain.visibility = View.VISIBLE
                     setupUi(state.data)
                 }
 
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.content.visibility = View.GONE
-                    binding.btnBuyAgain.visibility = View.GONE
+//                    binding.btnBuyAgain.visibility = View.GONE
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
 
                 is UiState.Idle -> {}
             }
         }
-//        orderViewModel.orderItem.observe(viewLifecycleOwner){item ->
-//            orderItemAdapter.submitList(item)
-//        }
+        orderViewModel.orderItem.observe(viewLifecycleOwner) { state ->
+
+            when (state) {
+                is UiState.Loading -> {
+                }
+
+                is UiState.Success -> {
+                    orderItemAdapter.submitList(state.data)
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.GONE
+//                    binding.btnBuyAgain.visibility = View.GONE
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is UiState.Idle -> {}
+            }
+        }
     }
 
     private fun setupAdapter() {

@@ -66,7 +66,7 @@ class OrderHistoryFragment : Fragment() {
 
     private fun observeData(){
         orderViewModel.orders.observe(viewLifecycleOwner) { state ->
-//            orderAdapter.submitList(result)
+
             when (state) {
                 is UiState.Loading -> {
                     binding.progressBar.visibility =
@@ -75,7 +75,9 @@ class OrderHistoryFragment : Fragment() {
 
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    val result = state.data
+                    val result = state.data.sortedByDescending {
+                        it.createdAt
+                    }
                     binding.progressBar.visibility = View.GONE
                     orderAdapter.submitList(result)
                 }

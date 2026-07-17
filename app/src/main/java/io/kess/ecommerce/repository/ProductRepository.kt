@@ -18,6 +18,7 @@ import io.kess.ecommerce.model.ProductVariant
 import io.kess.ecommerce.util.ProductPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flowOf
 
 
 enum class ProductDisplayType {
@@ -36,71 +37,6 @@ class ProductRepository {
     private var lastCreatedAt: Timestamp? = null
     val oneWeekAgo = Timestamp(Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000))
 
-    //    fun getProduct(
-//        limit: Int,
-//        filter: ProductFilter,
-//        isRefresh: Boolean = false,
-//        disPlayType: ProductDisplayType,
-//        onResult: (List<Product>, Boolean) -> Unit,
-//        onFailure: (Exception) -> Unit
-//    ) {
-//        if (isRefresh) {
-//            lastCreatedAt = null
-//            isLastPage = false
-//            isLoading = false
-//        }
-//        if (isLoading || isLastPage) return
-//        isLoading = true
-//        var query: Query = fireStore.collection("products")
-//
-//        filter.categoryId?.let {
-//            query = query.whereEqualTo("categoryId", it)
-//        }
-//        filter.shopId?.let {
-//            query = query.whereEqualTo("shopId", it)
-//        }
-//        filter.minPrice?.let {
-//            query = query.whereGreaterThanOrEqualTo("price", it)
-//        }
-//        filter.maxPrice?.let {
-//            query = query.whereLessThanOrEqualTo("price", it)
-//        }
-////        query = query.orderBy("createdAt")
-//        when (disPlayType) {
-//            ProductDisplayType.ALL -> {
-//                query = query.orderBy("createdAt")
-//            }
-//
-//            ProductDisplayType.NEW_ARRIVAL -> {
-//                query = query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
-//                    .orderBy("createdAt", Query.Direction.DESCENDING)
-//            }
-//
-//            ProductDisplayType.DISCOUNT -> {
-//                query = query.whereGreaterThan("discountPercentage", 0)
-//                    .orderBy("createdAt", Query.Direction.DESCENDING)
-//            }
-//        }
-//
-//        if (lastCreatedAt != null) {
-//            query = query.startAfter(lastCreatedAt)
-//        }
-//        query.limit(limit.toLong()).get()
-//            .addOnSuccessListener { result ->
-//                val productList = result.documents.mapNotNull { doc ->
-//                    doc.toObject(Product::class.java)?.apply { id = doc.id }
-//                }
-//                lastCreatedAt = result.documents.lastOrNull()?.getTimestamp("createdAt")
-//                if ((productList.size < 6) || productList.isEmpty()) {
-//                    isLastPage = true
-//                }
-//                isLoading = false
-//                onResult(productList, isLastPage)
-//            }.addOnFailureListener { e ->
-//                isLoading = false
-//                onFailure(e)
-//            }
-//    }
     fun homeProduct(
         displayType: ProductDisplayType,
         limit: Int,
@@ -112,6 +48,7 @@ class ProductRepository {
             ProductDisplayType.ALL -> {}
             ProductDisplayType.DISCOUNT -> {
                 query = query.whereGreaterThan("discountPercentage", 0)
+
             }
 
             ProductDisplayType.NEW_ARRIVAL -> {
@@ -132,7 +69,14 @@ class ProductRepository {
 
     fun getProduct(query: ProductQuery): Flow<PagingData<Product>> {
         Log.d("PAGING", "Create Pager with query = $query")
+
+
+        if(query.isSearch && query.keyword.isNullOrBlank()){
+                return flowOf(PagingData.empty())
+        }
+
         val fireStoreQuery = buildQuery(query)
+
         return Pager(
             config = PagingConfig(
                 pageSize = 8,
@@ -153,43 +97,55 @@ class ProductRepository {
         productQuery.shopId?.let {
             query = query.whereEqualTo("shopId", it)
         }
+
+        val hasPriceFilter = productQuery.minPrice != null || productQuery.maxPrice != null
+
         productQuery.minPrice?.let {
-            Log.d("FILTER", "Min price = $it")
             query = query.whereGreaterThanOrEqualTo("price", it.toDouble())
         }
+
         productQuery.maxPrice?.let {
-            Log.d("FILTER", "Max price = $it")
             query = query.whereLessThanOrEqualTo("price", it.toDouble())
-            query.orderBy("price")
         }
+
+
         when (productQuery.displayType) {
-            ProductDisplayType.ALL -> {}
+            ProductDisplayType.ALL -> {
+//                query = query.orderBy("createdAt")
+            }
+
             ProductDisplayType.DISCOUNT -> {
                 query = query.whereGreaterThan("discountPercentage", 0.0)
+                query = query.orderBy("discountPercentage")
+//                    .orderBy("createdAt")
+
             }
 
             ProductDisplayType.NEW_ARRIVAL -> {
-                query = query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
+                query =
+                    query.whereGreaterThanOrEqualTo("createdAt", oneWeekAgo)
+//                        .orderBy("createdAt")
             }
         }
-        return query.orderBy("createdAt")
-    }
+        if (productQuery.displayType == ProductDisplayType.ALL &&
+            productQuery.categoryId == null &&
+            productQuery.shopId == null &&
+            !hasPriceFilter &&
+            !productQuery.keyword.isNullOrBlank()
+        ) {
+            return query
+                .orderBy("name")
+                .startAt(productQuery.keyword!!)
+                .endAt(productQuery.keyword!! + "\uf8ff")
+        }
+//        return query.orderBy("createdAt")
+        query = if (hasPriceFilter) {
+            query.orderBy("price").orderBy("createdAt")
+        } else {
+            query.orderBy("createdAt")
+        }
 
-    fun debugBrokenProducts() {
-        fireStore.collection("products")
-            .get()
-            .addOnSuccessListener { result ->
-
-                val broken = result.documents.filter {
-                    it.getTimestamp("createdAt") == null
-                }
-
-                Log.d("DEBUG_PRODUCTS", "BROKEN COUNT = ${broken.size}")
-
-                broken.forEach {
-                    Log.d("DEBUG_PRODUCTS", "BROKEN ID = ${it.id} DATA = ${it.data}")
-                }
-            }
+        return query
     }
 
     fun getProductDetail(
@@ -212,6 +168,33 @@ class ProductRepository {
             }.addOnFailureListener { e -> onFailure(e) }
 
         }.addOnFailureListener { e -> onFailure(e) }
+    }
+
+    fun getFavoriteProduct(
+        favorite: Set<String>,
+        onResult: (List<Product>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val products = mutableListOf<Product>()
+        var complete = 0
+        favorite.forEach { productId ->
+            fireStore.collection("products").document(productId).get().addOnSuccessListener { doc ->
+                if (doc.exists()) {
+
+                    doc.toObject(Product::class.java)?.apply {
+                        id = doc.id
+                    }?.let {
+                        products.add(it)
+                    }
+                }
+                complete++
+                if (complete == favorite.size) {
+                    onResult(products)
+                }
+            }.addOnFailureListener {
+                onFailure(it)
+            }
+        }
     }
 
     fun getProductByCategory(
@@ -244,7 +227,6 @@ class ProductRepository {
             }.addOnFailureListener {
                 onFailure(it)
             }
-
     }
 
     fun observeProductsByShop(

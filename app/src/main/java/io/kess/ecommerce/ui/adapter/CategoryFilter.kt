@@ -14,7 +14,7 @@ import io.kess.ecommerce.model.Category
 import io.kess.ecommerce.model.ProductVariant
 
 class CategoryFilter(
-    private val onClick: (Category) -> Unit
+    private val onClick: (Category?) -> Unit
 ) : ListAdapter<Category, CategoryFilter.ViewHolder>(DiffCallback()) {
     private var selectedId: String? = null
     fun setSelected(id: String?) {
@@ -72,9 +72,19 @@ class CategoryFilter(
         }
 
         holder.button.setOnClickListener {
-            selectedId = item.id
+            selectedId = if(selectedId == item.id){
+                null
+            }else{
+                item.id
+            }
             notifyDataSetChanged()
-            onClick(item)
+            onClick(
+                if(selectedId == null){
+                    null
+                }else{
+                    item
+                }
+            )
         }
     }
 }

@@ -170,11 +170,14 @@ class CartFragment : Fragment() {
     }
 
     private fun setupClickListener() {
-        binding.btnCheckoutAll.setOnClickListener {
+//        binding.btnCheckoutAll.setOnClickListener {
+//            navigation(CheckOutFragment())
+//        }
+        binding.btnCheckout.setOnClickListener {
             navigation(CheckOutFragment())
         }
         binding.btnWishlist.setOnClickListener {
-            val fragment = ProductListFragment().apply {
+            val fragment = FragmentFavorite().apply {
                 arguments = Bundle().apply {
                     putString("TYPE", "FAVORITE")
                 }

@@ -51,6 +51,10 @@ class CartViewModel : ViewModel() {
         )
     }
 
+  fun clearCart(carts: List<CartItem>){
+        repository.removeCartItems(carts, onResult = {}, onFailure = {})
+    }
+
     private fun buildCartUi(carts: List<CartItem>) {
         val grouped = carts.groupBy { it.shopId }
         val result = grouped.map { (shopId, items) ->

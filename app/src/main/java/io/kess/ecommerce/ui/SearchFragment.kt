@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import io.kess.ecommerce.databinding.FragmentSearchBinding
@@ -17,6 +19,8 @@ import io.kess.ecommerce.ui.adapter.ProductAdapter
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -45,51 +49,49 @@ class SearchFragment : Fragment() {
         }
         initViewModel()
         setupAdapter()
-//        observeData()
+        observeData()
         setupSearch()
     }
 
     private fun initViewModel(){
-        viewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         favoriteViewModel = ViewModelProvider(requireActivity())[FavoriteViewModel::class.java]
     }
 
     private fun setupAdapter(){
-        searchAdapter = ProductAdapter(emptySet(),loadingFavorite = emptySet(), { product ->
+        searchAdapter =ProductAdapter(emptySet(), loadingFavorite = emptySet(), { product ->
             favoriteViewModel.toggleFavorite(product.id)
-        }, {product -> openProductDetail(product.id)})
-//        binding.recyclerView.adapter = searchAdapter
+        }, { product -> openProductDetail(product.id) })
+        binding.recyclerView.adapter = searchAdapter
         binding.recyclerView.layoutManager =  GridLayoutManager(requireContext(), 2)
     }
 
     private fun observeData(){
-        viewModel.products.observe(viewLifecycleOwner)
-        { state ->
-            when (state) {
-
-                is UiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-
-                    productList = state.data
-
-                    val query = binding.search.text.toString().trim()
-                    setupSearch(query)
-                }
-                is UiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
-
-                    Toast.makeText(
-                        requireContext(),
-                        state.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                is UiState.Idle -> {}
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.product.collectLatest {
+                searchAdapter.submitData(it)
+//                productAdapter.updateFavorites()
             }
         }
+
+        searchAdapter.addLoadStateListener { state ->
+
+            when(state.refresh){
+
+                is LoadState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is LoadState.NotLoading -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+
+                is LoadState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+
         favoriteViewModel.favorite.observe(viewLifecycleOwner) {
             favorite = it
             searchAdapter.updateFavorites(favorite)
@@ -101,21 +103,21 @@ class SearchFragment : Fragment() {
 
     private fun setupSearch(){
         binding.search.addTextChangedListener { editable ->
-            setupSearch(editable.toString().trim())
+            val keyword = editable.toString().trim()
+            viewModel.search(keyword)
         }
     }
 
-
-    private fun setupSearch(query: String) {
-            if (query.isBlank()) {
-//                searchAdapter.submitList(emptyList())
-            } else {
-                val filteredList = productList.filter {
-                    it.name.contains(query, ignoreCase = true)
-                }
-//                searchAdapter.submitList(filteredList)
-            }
-    }
+//    private fun setupSearch(query: String) {
+//            if (query.isBlank()) {
+////                searchAdapter.submitList(emptyList())
+//            } else {
+//                val filteredList = productList.filter {
+//                    it.name.contains(query, ignoreCase = true)
+//                }
+////                searchAdapter.submitList(filteredList)
+//            }
+//    }
     private fun openProductDetail(productId: String){
         val fragment = ProductDetailFragment().apply {
             arguments = Bundle().apply {

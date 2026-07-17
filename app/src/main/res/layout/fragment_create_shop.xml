@@ -188,6 +188,7 @@
                             android:hint="Enter your your shop name"
                             android:inputType="textCapWords"
                             android:paddingStart="60dp"
+                            android:fontFamily="@font/manrope_medium"
                             android:textColorHint="#CCCCCC" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -232,6 +233,7 @@
                             android:background="@null"
                             android:gravity="top|start"
                             android:hint="Tell customers about your shop"
+                            android:fontFamily="@font/manrope_medium"
                             android:inputType="textMultiLine"
                             android:maxLines="6"
                             android:minLines="4"
@@ -281,7 +283,9 @@
                             android:layout_height="56dp"
                             android:background="@null"
                             android:hint="Phone Number"
+                            android:textSize="14sp"
                             android:inputType="phone"
+                            android:fontFamily="@font/manrope_medium"
                             android:paddingStart="60dp"
                             android:textColorHint="#CCCCCC" />
 
@@ -299,8 +303,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:letterSpacing="0.1"
-
                             android:text="Shop Address"
+                            android:fontFamily="@font/manrope_medium"
                             android:textSize="11sp"
                             app:fontFamily="@font/manrope_bold" />
                     </LinearLayout>

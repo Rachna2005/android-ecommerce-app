@@ -15,6 +15,7 @@ import io.kess.ecommerce.databinding.TestBinding
 //import io.kess.ecommerce.ui.FragmentTest
 import io.kess.ecommerce.ui.ProductListFragment
 import io.kess.ecommerce.ui.ProductShopFragment
+import io.kess.ecommerce.ui.SearchFragment
 import io.kess.ecommerce.ui.ShopDetailFragment
 import io.kess.ecommerce.ui.ShopInfoFragment
 
@@ -32,7 +33,7 @@ class TestActivity : AppCompatActivity() {
         binding = TestBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, ProductListFragment())
+            .replace(R.id.container, SearchFragment())
             .commit()
     }
 

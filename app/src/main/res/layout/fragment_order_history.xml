@@ -91,15 +91,13 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_marginTop="20dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp" />
+      />
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-           android:layout_gravity="center_horizontal"
+           android:layout_gravity="center"
             android:visibility="gone"/>
     </FrameLayout>
 

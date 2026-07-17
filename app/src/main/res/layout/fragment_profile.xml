@@ -16,7 +16,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:src="@drawable/img_profile_avata"
+            android:src="@drawable/img_profile"
             app:shapeAppearanceOverlay="@style/CircleImage"
             />
         <TextView
@@ -39,6 +39,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/bg_rounded_border"
+            android:backgroundTint="#EEF2FF"
             android:padding="5dp"
             android:text="SHOPIX MEMBER"
             android:textColor="@color/primary"
@@ -196,9 +197,10 @@
 
                 <ImageView
                     android:id="@+id/order"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_chevron_right"
+                    android:padding="10dp"
                     />
 
             </LinearLayout>
@@ -252,71 +254,72 @@
 
                 <ImageView
                     android:id="@+id/favorite"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_chevron_right" />
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="#F0F0F5" />
-
-            <LinearLayout
-                android:id="@+id/payment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_rounded"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_location" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:fontFamily="@font/manrope_bold"
-                        android:text="Adding Address"
-                        android:textColor="@color/primary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Adding your location and phone number"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/address"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_chevron_right" />
+                    android:src="@drawable/ic_chevron_right"
+                    android:padding="10dp"/>
 
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="#F0F0F5" />
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/payment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="16dp">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="48dp"-->
+<!--                    android:layout_height="48dp"-->
+<!--                    android:background="@drawable/bg_icon_rounded"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:src="@drawable/ic_location" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:fontFamily="@font/manrope_bold"-->
+<!--                        android:text="Adding Address"-->
+<!--                        android:textColor="@color/primary"-->
+<!--                        android:textSize="14sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Adding your location and phone number"-->
+<!--                        android:textColor="#999999"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                </LinearLayout>-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/address"-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:src="@drawable/ic_chevron_right" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:background="#F0F0F5" />-->
 
             <LinearLayout
                 android:id="@+id/setting"
@@ -350,15 +353,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Preferences, security &amp; privacy"
+                        android:text="Manage your profile and address"
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
                 </LinearLayout>
                 <ImageView
                     android:id="@+id/settings"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:src="@drawable/ic_chevron_right"
                     />
             </LinearLayout>
@@ -384,15 +388,15 @@
             app:strokeColor="#E8A0A0"
             app:strokeWidth="1dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnLogout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="SHOPIX  V2.4.1"
-            android:textColor="#767683"
-            android:textSize="18dp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/btnLogout"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:text="SHOPIX  V1.1.0"-->
+<!--            android:textColor="#767683"-->
+<!--            android:textSize="18dp" />-->
     </RelativeLayout>
 
 </ScrollView>

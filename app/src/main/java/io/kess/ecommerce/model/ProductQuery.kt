@@ -7,5 +7,7 @@ data class ProductQuery(
     val categoryId: String? = null,
     val minPrice: Int? = null,
     val maxPrice: Int? = null,
-    val shopId: String? = null
+    val shopId: String? = null,
+    val keyword: String? = null,
+    val isSearch: Boolean = true
 )

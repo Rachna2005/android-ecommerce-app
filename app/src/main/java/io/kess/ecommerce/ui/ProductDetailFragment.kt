@@ -1,39 +1,30 @@
 package io.kess.ecommerce.ui
 
-import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.compose.material3.Card
-import androidx.compose.remote.creation.dsl.log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProductDetailBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.ProductDetail
-import io.kess.ecommerce.model.ProductVariant
+import io.kess.ecommerce.model.Shop
 import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.adapter.ColorAdapter
 import io.kess.ecommerce.ui.adapter.ReviewAdapter
 import io.kess.ecommerce.ui.adapter.SizeAdapter
-import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
 import io.kess.ecommerce.view_model.CartViewModel
@@ -62,9 +53,8 @@ class ProductDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         productId = arguments?.getString("ID")
-
+//        productId = "6bsbEIoo4jFtnnHjec9e"
     }
 
     override fun onCreateView(
@@ -93,7 +83,7 @@ class ProductDetailFragment : Fragment() {
         cartViewModel =
             ViewModelProvider(requireActivity())[CartViewModel::class.java]
         reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
-        shopViewModel = ViewModelProvider(requireActivity())[ShopViewModel::class.java]
+        shopViewModel = ViewModelProvider(this)[ShopViewModel::class.java]
         productId?.let {
             reviewViewModel.loadReviews(it)
         }
@@ -274,6 +264,9 @@ class ProductDetailFragment : Fragment() {
                     binding.mainContent.visibility = View.VISIBLE
                     val product = state.data
                     productDetail = product
+                    productDetail.product.shopId?.let {
+                        shopViewModel.getShopDetail(it)
+                    }
                     setupUi(product)
                     updateVariants()
                 }
@@ -341,15 +334,12 @@ class ProductDetailFragment : Fragment() {
                 is UiState.Idle -> {}
             }
         }
-        shopViewModel.shops.observe(viewLifecycleOwner) { state ->
+        shopViewModel.shopState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                 }
-
                 is UiState.Success -> {
-                    val shop = state.data.find { it.id == productDetail.product.shopId }
-                    binding.shopName.text = shop?.shopName ?: "Shop name"
-                    Glide.with(requireContext()).load(shop?.logoUrl).into(binding.shopImage)
+                    setupShop(state.data)
                 }
 
                 is UiState.Error -> {
@@ -403,7 +393,12 @@ class ProductDetailFragment : Fragment() {
         binding.decrease.alpha = if (totalQuantity > 1) 1f else 0.5f
     }
 
+    private fun setupShop(shop: Shop?) {
+        Glide.with(requireContext()).load(shop?.logoUrl).into(binding.shopImage)
+    }
+
     private fun setupUi(product: ProductDetail) {
+        binding.shopName.text = product.product.shopName
         binding.mainProductTitle.text = product.product.name
         binding.text.text = product.product.name
         binding.descriptionContent.text = product.product.description
@@ -411,9 +406,16 @@ class ProductDetailFragment : Fragment() {
         if (product.variant.isEmpty()) {
             binding.color.visibility = View.GONE
             binding.caseSize.visibility = View.GONE
-        } else {
-            binding.color.visibility = View.VISIBLE
-            binding.caseSize.visibility = View.VISIBLE
+        }
+        else {
+            val hasColor = product.variant.any { it.color.isNotBlank() }
+            val hasSize = product.variant.any { it.size.isNotBlank() }
+
+            binding.color.visibility =
+                if (hasColor) View.VISIBLE else View.GONE
+
+            binding.caseSize.visibility =
+                if (hasSize) View.VISIBLE else View.GONE
         }
 
         Glide.with(requireContext())

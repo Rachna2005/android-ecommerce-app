@@ -27,7 +27,6 @@ import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.OrderViewModel
 
-
 class CheckOutFragment : Fragment() {
     private var _binding: FragmentCheckoutScreenBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +38,7 @@ class CheckOutFragment : Fragment() {
     private var shopGroup: List<ShopCartGroup> = emptyList()
     private val successBottomSheet = SuccessPaymentSheet()
     private var selectedPayment = "KHQR"
+    private var selectedCartItems: List<CartItem> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +93,7 @@ class CheckOutFragment : Fragment() {
 
     private fun setupAdapter() {
         orderItemAdapter = ShopOrderItemAdapter()
+        binding.recyclerView.isNestedScrollingEnabled = false
         binding.recyclerView.apply {
             adapter = orderItemAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -109,6 +110,7 @@ class CheckOutFragment : Fragment() {
             } else {
                 val selectedShop = cart.find { it.shopId == shopId }
                 shopGroup = selectedShop?.let { listOf(it) } ?: emptyList()
+                selectedCartItems = selectedShop?.items ?: emptyList()
                 orderItemAdapter.submitList(shopGroup)
                 setupUi(shopGroup)
             }
@@ -128,21 +130,30 @@ class CheckOutFragment : Fragment() {
 //                    binding.btnCheckout.alpha = 0.5f
                     showLoading(true)
                 }
+
                 is UiState.Success -> {
 //                    binding.btnCheckout.isEnabled = true
 //                    binding.btnCheckout.alpha = 1f
                     showLoading(false)
+                    if (shopId == null) {
+                        cartViewModel.clearCart(cartItem)
+                    } else {
+                        cartViewModel.clearCart(selectedCartItems)
+                    }
                 }
+
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
 //                    binding.btnCheckout.isEnabled = true
 //                    binding.btnCheckout.alpha = 1f
                     showLoading(false)
                 }
+
                 is UiState.Idle -> {}
             }
         }
     }
+
     private fun showAddressDialog() {
         val view = layoutInflater.inflate(R.layout.address_dialog, null)
 
@@ -161,6 +172,13 @@ class CheckOutFragment : Fragment() {
             sheet.show(parentFragmentManager, "AddressSheet")
         }
         dialog.show()
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setLayout(
+                (resources.displayMetrics.widthPixels * 0.75).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
     }
 
 
@@ -276,6 +294,7 @@ class CheckOutFragment : Fragment() {
             }
         }
     }
+
     private fun showLoading(show: Boolean) {
         binding.loadingOverlay.visibility = if (show) View.VISIBLE else View.GONE
         binding.root.isEnabled = !show

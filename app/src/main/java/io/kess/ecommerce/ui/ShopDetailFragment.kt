@@ -40,6 +40,7 @@ class ShopDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private var shopId: String? = null
     private lateinit var shopViewModel: ShopViewModel
+
     private lateinit var productFragment: ProductShopFragment
     private lateinit var shopInfoFragment: ShopInfoFragment
     private var currentFragment: Fragment? = null
@@ -72,6 +73,7 @@ class ShopDetailFragment : Fragment() {
         shopViewModel = ViewModelProvider(this)[ShopViewModel::class.java]
         shopId?.let {
             shopViewModel.getShopDetail(it)
+
         }
     }
 
@@ -117,6 +119,7 @@ class ShopDetailFragment : Fragment() {
                 is UiState.Idle -> {}
             }
         }
+
     }
 
     private fun setupFragments() {
@@ -195,6 +198,6 @@ class ShopDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-            (activity as MainActivity).showButtonNav(true)
+        (activity as MainActivity).showButtonNav(show = true)
     }
 }

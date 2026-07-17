@@ -27,7 +27,7 @@
                 android:id="@+id/profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/img_profile_avata"
+                android:src="@drawable/img_profile"
                 app:shapeAppearanceOverlay="@style/CircleImage" />
 
             <!-- Greeting Text Block -->
@@ -69,26 +69,26 @@
                 android:src="@drawable/ic_search" />
 
             <!-- Notification Icon with Badge -->
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp">
+            <!--            <FrameLayout-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="10dp">-->
 
-                <ImageView
-                    android:id="@+id/notification"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_notification_bell" />
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/notification"-->
+            <!--                    android:layout_width="25dp"-->
+            <!--                    android:layout_height="25dp"-->
+            <!--                    android:src="@drawable/ic_notification_bell" />-->
 
-                <View
-                    android:id="@+id/notificationBadge"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginEnd="1dp"
-                    android:background="@drawable/bg_notification_badge" />
-            </FrameLayout>
+            <!--                <View-->
+            <!--                    android:id="@+id/notificationBadge"-->
+            <!--                    android:layout_width="10dp"-->
+            <!--                    android:layout_height="10dp"-->
+            <!--                    android:layout_gravity="top|end"-->
+            <!--                    android:layout_marginTop="1dp"-->
+            <!--                    android:layout_marginEnd="1dp"-->
+            <!--                    android:background="@drawable/bg_notification_badge" />-->
+            <!--            </FrameLayout>-->
         </LinearLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
@@ -109,49 +109,59 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="70dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginRight="10dp"-->
-<!--                    android:layout_marginBottom="10dp"-->
-<!--                    android:orientation="vertical">-->
-<!--                    -->
-<!--                        <ImageView-->
-<!--                            android:id="@+id/iv_product"-->
-<!--                            android:layout_width="60dp"-->
-<!--                            android:layout_height="60dp"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:clipToOutline="true"-->
-<!--                            android:scaleType="centerCrop"-->
-<!--                            android:src="@drawable/shoes"-->
-<!--                            android:background="@drawable/bg_notification_badge"-->
-<!--                            android:backgroundTint="#EEF2FF"/>-->
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="70dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginRight="10dp"-->
+                <!--                    android:layout_marginBottom="10dp"-->
+                <!--                    android:orientation="vertical">-->
+                <!--                    -->
+                <!--                        <ImageView-->
+                <!--                            android:id="@+id/iv_product"-->
+                <!--                            android:layout_width="60dp"-->
+                <!--                            android:layout_height="60dp"-->
+                <!--                            android:layout_gravity="center"-->
+                <!--                            android:clipToOutline="true"-->
+                <!--                            android:scaleType="centerCrop"-->
+                <!--                            android:src="@drawable/shoes"-->
+                <!--                            android:background="@drawable/bg_notification_badge"-->
+                <!--                            android:backgroundTint="#EEF2FF"/>-->
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:maxLines="1"-->
-<!--                        android:text="Shoe" />-->
-<!--                </LinearLayout>-->
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginTop="8dp"-->
+                <!--                        android:maxLines="1"-->
+                <!--                        android:text="Shoe" />-->
+                <!--                </LinearLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categories"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/manrope_bold"
+                    android:layout_marginBottom="10dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoryRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Discounted Products"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:fontFamily="@font/manrope_bold"
+
 
                         />
 
@@ -172,6 +182,7 @@
                             android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
+                            android:textSize="16dp"
                             android:textColor="@color/primary" />
 
                         <ImageView
@@ -193,11 +204,11 @@
                     android:layout_height="180dp"
                     android:layout_marginTop="16dp"
                     app:cardCornerRadius="13dp">
-<!--                                    <ImageView-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="match_parent"-->
-<!--                                        android:scaleType="centerCrop"-->
-<!--                                        android:src="@drawable/img_product_detail" />-->
+                    <!--                                    <ImageView-->
+                    <!--                                        android:layout_width="match_parent"-->
+                    <!--                                        android:layout_height="match_parent"-->
+                    <!--                                        android:scaleType="centerCrop"-->
+                    <!--                                        android:src="@drawable/img_product_detail" />-->
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewPagerBanner"
                         android:layout_width="match_parent"
@@ -208,14 +219,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="New Arrival"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <!--                    <TextView-->
@@ -244,7 +256,8 @@
                             android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
-                            android:textColor="@color/primary" />
+                            android:textColor="@color/primary"
+                            android:textSize="16dp" />
 
                         <ImageView
                             android:layout_width="18dp"
@@ -264,14 +277,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="All Product"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <!--                    <TextView-->
@@ -300,6 +314,7 @@
                             android:layout_marginRight="7dp"
                             android:fontFamily="@font/manrope_bold"
                             android:text="View All"
+                            android:textSize="16dp"
                             android:textColor="@color/primary" />
 
                         <ImageView

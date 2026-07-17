@@ -60,7 +60,6 @@ class ReviewFragment : Fragment() {
         reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
     }
 
-
     private fun setupRatingStars() {
         val stars = listOf(
             binding.star1,
@@ -123,9 +122,9 @@ class ReviewFragment : Fragment() {
             )
 
         }
-//        binding.btnClose.setOnClickListener {
-//            parentFragmentManager.popBackStack()
-//        }
+        binding.backBtn.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun observeData() {

@@ -23,7 +23,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     }
 
     fun getAllCart(onResult: (List<CartItem>) -> Unit, onFailure: (Exception) -> Unit) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         cartListener?.remove()
         cartListener =
             fireStore.collection("users")
@@ -44,9 +44,28 @@ class CartItemRepository(private val authRepo: AuthRepository) {
                 }
     }
 
+    fun removeCartItems(
+        cartItem: List<CartItem>,
+        onResult: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val userId = requireUserId(onFailure) ?: return
+        val batch = fireStore.batch()
+        cartItem.forEach { item ->
+            val cartDoc =
+                fireStore.collection("users").document(userId).collection("cart").document(item.id)
+            batch.delete(cartDoc)
+        }
+        batch.commit().addOnSuccessListener {
+            onResult()
+        }.addOnFailureListener {
+            onFailure(it)
+        }
+    }
+
     fun addCart(cartItem: CartItem, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val cartId = "${cartItem.productId}_${cartItem.variantId}"
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         val findCart =
             fireStore.collection("users").document(userId).collection("cart").document(cartId)
         findCart.get().addOnSuccessListener { doc ->
@@ -72,7 +91,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     }
 
     fun deleteCart(cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         fireStore.collection("users").document(userId).collection("cart").document(cartId).delete()
             .addOnSuccessListener {
                 onResult("Cart delete successfully")
@@ -84,7 +103,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     fun increaseQuantity(
         cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         fireStore
             .collection("users")
             .document(userId)
@@ -108,7 +127,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
     fun decreaseQuantity(
         cartId: String, onResult: (String) -> Unit, onFailure: (Exception) -> Unit
     ) {
-        val userId = requireUserId (onFailure) ?: return
+        val userId = requireUserId(onFailure) ?: return
         val cartRef =
             fireStore
                 .collection("users")
@@ -125,6 +144,7 @@ class CartItemRepository(private val authRepo: AuthRepository) {
             onFailure(it)
         }
     }
+
     fun removeCartListener() {
         cartListener?.remove()
         cartListener = null

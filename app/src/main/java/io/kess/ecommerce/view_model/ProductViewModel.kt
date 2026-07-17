@@ -21,12 +21,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 
 class ProductViewModel : ViewModel() {
     private val repository = ProductRepository()
     private val _products = MutableLiveData<UiState<List<Product>>>()
 
     val products: LiveData<UiState<List<Product>>> = _products
+
+    private val _favoriteProducts = MutableLiveData<UiState<List<Product>>>()
+
+    val favoriteProducts: LiveData<UiState<List<Product>>> = _favoriteProducts
 
     private val _discountProducts = MutableLiveData<UiState<List<Product>>>()
     val discountProducts: LiveData<UiState<List<Product>>> = _discountProducts
@@ -47,14 +52,10 @@ class ProductViewModel : ViewModel() {
         MutableLiveData<UiState<String>>()
     val actionState: LiveData<UiState<String>> =
         _actionState
-
     private val _isLoadingMore = MutableLiveData(false)
-    val isLoadingMore: LiveData<Boolean> = _isLoadingMore
-    var isLastPage = false
 
-    //    var isLoading = false
     private var currentFilter = ProductFilter()
-    fun getCurrentFilter() = currentFilter
+
 
     fun clearState() {
         _actionState.value = UiState.Idle
@@ -65,15 +66,30 @@ class ProductViewModel : ViewModel() {
     val productQuery = _productQuery.asStateFlow()
     val product: Flow<PagingData<Product>> = _productQuery.flatMapLatest { query ->
         repository.getProduct(query)
+
     }.cachedIn(viewModelScope)
 
-    fun loadProduct(query: ProductQuery){
-        if(_productQuery.value == query) return
-
+    fun loadProduct(query: ProductQuery) {
+//        if (_productQuery.value == query) return
         _productQuery.value = query
+        Log.d("Load", "Called")
     }
 
-    fun getDiscountProduct( limit: Int){
+    fun search(keyword: String) {
+//        _productQuery.update {
+//            it.copy(
+//                keyword = keyword.ifBlank { null }
+//            )
+//        }
+        if (keyword.isBlank()) {
+//            _productQuery.value = ProductQuery(keyword = null)
+            return
+        }
+        _productQuery.value =
+            ProductQuery(displayType = ProductDisplayType.ALL, keyword = keyword)
+    }
+
+    fun getDiscountProduct(limit: Int) {
         _discountProducts.value = UiState.Loading
         repository.homeProduct(ProductDisplayType.DISCOUNT, limit, onResult = {
             _discountProducts.value = UiState.Success(it)
@@ -82,7 +98,7 @@ class ProductViewModel : ViewModel() {
         })
     }
 
-    fun getAllProduct(limit: Int){
+    fun getAllProduct(limit: Int) {
         _products.value = UiState.Loading
         repository.homeProduct(ProductDisplayType.ALL, limit, onResult = {
             _products.value = UiState.Success(it)
@@ -91,7 +107,7 @@ class ProductViewModel : ViewModel() {
         })
     }
 
-    fun getNewArrival(limit: Int){
+    fun getNewArrival(limit: Int) {
         _newArrivalProducts.value = UiState.Loading
         repository.homeProduct(ProductDisplayType.NEW_ARRIVAL, limit, onResult = {
             _newArrivalProducts.value = UiState.Success(it)
@@ -99,42 +115,6 @@ class ProductViewModel : ViewModel() {
             _newArrivalProducts.value = UiState.Error(it.message.toString())
         })
     }
-
-//    fun loadAllProducts(
-//        isRefresh: Boolean = false,
-//        limit: Int,
-//        filter: ProductFilter = ProductFilter(),
-//        displayType: ProductDisplayType
-//    ) {
-//        currentFilter = filter
-//        if (isRefresh) {
-//            _products.value = UiState.Loading
-//            isLastPage = false
-////            isLoading = false
-//        } else {
-//            _isLoadingMore.value = true
-//        }
-//        if (isLastPage) return
-////        isLoading = true
-//        repository.getProduct(
-//            isRefresh = isRefresh,
-//            limit = limit,
-//            filter = filter,
-//            disPlayType = displayType,
-//            onResult = { data, lastPage ->
-////            isLoading = false
-//                isLastPage = lastPage
-//                _isLoadingMore.value = false
-//                val current = (_products.value as? UiState.Success)?.data ?: emptyList()
-//                val newList = if (isRefresh) data else current + data
-//                _products.value = UiState.Success(newList)
-//            },
-//            onFailure = { e ->
-//                _isLoadingMore.value = false
-////            isLoading = false
-//                _products.value = UiState.Error(e.message.toString())
-//            })
-//    }
 
 
     fun getProductDetail(productId: String) {
@@ -145,6 +125,15 @@ class ProductViewModel : ViewModel() {
             onFailure = { e ->
                 _productDetail.value = UiState.Error(e.message.toString())
             })
+    }
+
+    fun getFavoriteProduct(favorite: Set<String>) {
+        _favoriteProducts.value = UiState.Loading
+        repository.getFavoriteProduct(favorite, onResult = { product ->
+            _favoriteProducts.value = UiState.Success(product)
+        }, onFailure = {
+            _favoriteProducts.value = UiState.Error(it.message.toString())
+        })
     }
 
     fun categoryProduct(categoryId: String) {

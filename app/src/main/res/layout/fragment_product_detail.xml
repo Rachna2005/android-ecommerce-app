@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/mainProductTitle"
-            android:layout_width="290dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             app:fontFamily="@font/manrope_bold"
             android:gravity="center"
@@ -264,7 +264,7 @@
                 android:paddingLeft="20dp"
                 android:text="Color"
                 android:textColor="@color/primary"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerColor"
@@ -281,7 +281,7 @@
                 android:paddingBottom="10dp"
                 android:text="Case Size"
                 android:textColor="@color/primary"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerSize"
@@ -301,10 +301,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     app:fontFamily="@font/manrope_bold"
                     android:text="Descriptions"
                     android:textColor="@color/primary"
-                    android:textSize="18dp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -336,7 +337,7 @@
                 android:paddingLeft="20dp"
                 android:text="Shop"
                 android:textColor="@color/primary"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
             <LinearLayout
                 android:id="@+id/shopContainer"
@@ -382,7 +383,7 @@
                     app:fontFamily="@font/manrope_bold"
                     android:text="User Reviews"
                     android:textColor="@color/primary"
-                    android:textSize="18dp" />
+                    android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -395,7 +396,7 @@
                     android:layout_height="wrap_content"
                     android:text="write a review"
                     android:textColor="@color/primary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

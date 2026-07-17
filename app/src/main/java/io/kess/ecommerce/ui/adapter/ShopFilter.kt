@@ -13,7 +13,7 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.model.Shop
 
 class ShopFilter(
-    private val onClick: (Shop) -> Unit
+    private val onClick: (Shop?) -> Unit
 ) : ListAdapter<Shop, ShopFilter.ViewHolder>(DiffCallback()) {
 
     private var selectedId: String? = null
@@ -59,8 +59,19 @@ class ShopFilter(
     }
 
     private fun selectItem(item: Shop) {
-        selectedId = item.id
+        selectedId = if(selectedId == item.id){
+            null
+        }else{
+            item.id
+        }
         notifyDataSetChanged()
-        onClick(item)
+        onClick(
+            if(selectedId == null){
+                null
+            }else{
+                item
+            }
+        )
+
     }
 }

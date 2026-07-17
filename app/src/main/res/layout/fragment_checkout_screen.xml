@@ -91,7 +91,7 @@
             </LinearLayout>
         </FrameLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/button"
@@ -101,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
                 android:paddingBottom="24dp">
 
                 <!-- Step Progress Indicator -->
@@ -328,7 +329,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:paddingStart="16dp"
                     android:paddingTop="24dp"
                     android:paddingEnd="16dp" />
@@ -421,8 +423,8 @@
                             android:background="@drawable/bg_card_grey_rounded_small">
 
                             <ImageView
-                                android:layout_width="22dp"
-                                android:layout_height="22dp"
+                                android:layout_width="27dp"
+                                android:layout_height="25dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_credit_card" />
                         </FrameLayout>
@@ -700,7 +702,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 

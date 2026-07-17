@@ -11,6 +11,7 @@ import io.kess.ecommerce.databinding.ActivityMainBinding
 import io.kess.ecommerce.ui.CartFragment
 import io.kess.ecommerce.ui.CategoryFragment
 import io.kess.ecommerce.ui.HomeFragment
+import io.kess.ecommerce.ui.ProductDetailFragment
 import io.kess.ecommerce.ui.ProfileFragment
 import io.kess.ecommerce.ui.adapter.ShopAdapter
 import io.kess.ecommerce.util.UiState
@@ -30,7 +31,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var userViewModel: AuthViewModel
     private val homeFragment = HomeFragment()
+    private val profileFragment = ProfileFragment()
     private lateinit var shopViewModel: ShopViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             replaceFragment(homeFragment)
         }
+//        replaceFragment(detail)
         setupBottomNav()
         observeData()
     }
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         userViewModel.getUser()
         shopViewModel.getAllShops()
         productViewModel.getNewArrival(4)
-        productViewModel.getAllProduct(6)
+        productViewModel.getAllProduct(8)
         productViewModel.getDiscountProduct(8)
     }
 

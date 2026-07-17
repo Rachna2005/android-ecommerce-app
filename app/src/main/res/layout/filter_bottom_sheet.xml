@@ -111,6 +111,7 @@
             app:trackHeight="5dp" />
 
         <TextView
+            android:id="@+id/categoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
