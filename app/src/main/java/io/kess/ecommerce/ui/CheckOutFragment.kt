@@ -135,11 +135,12 @@ class CheckOutFragment : Fragment() {
 //                    binding.btnCheckout.isEnabled = true
 //                    binding.btnCheckout.alpha = 1f
                     showLoading(false)
-                    if (shopId == null) {
-                        cartViewModel.clearCart(cartItem)
-                    } else {
-                        cartViewModel.clearCart(selectedCartItems)
-                    }
+
+//                    if (shopId == null) {
+//                        cartViewModel.clearCart(cartItem)
+//                    } else {
+//                        cartViewModel.clearCart(selectedCartItems)
+//                    }
                 }
 
                 is UiState.Error -> {

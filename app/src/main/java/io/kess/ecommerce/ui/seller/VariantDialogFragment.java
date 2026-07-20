@@ -76,15 +76,15 @@ public class VariantDialogFragment extends DialogFragment {
             String stockText = etStock.getText()
                     .toString()
                     .trim();
-            if (color.isEmpty()) {
-                etColor.setError("Color is required");
-                return;
-            }
+//            if (color.isEmpty()) {
+//                etColor.setError("Color is required");
+//                return;
+//            }
 
-            if (size.isEmpty()) {
-                etSize.setError("Size is required");
-                return;
-            }
+//            if (size.isEmpty()) {
+//                etSize.setError("Size is required");
+//                return;
+//            }
 
             if (stockText.isEmpty()) {
                 etStock.setError("Stock is required");

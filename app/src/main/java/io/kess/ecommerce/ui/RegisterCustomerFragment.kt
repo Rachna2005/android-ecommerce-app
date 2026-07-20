@@ -15,6 +15,7 @@ import io.kess.ecommerce.databinding.FragmentRegisterCustomerBinding
 import io.kess.ecommerce.model.UserRole
 import io.kess.ecommerce.ui.activity.LoginActivity
 import io.kess.ecommerce.ui.activity.MainActivity
+import io.kess.ecommerce.ui.activity.RegisterActivity
 import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
@@ -52,6 +53,14 @@ class RegisterCustomerFragment : Fragment() {
     }
 
     private fun setupOnClickListener() {
+        binding.login.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+        }
+//        binding.reS.setOnClickListener {
+//            (activity as RegisterActivity).replaceFragment(RegisterCustomerFragment())
+//        }
+
         binding.btnCreateAccount.setOnClickListener {
             val name = binding.inputName.text.toString().trim()
             val email = binding.inputEmail.text.toString().trim()

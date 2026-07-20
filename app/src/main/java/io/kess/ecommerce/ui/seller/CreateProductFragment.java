@@ -497,6 +497,7 @@ public class CreateProductFragment extends Fragment {
             binding.etStock.requestFocus();
             return;
         }
+        showLoading(true);
         uploadImage(selectedImageUri, new OnUploadSuccess() {
             @Override
             public void onSuccess(String imageUrl) {
@@ -523,7 +524,7 @@ public class CreateProductFragment extends Fragment {
         }, new OnUploadError() {
             @Override
             public void onError(String message) {
-
+                showLoading(false);
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
             }
         });

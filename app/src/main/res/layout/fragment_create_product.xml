@@ -338,8 +338,9 @@
                             android:hint="Describe your product..."
                             android:inputType="textMultiLine"
                             android:paddingStart="14dp"
-                            android:paddingTop="12dp"
+                            android:paddingTop="17dp"
                             android:paddingEnd="14dp"
+                            android:paddingBottom="17dp"
                             android:textColor="#111111"
                             android:textColorHint="#BBBBBB"
                             android:textSize="14sp" />

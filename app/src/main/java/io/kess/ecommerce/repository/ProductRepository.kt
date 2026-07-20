@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
@@ -16,6 +17,7 @@ import io.kess.ecommerce.model.ProductFilter
 import io.kess.ecommerce.model.ProductQuery
 import io.kess.ecommerce.model.ProductVariant
 import io.kess.ecommerce.util.ProductPagingSource
+import io.kess.ecommerce.util.UiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
@@ -71,8 +73,8 @@ class ProductRepository {
         Log.d("PAGING", "Create Pager with query = $query")
 
 
-        if(query.isSearch && query.keyword.isNullOrBlank()){
-                return flowOf(PagingData.empty())
+        if (query.isSearch && query.keyword.isNullOrBlank()) {
+            return flowOf(PagingData.empty())
         }
 
         val fireStoreQuery = buildQuery(query)
@@ -293,7 +295,6 @@ class ProductRepository {
         onResult: (String) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-
         val productRef =
             fireStore.collection("products")
                 .document(productId)
@@ -353,7 +354,6 @@ class ProductRepository {
             .document(variantId)
             .set(variant)
             .addOnSuccessListener {
-
                 updateTotalStock(
                     productId,
                     onFailure
@@ -361,6 +361,30 @@ class ProductRepository {
                 onResult("Variant updated successfully")
             }
             .addOnFailureListener(onFailure)
+    }
+
+    fun updateVariantStock(
+        productId: String,
+        variantId: String,
+        quantity: Int,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val variantRef = fireStore.collection("products")
+            .document(productId)
+            .collection("variants")
+            .document(variantId)
+
+        variantRef.update(
+            "stock",
+            FieldValue.increment(-quantity.toLong())
+        )
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
     }
 
     fun deleteVariant(

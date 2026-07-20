@@ -408,8 +408,10 @@ class ProductDetailFragment : Fragment() {
             binding.caseSize.visibility = View.GONE
         }
         else {
-            val hasColor = product.variant.any { it.color.isNotBlank() }
-            val hasSize = product.variant.any { it.size.isNotBlank() }
+//            val hasColor = product.variant.any { it.color?.isNotBlank() ?:  }
+//            val hasSize = product.variant.any { it.size.isNotBlank() }
+            val hasColor = product.variant.any { it.color?.isNotBlank() == true }
+            val hasSize = product.variant.any { it.size?.isNotBlank() == true }
 
             binding.color.visibility =
                 if (hasColor) View.VISIBLE else View.GONE

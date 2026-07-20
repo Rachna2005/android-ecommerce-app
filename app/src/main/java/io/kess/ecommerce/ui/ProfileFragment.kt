@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
 import io.kess.ecommerce.model.User
+import io.kess.ecommerce.ui.activity.LoginActivity
 import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.activity.Onboarding1Activity
 import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
@@ -156,7 +157,7 @@ class ProfileFragment : Fragment() {
             dialog.dismiss()
             userViewModel.logout()
             startActivity(
-                Intent(requireContext(), Onboarding1Activity::class.java)
+                Intent(requireContext(), LoginActivity::class.java)
             )
             requireActivity().finish()
         }

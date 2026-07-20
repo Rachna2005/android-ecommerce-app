@@ -25,7 +25,7 @@
             app:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:maxLines="1"
-            android:text="dfghj"
+            android:text=""
             android:textColor="@color/primary"
             android:textSize="18sp" />
 
