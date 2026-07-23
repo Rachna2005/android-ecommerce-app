@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.kess.ecommerce.R
-import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.OrderItem
 
 class OrderItemAdapter() :

@@ -126,88 +126,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="28dp" />
 
-        <!--    <HorizontalScrollView-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginBottom="28dp"-->
-        <!--        android:scrollbars="none">-->
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/llCategories"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:gravity="center_vertical"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <com.google.android.material.button.MaterialButton-->
-        <!--                android:id="@+id/chipWatches"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="40dp"-->
-        <!--                android:layout_marginEnd="10dp"-->
-        <!--                android:insetTop="0dp"-->
-        <!--                android:insetBottom="0dp"-->
-        <!--                android:paddingStart="22dp"-->
-        <!--                android:paddingEnd="22dp"-->
-        <!--                android:text="Watches"-->
-        <!--                android:textColor="@color/white"-->
-        <!--                android:textSize="14sp"-->
-        <!--                app:backgroundTint="@color/primary"-->
-        <!--                app:cornerRadius="20dp"-->
-        <!--                app:strokeWidth="0dp" />-->
-
-        <!--            <com.google.android.material.button.MaterialButton-->
-        <!--                android:id="@+id/chipBags"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="40dp"-->
-        <!--                android:layout_marginEnd="10dp"-->
-        <!--                android:insetTop="0dp"-->
-        <!--                android:insetBottom="0dp"-->
-        <!--                android:paddingStart="22dp"-->
-        <!--                android:paddingEnd="22dp"-->
-        <!--                android:text="Bags"-->
-        <!--                android:textColor="@color/primary"-->
-        <!--                android:textSize="14sp"-->
-        <!--                app:backgroundTint="#F4F4F8"-->
-        <!--                app:cornerRadius="20dp"-->
-        <!--                app:strokeColor="#E0E0E0"-->
-        <!--                app:strokeWidth="1dp" />-->
-
-        <!--            <com.google.android.material.button.MaterialButton-->
-        <!--                android:id="@+id/chipShoes"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="40dp"-->
-        <!--                android:layout_marginEnd="10dp"-->
-        <!--                android:insetTop="0dp"-->
-        <!--                android:insetBottom="0dp"-->
-        <!--                android:paddingStart="22dp"-->
-        <!--                android:paddingEnd="22dp"-->
-        <!--                android:text="Shoes"-->
-        <!--                android:textColor="@color/primary"-->
-        <!--                android:textSize="14sp"-->
-        <!--                app:backgroundTint="#F4F4F8"-->
-        <!--                app:cornerRadius="20dp"-->
-        <!--                app:strokeColor="#E0E0E0"-->
-        <!--                app:strokeWidth="1dp" />-->
-
-        <!--            <com.google.android.material.button.MaterialButton-->
-        <!--                android:id="@+id/chipJewelry"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="40dp"-->
-        <!--                android:insetTop="0dp"-->
-        <!--                android:insetBottom="0dp"-->
-        <!--                android:paddingStart="22dp"-->
-        <!--                android:paddingEnd="22dp"-->
-        <!--                android:text="Jewelry"-->
-        <!--                android:textColor="@color/primary"-->
-        <!--                android:textSize="14sp"-->
-        <!--                app:backgroundTint="#F4F4F8"-->
-        <!--                app:cornerRadius="20dp"-->
-        <!--                app:strokeColor="#E0E0E0"-->
-        <!--                app:strokeWidth="1dp" />-->
-
-        <!--        </LinearLayout>-->
-        <!--    </HorizontalScrollView>-->
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -222,34 +140,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="28dp" />
-
-        <!--    <LinearLayout-->
-        <!--        android:id="@+id/rowBrand1"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="56dp"-->
-        <!--        android:layout_marginBottom="8dp"-->
-        <!--        android:background="@drawable/bg_icon_rounded"-->
-        <!--        android:backgroundTint="@color/white"-->
-        <!--        android:gravity="center_vertical"-->
-        <!--        android:orientation="horizontal"-->
-        <!--        android:paddingStart="10dp"-->
-        <!--        android:paddingEnd="16dp">-->
-
-        <!--        <com.google.android.material.checkbox.MaterialCheckBox-->
-        <!--            android:id="@+id/cbBrand1"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="12dp"-->
-        <!--            android:checked="true" />-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="Luxe Couture"-->
-        <!--            android:textColor="@color/primary"-->
-        <!--            android:textSize="15sp" />-->
-        <!--    </LinearLayout>-->
 
         <Button
             android:id="@+id/btnApply"

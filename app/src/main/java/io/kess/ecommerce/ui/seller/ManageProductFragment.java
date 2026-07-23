@@ -1,23 +1,21 @@
 package io.kess.ecommerce.ui.seller;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import io.kess.ecommerce.databinding.FragmentManageProductBinding;
 import io.kess.ecommerce.model.Product;
 import io.kess.ecommerce.model.Shop;
-import io.kess.ecommerce.ui.ProductDetailFragment;
 import io.kess.ecommerce.ui.SellerProductDetailFragment;
 import io.kess.ecommerce.ui.adapter.ManageProductAdapter;
 import io.kess.ecommerce.util.UiState;
@@ -32,6 +30,7 @@ public class ManageProductFragment extends Fragment {
     private ManageProductAdapter productAdapter;
     private ShopViewModel shopViewModel;
     private String shopId;
+    private List<Product> productList;
 
     public ManageProductFragment() {
         // Required empty public constructor
@@ -58,11 +57,42 @@ public class ManageProductFragment extends Fragment {
         setupClickListener();
         setupRecyclerView();
         observeData();
+        setupSearch();
     }
 
     private void initViewModel() {
         productViewModel = new ViewModelProvider((requireActivity())).get(ProductViewModel.class);
         shopViewModel = new ViewModelProvider((requireActivity())).get(ShopViewModel.class);
+    }
+
+    private void setupSearch() {
+        binding.search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().trim();
+                if(query.isEmpty()){
+                    productAdapter.submitList(productList);
+                }else {
+                    List<Product> filter = new ArrayList<>();
+                    for (Product product : productList){
+                        if(product.getName().toLowerCase().contains(query.toLowerCase())){
+                            filter.add(product);
+                        }
+                    }
+                    productAdapter.submitList(filter);
+                }
+            }
+        });
     }
 
     private void setupClickListener() {
@@ -146,6 +176,7 @@ public class ManageProductFragment extends Fragment {
 
                     UiState.Success<List<Product>> success = (UiState.Success<List<Product>>) state;
                     List<Product> products = success.getData();
+                    productList = products;
                     productAdapter.submitList(products);
                     binding.progressBar.setVisibility(View.GONE);
                     if (products == null || products.isEmpty()) {

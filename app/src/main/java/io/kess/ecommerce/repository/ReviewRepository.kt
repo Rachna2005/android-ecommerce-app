@@ -1,11 +1,11 @@
 package io.kess.ecommerce.repository
 
-import android.media.Rating
+
 import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.model.Review
-import org.junit.runner.notification.Failure
+
 
 class ReviewRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()

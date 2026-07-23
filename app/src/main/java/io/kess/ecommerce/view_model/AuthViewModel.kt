@@ -10,23 +10,11 @@ import io.kess.ecommerce.repository.AuthRepository
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.TestVM.Event
 
-//enum class MessageType {
-//    SUCCESS,
-//    ERROR,
-//}
-//
-//data class UiMessage(
-//    val text: String,
-//    val type: MessageType
-//)
 
 class AuthViewModel : ViewModel() {
     private val repository = AuthRepository()
     private val _authState = MutableLiveData<UiState<User>>()
     val authState: LiveData<UiState<User>> = _authState
-
-    //    private val _userId = MutableLiveData<String?>()
-//    val userId: LiveData<String?> = _userId
     private val _actionState = MutableLiveData<UiState<User>>()
     val actionState: LiveData<UiState<User>> = _actionState
     private val _message = MutableLiveData<Event<String>>()

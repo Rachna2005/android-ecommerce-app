@@ -5,28 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.databinding.FragmentCategoryBinding
-import io.kess.ecommerce.model.Category
 import io.kess.ecommerce.model.Shop
-import io.kess.ecommerce.model.User
 import io.kess.ecommerce.ui.activity.MainActivity
-import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.ui.adapter.ShopAdapter
 import io.kess.ecommerce.util.UiState
-import io.kess.ecommerce.view_model.AuthViewModel
-import io.kess.ecommerce.view_model.CategoryViewModel
-import io.kess.ecommerce.view_model.ProductViewModel
 import io.kess.ecommerce.view_model.ShopViewModel
-
 
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
@@ -60,7 +48,7 @@ class CategoryFragment : Fragment() {
     }
     private fun setupClickListener(){
         binding.search.setOnClickListener {
-//            (activity as MainActivity).navigate(SearchFragment())
+            (activity as MainActivity).navigate(SearchFragment())
         }
     }
     private fun setupRecyclerView(){
@@ -72,16 +60,6 @@ class CategoryFragment : Fragment() {
             layoutManager =  LinearLayoutManager(requireContext())
         }
     }
-//    private fun openProductByCategory(category: Category) {
-//        val fragment = ProductListFragment().apply {
-//            arguments = Bundle().apply {
-//                putString("TYPE", "CATEGORY")
-//                putString("CATEGORY_ID", category.id)
-//                putString("CATEGORY_NAME", category.name)
-//            }
-//        }
-//        (activity as MainActivity).navigate(fragment)
-//    }
 
     private fun openShopDetail(shop: Shop) {
         val fragment = ShopDetailFragment().apply {

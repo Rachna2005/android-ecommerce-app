@@ -16,11 +16,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_rounded_bg"
             android:orientation="vertical"
-            android:paddingTop="20dp"
+            android:paddingTop="30dp"
             android:paddingBottom="20dp">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -28,7 +28,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/img_profile_avata"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_shop_logo"
                 app:shapeAppearanceOverlay="@style/CircleImage" />
 
             <TextView
@@ -68,11 +69,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profileContainer"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_rounded_bg"
             android:orientation="vertical"
-            android:padding="8dp">
+
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp">
 
             <LinearLayout
                 android:id="@+id/orderHistory"
@@ -100,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit Shop Info"
+                        android:text="Shop Information"
                         android:textColor="@color/primary"
                         android:textSize="14sp"
                         app:fontFamily="@font/manrope_bold" />
@@ -116,151 +119,36 @@
 
                 <ImageView
                     android:id="@+id/shopInfo"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_chevron_right" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="#F0F0F5" />
-
-            <LinearLayout
-                android:id="@+id/wishlist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_rounded"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_camera"
-                    app:tint="@color/primary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Update Logo"
-                        android:textColor="@color/primary"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/manrope_bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Items you've saved for later"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/updateLogo"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_chevron_right" />
 
             </LinearLayout>
 
-            <View
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="56dp"
+                android:layout_below="@id/menuCard"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginEnd="16dp"
-                android:background="#F0F0F5" />
+                android:backgroundTint="#F8F8FA"
+                android:text="Logout"
+                android:textColor="#B00020"
+                android:textSize="16sp"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_logout"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#B00020"
+                app:strokeColor="#E8A0A0"
+                app:strokeWidth="1dp" />
 
-            <LinearLayout
-                android:id="@+id/payment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_rounded"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_location" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Manage Shop Address"
-                        android:textColor="@color/primary"
-                        android:textSize="14sp"
-                        app:fontFamily="@font/manrope_bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Update shop address and contact number"
-                        android:textColor="#999999"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/address"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_chevron_right" />
-
-            </LinearLayout>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_below="@id/menuCard"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#F8F8FA"
-            android:text="Logout"
-            android:textColor="#B00020"
-            android:textSize="16sp"
-            app:cornerRadius="18dp"
-            app:icon="@drawable/ic_logout"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconTint="#B00020"
-            app:strokeColor="#E8A0A0"
-            app:strokeWidth="1dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnLogout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="SHOPIX  V2.4.1"
-            android:textColor="#767683"
-            android:textSize="18dp" />
     </RelativeLayout>
 
 </ScrollView>

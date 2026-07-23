@@ -1,17 +1,16 @@
 package io.kess.ecommerce.view_model
 
 import android.util.Log
-import androidx.compose.remote.creation.first
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.test.espresso.util.filter
 import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.ProductDetail
-import io.kess.ecommerce.model.ProductFilter
+
 import io.kess.ecommerce.model.ProductQuery
 import io.kess.ecommerce.model.ProductVariant
 import io.kess.ecommerce.repository.ProductDisplayType
@@ -21,7 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.update
+
 
 class ProductViewModel : ViewModel() {
     private val repository = ProductRepository()
@@ -54,7 +53,6 @@ class ProductViewModel : ViewModel() {
         _actionState
     private val _isLoadingMore = MutableLiveData(false)
 
-    private var currentFilter = ProductFilter()
 
 
     fun clearState() {
@@ -219,6 +217,26 @@ class ProductViewModel : ViewModel() {
             }
         )
     }
+
+    fun updateVariantStock(
+        productId: String,
+        variantId: String,
+        quantity: Int
+    ) {
+        repository.updateVariantStock(productId, variantId, quantity, onSuccess = {
+
+        }, onFailure = {
+
+        })
+    }
+
+    fun updateProductStock(
+        productId: String,
+        quantity: Int
+    ) {
+        repository.updateProductStock(productId, quantity, onSuccess = {}, onFailure = {})
+    }
+
 
     fun deleteProduct(
         productId: String

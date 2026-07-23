@@ -1,6 +1,5 @@
 package io.kess.ecommerce.ui
 
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,15 +11,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.test.services.events.ErrorInfo
-import com.cloudinary.Cloudinary
 import com.cloudinary.android.MediaManager
-import com.cloudinary.android.callback.UploadCallback
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCreateShopBinding
-import io.kess.ecommerce.databinding.FragmentRegisterSellerBinding
 import io.kess.ecommerce.model.Shop
-import io.kess.ecommerce.model.UserRole
 import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
@@ -41,7 +35,6 @@ class CreateShopFragment : Fragment() {
                 selectedImageUri = it
 
                 binding.shopLogo.setImageURI(it)
-//                binding.shopLogo.visibility = View.VISIBLE
             }
         }
 

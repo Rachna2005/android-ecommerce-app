@@ -1,12 +1,10 @@
 package io.kess.ecommerce.repository
 
 import android.util.Log
-import androidx.lifecycle.liveData
 import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.Order
 import io.kess.ecommerce.model.OrderItem
-import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.cartToOrderItem
 
 class OrderRepository(private val authRepo: AuthRepository) {

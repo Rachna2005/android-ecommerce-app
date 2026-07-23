@@ -1,12 +1,10 @@
 package io.kess.ecommerce.repository
 
-import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import io.kess.ecommerce.model.Shop
 import io.kess.ecommerce.model.User
 import io.kess.ecommerce.model.UserRole
+
 class AuthRepository {
     fun getCurrentUser(onSuccess: (User) -> Unit, onFailure: (Exception) -> Unit) {
         val dbUser = FirebaseAuth.getInstance().currentUser?.uid

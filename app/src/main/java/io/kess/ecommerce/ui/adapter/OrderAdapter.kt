@@ -14,12 +14,10 @@ import io.kess.ecommerce.model.Order
 
 import java.text.SimpleDateFormat
 import androidx.recyclerview.widget.DiffUtil
-import io.kess.ecommerce.ui.adapter.ProductAdapter.DiffCallback
 import java.util.Locale
 
 class OrderAdapter(
     private val onOrderClick: (Order) -> Unit,
-//    private val onTrackingClick: (Order) -> Unit
 ) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(DiffCallback()) {
 
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,8 +31,6 @@ class OrderAdapter(
         val imgProduct3: ImageView = view.findViewById(R.id.imgProduct3)
         val totalQuantity: TextView = view.findViewById(R.id.txtTotalQuantity)
 
-//        val btnTracking: MaterialButton =
-//            view.findViewById(R.id.btnTracking)
         val btnDetail: MaterialButton = view.findViewById(R.id.btnDetail)
     }
 
@@ -111,15 +107,9 @@ class OrderAdapter(
                 .load(items[2])
                 .into(holder.imgProduct3)
         }
-//        holder.itemView.setOnClickListener {
-//            onOrderClick(order)
-//        }
         holder.btnDetail.setOnClickListener {
             onOrderClick(order)
         }
 
-//        holder.itemView.findViewById<View>(R.id.btnDetail).setOnClickListener {
-//            onTrackingClick(order)
-//        }
     }
 }

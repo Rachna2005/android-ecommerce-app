@@ -108,16 +108,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-//    private fun setupSearch(query: String) {
-//            if (query.isBlank()) {
-////                searchAdapter.submitList(emptyList())
-//            } else {
-//                val filteredList = productList.filter {
-//                    it.name.contains(query, ignoreCase = true)
-//                }
-////                searchAdapter.submitList(filteredList)
-//            }
-//    }
     private fun openProductDetail(productId: String){
         val fragment = ProductDetailFragment().apply {
             arguments = Bundle().apply {

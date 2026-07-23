@@ -248,6 +248,7 @@
                             android:text="CHANGE"
                             android:textColor="@color/primary"
                             android:textSize="12sp"
+                            android:padding="8dp"
                             app:fontFamily="@font/manrope_bold" />
                     </RelativeLayout>
 

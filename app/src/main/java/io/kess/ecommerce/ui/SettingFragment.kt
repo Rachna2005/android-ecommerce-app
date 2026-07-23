@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
@@ -12,6 +13,7 @@ import io.kess.ecommerce.databinding.FragmentSettingBinding
 import io.kess.ecommerce.model.User
 import io.kess.ecommerce.ui.activity.MainActivity
 import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
+import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.AuthViewModel
 
 class SettingFragment : Fragment() {
@@ -45,18 +47,32 @@ class SettingFragment : Fragment() {
     }
 
     private fun observeData() {
-//        authViewModel.authData.observe(viewLifecycleOwner) { data ->
-//            if (data != null) {
-//                setupUi(data)
-//            }
-//        }
+        authViewModel.authState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+
+                is UiState.Success -> {
+                    setupUi(state.data)
+                }
+
+                is UiState.Error -> {
+
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is UiState.Idle -> {}
+            }
+        }
     }
 
     private fun setupUi(user: User) {
         binding.name.text = user.name
         binding.phoneNumber.text = user.phoneNumber
         binding.address.text = user.address
+        binding.email.text = user.email
     }
+
     private fun setupBottomSheet() {
         parentFragmentManager.setFragmentResultListener(
             "ADDRESS_RESULT",
@@ -67,7 +83,7 @@ class SettingFragment : Fragment() {
             binding.address.text = address
             binding.phoneNumber.text = phone
 
-            // 2. update Firebase via ViewModel
+
             authViewModel.updateUser(
                 address = address,
                 phoneNumber = phone

@@ -40,7 +40,6 @@
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <!-- Scrollable Content -->
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
@@ -57,7 +56,6 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp">
 
-                <!-- Hero Image Upload Box -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,33 +105,6 @@
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
 
-                    <!-- Add Thumbnail -->
-                    <!--                <FrameLayout-->
-                    <!--                    android:layout_width="64dp"-->
-                    <!--                    android:layout_height="64dp"-->
-                    <!--                    android:background="@drawable/bg_thumbnail_add"-->
-                    <!--                    android:layout_marginEnd="10dp">-->
-
-                    <!--                    <ImageView-->
-                    <!--                        android:layout_width="20dp"-->
-                    <!--                        android:layout_height="20dp"-->
-                    <!--                        android:layout_gravity="center"-->
-                    <!--                        android:src="@drawable/ic_add"-->
-                    <!--                        app:tint="#999999" />-->
-
-                    <!--                </FrameLayout>-->
-                    <!--                <TextView-->
-                    <!--                    android:layout_width="64dp"-->
-                    <!--                    android:layout_height="64dp"-->
-                    <!--                    android:background="@drawable/bg_icon_rounded"-->
-                    <!--                    android:backgroundTint="@color/stroke_default"-->
-                    <!--                    android:text="+"-->
-                    <!--                    android:gravity="center"-->
-                    <!--                    android:textSize="30dp"-->
-                    <!--                    android:layout_marginRight="15dp"-->
-                    <!--                    />-->
-
-                    <!-- Existing Thumbnail -->
                     <ImageView
                         android:id="@+id/productImage"
                         android:layout_width="64dp"
@@ -144,7 +115,6 @@
 
                 </LinearLayout>
 
-                <!-- Basic Information Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,7 +138,6 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <!-- Product Name -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -193,7 +162,6 @@
                             android:textColorHint="#BBBBBB"
                             android:textSize="14sp" />
 
-                        <!-- Category -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -319,7 +287,6 @@
 
                         </LinearLayout>
 
-                        <!-- Description -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -356,7 +323,8 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                 >
 
                     <ImageView
                         android:layout_width="16dp"
@@ -376,11 +344,6 @@
 
                 </LinearLayout>
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content" -->
-<!--                    android:text="Stock : 20"-->
-<!--                    android:layout_marginBottom="10dp"/>-->
                 <LinearLayout
                     android:id="@+id/stockContainer"
                     android:layout_width="match_parent"
@@ -435,7 +398,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <ImageView
                             android:layout_width="16dp"
@@ -478,31 +442,6 @@
             android:paddingEnd="16dp"
             android:paddingBottom="12dp">
 
-            <!-- Discard -->
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/btn_discard"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginEnd="25dp"-->
-            <!--                android:gravity="center"-->
-            <!--                android:orientation="vertical">-->
-
-            <!--                <ImageView-->
-            <!--                    android:layout_width="22dp"-->
-            <!--                    android:layout_height="22dp"-->
-            <!--                    android:src="@drawable/ic_delete" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginTop="2dp"-->
-            <!--                    android:text="Discard"-->
-            <!--                    android:textColor="#555555"-->
-            <!--                    android:textSize="11sp" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!-- Save Product -->
             <Button
                 android:id="@+id/btn_save_product"
                 android:layout_width="0dp"

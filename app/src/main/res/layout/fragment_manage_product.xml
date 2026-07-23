@@ -140,30 +140,30 @@
             android:layout_width="12dp"
             android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:id="@+id/filterContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:background="@drawable/bg_search_bar">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/filterContainer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingStart="12dp"-->
+<!--            android:paddingEnd="12dp"-->
+<!--            android:background="@drawable/bg_search_bar">-->
 
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_filter" />
+<!--            <ImageView-->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:src="@drawable/ic_filter" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All"
-                android:layout_marginStart="8dp"
-                android:textSize="14sp"
-                android:textColor="#1A1A2E" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Category"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="#1A1A2E" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 

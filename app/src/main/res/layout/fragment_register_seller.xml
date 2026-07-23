@@ -142,7 +142,7 @@
                             android:id="@+id/inputEmail"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="name@example.com"
+                            android:hint="name@email.com"
                             android:textColorHint="#CCCCCC"
                             android:inputType="textEmailAddress"
                             android:background="@null"

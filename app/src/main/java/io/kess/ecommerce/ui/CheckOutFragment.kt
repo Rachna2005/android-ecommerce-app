@@ -119,34 +119,22 @@ class CheckOutFragment : Fragment() {
             message.getContentIfNotHandled()?.let { txt ->
                 binding.btnCheckout.isEnabled = true
                 binding.btnCheckout.alpha = 1f
-//                Toast.makeText(requireContext(), txt, Toast.LENGTH_SHORT).show()
                 successBottomSheet.show(parentFragmentManager, "Success_Payment")
             }
         }
         orderViewModel.actionState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-//                    binding.btnCheckout.isEnabled = false
-//                    binding.btnCheckout.alpha = 0.5f
+
                     showLoading(true)
                 }
 
                 is UiState.Success -> {
-//                    binding.btnCheckout.isEnabled = true
-//                    binding.btnCheckout.alpha = 1f
                     showLoading(false)
-
-//                    if (shopId == null) {
-//                        cartViewModel.clearCart(cartItem)
-//                    } else {
-//                        cartViewModel.clearCart(selectedCartItems)
-//                    }
                 }
 
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-//                    binding.btnCheckout.isEnabled = true
-//                    binding.btnCheckout.alpha = 1f
                     showLoading(false)
                 }
 
@@ -218,11 +206,6 @@ class CheckOutFragment : Fragment() {
             if (binding.phoneNumber.text.toString().trim().isEmpty() ||
                 binding.address.text.toString().trim().isEmpty()
             ) {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Address cannot be empty, please add or change address",
-//                    Toast.LENGTH_SHORT
-//                ).show()
                 showAddressDialog()
                 return@setOnClickListener
             }
@@ -258,7 +241,6 @@ class CheckOutFragment : Fragment() {
 
         }
         binding.subTotal.text = "$${String.format("%.2f", totalPrice)}"
-//        binding.totalAmount.text = "$${String.format("%.2f", totalPrice)}"
         binding.total.text = "$${String.format("%.2f", totalPrice)}"
         binding.txtTotal.text = "$${String.format("%.2f", totalPrice)}"
 

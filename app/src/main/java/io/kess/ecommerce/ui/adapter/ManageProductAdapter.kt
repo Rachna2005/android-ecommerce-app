@@ -34,7 +34,7 @@ class ManageProductAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val img = view.findViewById<ImageView>(R.id.iv_product)
         val name = view.findViewById<TextView>(R.id.tv_product_name)
-//        val status = view.findViewById<TextView>(R.id.tv_status)
+
         val price = view.findViewById<TextView>(R.id.tv_price)
         val stock = view.findViewById<TextView>(R.id.tv_stock)
         val btnEdit = view.findViewById<ImageView>(R.id.btn_edit)
@@ -57,12 +57,7 @@ class ManageProductAdapter(
         holder.name.text = product.name
         holder.price.text = "$${String.format("%.2f", product.price)}"
 
-        // stock (adjust if your model differs)
-
         holder.stock.text = "Stock: ${product.totalStock}"
-
-        // status example (ACTIVE / INACTIVE)
-//        holder.status.text = product.status ?: "ACTIVE"
 
         holder.itemView.setOnClickListener {
             onProductClick(product)

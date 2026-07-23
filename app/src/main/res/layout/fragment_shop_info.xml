@@ -78,7 +78,10 @@
                             android:cursorVisible="false"
                             android:focusable="false"
                             android:fontFamily="@font/manrope_medium"
-                            android:inputType="textCapWords"
+
+                            android:inputType="textNoSuggestions"
+                            android:importantForAutofill="no"
+
                             android:paddingStart="60dp"
                             android:textColorHint="#CCCCCC" />
 

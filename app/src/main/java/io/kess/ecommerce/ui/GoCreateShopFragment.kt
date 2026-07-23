@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.FragmentCreateShopBinding
 import io.kess.ecommerce.databinding.FragmentGoCreateShopBinding
 
 class GoCreateShopFragment : Fragment() {

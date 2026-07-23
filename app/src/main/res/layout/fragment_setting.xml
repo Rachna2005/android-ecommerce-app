@@ -92,21 +92,21 @@
                     android:layout_marginBottom="16dp" />
 
                 <!-- Edit Profile Button -->
-                <Button
-                    android:id="@+id/btn_edit_profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="44dp"
-                    android:text="Edit Profile"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:backgroundTint="@color/primary"
-                    android:drawableEnd="@drawable/ic_edit"
-                    android:drawableTint="#FFFFFF"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
-                    app:cornerRadius="22dp"
-                    android:stateListAnimator="@null" />
+<!--                <Button-->
+<!--                    android:id="@+id/btn_edit_profile"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="44dp"-->
+<!--                    android:text="Edit Profile"-->
+<!--                    android:textColor="#FFFFFF"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:fontFamily="sans-serif-medium"-->
+<!--                    android:backgroundTint="@color/primary"-->
+<!--                    android:drawableEnd="@drawable/ic_edit"-->
+<!--                    android:drawableTint="#FFFFFF"-->
+<!--                    android:paddingStart="24dp"-->
+<!--                    android:paddingEnd="24dp"-->
+<!--                    app:cornerRadius="22dp"-->
+<!--                    android:stateListAnimator="@null" />-->
 
             </LinearLayout>
 
@@ -182,7 +182,7 @@
                             android:layout_marginTop="4dp"
                             android:lineSpacingExtra="2dp"
                             android:maxLines="2"
-                            android:text="erth"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="13sp" />
 
@@ -191,7 +191,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="fgh"
+                            android:text=""
                             android:maxLines="1"
                             android:textColor="#666666"
                             android:textSize="13sp" />

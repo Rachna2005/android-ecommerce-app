@@ -8,28 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentCartBinding
 import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.ShopCartGroup
 import io.kess.ecommerce.ui.activity.MainActivity
-import io.kess.ecommerce.ui.adapter.CartAdapter
 import io.kess.ecommerce.ui.adapter.CartShopAdapter
-import io.kess.ecommerce.ui.adapter.ColorAdapter
-import io.kess.ecommerce.ui.adapter.ProductAdapter
-import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.CartViewModel
 import io.kess.ecommerce.view_model.FavoriteViewModel
-import io.kess.ecommerce.view_model.ProductViewModel
+
 
 class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
@@ -154,11 +146,6 @@ class CartFragment : Fragment() {
                 }
                 navigation(fragment)
 
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Checkout ${shopGroup.shopName}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
             }
         )
 
@@ -170,9 +157,6 @@ class CartFragment : Fragment() {
     }
 
     private fun setupClickListener() {
-//        binding.btnCheckoutAll.setOnClickListener {
-//            navigation(CheckOutFragment())
-//        }
         binding.btnCheckout.setOnClickListener {
             navigation(CheckOutFragment())
         }

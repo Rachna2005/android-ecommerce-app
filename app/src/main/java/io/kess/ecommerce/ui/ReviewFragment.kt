@@ -128,10 +128,6 @@ class ReviewFragment : Fragment() {
     }
 
     private fun observeData() {
-//        reviewViewModel.message.observe(viewLifecycleOwner){message ->
-//
-//            parentFragmentManager.popBackStack()
-//        }
         reviewViewModel.actionState.observe(viewLifecycleOwner){state ->
             when (state) {
                 is UiState.Loading -> {

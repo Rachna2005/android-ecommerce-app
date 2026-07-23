@@ -24,6 +24,7 @@ import io.kess.ecommerce.view_model.ShopViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     //    private val homeFragment = HomeFragment()
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var cartViewModel: CartViewModel
@@ -56,12 +57,12 @@ class MainActivity : AppCompatActivity() {
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
         userViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         shopViewModel = ViewModelProvider(this)[ShopViewModel::class.java]
+
     }
 
     private fun loadData() {
         favoriteViewModel.loadFavorite()
         cartViewModel.loadCart()
-//        productViewModel.loadAllProducts()
         categoryViewModel.loadCategories()
         userViewModel.getUser()
         shopViewModel.getAllShops()
@@ -130,26 +131,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //    private fun showFragment(fragmentToShow: Fragment) {
-//
-//        val fragments = listOf(homeFragment, categoryFragment, cartFragment, profileFragment)
-//
-//        supportFragmentManager.beginTransaction().apply {
-//
-//            fragments.forEach { hide(it) }
-//
-//            show(fragmentToShow)
-//
-//        }.commit()
-//    }
     fun selectBottomNav(itemId: Int) {
         binding.bottomNav.selectedItemId = itemId
     }
 
-    //    fun navigation(fragment: Fragment) {
-//        supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
-//            .addToBackStack(null).commit()
-//    }
     fun showButtonNav(show: Boolean) {
         binding.bottomNav.visibility = if (show) View.VISIBLE else View.GONE
     }

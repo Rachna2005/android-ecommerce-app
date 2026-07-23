@@ -89,7 +89,6 @@ class HomeProductAdapter(
         holder.container.setOnClickListener {
             onProductClick(product)
         }
-//                holder.price.text = "$${String.format("%.2f", product.price)}"
         if (hasDiscount) {
             holder.originalPrice.text = "$${String.format("%.2f", product.price)}"
             holder.originalPrice.paintFlags =

@@ -8,13 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import io.kess.ecommerce.R;
 import io.kess.ecommerce.model.ProductVariant;
 
@@ -76,15 +72,6 @@ public class VariantDialogFragment extends DialogFragment {
             String stockText = etStock.getText()
                     .toString()
                     .trim();
-//            if (color.isEmpty()) {
-//                etColor.setError("Color is required");
-//                return;
-//            }
-
-//            if (size.isEmpty()) {
-//                etSize.setError("Size is required");
-//                return;
-//            }
 
             if (stockText.isEmpty()) {
                 etStock.setError("Stock is required");

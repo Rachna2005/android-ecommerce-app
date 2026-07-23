@@ -1,6 +1,5 @@
 package io.kess.ecommerce.model
 
-import android.media.Image
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 

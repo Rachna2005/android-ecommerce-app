@@ -2,22 +2,14 @@ package io.kess.ecommerce.ui.seller
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.ActivityMainBinding
 import io.kess.ecommerce.databinding.ActivityShopBinding
-import io.kess.ecommerce.ui.CartFragment
-import io.kess.ecommerce.ui.CategoryFragment
 import io.kess.ecommerce.ui.CreateShopFragment
-import io.kess.ecommerce.ui.HomeFragment
-import io.kess.ecommerce.ui.ProfileFragment
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
 import io.kess.ecommerce.view_model.AuthViewModel
@@ -25,7 +17,6 @@ import io.kess.ecommerce.view_model.ShopViewModel
 
 class ShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShopBinding
-    private val productFragment = ManageProductFragment()
     private lateinit var userViewModel: AuthViewModel
     private lateinit var shopViewModel: ShopViewModel
     private val manageProductFragment = ManageProductFragment()
@@ -143,7 +134,6 @@ class ShopActivity : AppCompatActivity() {
 
         showFragment(target)
 
-        // 3. Sync bottom nav UI
         val itemId = when (tab) {
             "PRODUCT" -> R.id.nav_inventory
             "ORDER" -> R.id.nav_order
@@ -174,10 +164,6 @@ class ShopActivity : AppCompatActivity() {
         binding.bottomNav.isEnabled = !isLoading
     }
 
-    //    fun navigation(fragment: Fragment) {
-//        supportFragmentManager.beginTransaction().replace(R.id.container, fragment)
-//            .addToBackStack(null).commit()
-//    }
     fun showButtonNav(show: Boolean) {
         binding.bottomNav.visibility = if (show) View.VISIBLE else View.GONE
     }

@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.databinding.ActivityLoginScreenBinding
 import io.kess.ecommerce.model.UserRole
-import io.kess.ecommerce.ui.activity.RegisterActivity
 import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
@@ -73,24 +72,25 @@ class LoginActivity : AppCompatActivity() {
                         "Login successfully",
                         ContextCompat.getColor(this, io.kess.ecommerce.R.color.green),
                         ContextCompat.getColor(this, android.R.color.white)
-                    )
-                    if (state.data.role == UserRole.SELLER.name) {
-                        startActivity(Intent(this, ShopActivity::class.java))
-                    } else {
-                        startActivity(Intent(this, MainActivity::class.java))
+                    ) {
+                        if (state.data.role == UserRole.SELLER.name) {
+                            startActivity(Intent(this, ShopActivity::class.java))
+                        } else {
+                            startActivity(Intent(this, MainActivity::class.java))
+                        }
                     }
-                    finish()
 
+                    finish()
                 }
 
                 is UiState.Error -> {
                     showLoading(false)
-//                    showSnackBar(
-//                        findViewById(R.id.content),
-//                        state.message,
-//                        ContextCompat.getColor(this, io.kess.ecommerce.R.color.red),
-//                        ContextCompat.getColor(this, R.color.white)
-//                    )
+                    showSnackBar(
+                        findViewById(R.id.content),
+                        state.message,
+                        ContextCompat.getColor(this, io.kess.ecommerce.R.color.red),
+                        ContextCompat.getColor(this, R.color.white)
+                    )
                 }
 
                 is UiState.Idle -> {}

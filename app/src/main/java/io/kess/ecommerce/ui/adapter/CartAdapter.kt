@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -16,60 +14,16 @@ import io.kess.ecommerce.R
 import io.kess.ecommerce.model.CartItem
 
 class CartAdapter(
-//    private var favoriteIds: Set<String>,
     private var loadingItems: Set<String>,
-//    private var loadingFavorite: Set<String>,
-//    private val onFavoriteClick: (CartItem) -> Unit,
     private val onProductClick: (CartItem) -> Unit,
     private val onIncrease: (CartItem) -> Unit,
     private val onDecrease: (CartItem) -> Unit,
     private val onDelete: (CartItem) -> Unit
 ) : ListAdapter<CartItem, CartAdapter.ViewHolder>(DiffCallback()) {
 
-//    fun updateFavorites(newFavorites: Set<String>) {
-////        favoriteIds = newFavorites
-////        notifyDataSetChanged()
-//        val oldFavorites = favoriteIds
-//        favoriteIds = newFavorites
-//        val changedIds = oldFavorites + newFavorites
-//
-//        changedIds.forEach { productId ->
-//            val pos = findPositionByProductId(productId)
-//            if (pos != -1) notifyItemChanged(pos)
-//        }
-//    }
-//    fun updateLoadingFavorite(id: Set<String>){
-////        loadingFavorite = id
-////        notifyDataSetChanged()
-//        val old = loadingFavorite
-//        loadingFavorite = id
-//
-//        val changed = old + id
-//
-//        changed.forEach { productId ->
-//            val pos = findPositionByProductId(productId)
-//            if (pos != -1) notifyItemChanged(pos)
-//        }
-//    }
-
-//    fun updateLoading(newLoading: Set<String>) {
-//        val old = loadingItems
-//        loadingItems = newLoading
-//        val changed = old + newLoading
-//        changed.forEach { id ->
-//            val pos = currentList.indexOfFirst { it.id == id }
-//            if (pos != -1) notifyItemChanged(pos)
-//        }
-//    }
-
-//    private fun findPositionByProductId(productId: String): Int {
-//        return currentList.indexOfFirst { it.productId == productId }
-//    }
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val container = view.findViewById<RelativeLayout>(R.id.container)
-//        val btnFavorite = view.findViewById<ImageView>(R.id.btn_favorite)
         val btnDelete = view.findViewById<ImageView>(R.id.btn_delete)
         val img = view.findViewById<ImageView>(R.id.image)
 
@@ -83,7 +37,7 @@ class CartAdapter(
 
         val increase = view.findViewById<TextView>(R.id.increase)
         val decrease = view.findViewById<TextView>(R.id.decrease)
-//        val favoriteLoading = view.findViewById<ProgressBar>(R.id.favorite_loading)
+
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartItem>() {
@@ -128,24 +82,9 @@ class CartAdapter(
         holder.decrease.isEnabled = cartItem.quantity > 1
         holder.decrease.alpha = if (cartItem.quantity > 1) 1f else 0.5f
 
-//        val favoriteLoading = loadingFavorite.contains(cartItem.productId)
-//        holder.favoriteLoading.visibility = if(favoriteLoading) View.VISIBLE else View.GONE
-//        holder.btnFavorite.visibility =
-//            if (favoriteLoading) View.INVISIBLE else View.VISIBLE
-//
-//        if (favoriteIds.contains(cartItem.productId)) {
-//            holder.btnFavorite.setImageResource(R.drawable.ic_heart_fill)
-//        } else {
-//            holder.btnFavorite.setImageResource(R.drawable.ic_heart)
-//        }
-
         val isLoading = loadingItems.contains(cartItem.id)
         holder.container.isEnabled = !isLoading
         holder.container.alpha = if(isLoading) 0.5f else 1f
-
-//        holder.btnFavorite.setOnClickListener {
-//            onFavoriteClick(cartItem)
-//        }
 
         holder.container.setOnClickListener {
             onProductClick(cartItem)

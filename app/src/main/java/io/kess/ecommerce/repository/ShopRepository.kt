@@ -4,7 +4,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import io.kess.ecommerce.model.Shop
 
-
 class ShopRepository {
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -45,7 +44,7 @@ class ShopRepository {
     ) {
 
         firestore.collection(SHOP_COLLECTION)
-            .whereEqualTo("isActive", true) // optional
+            .whereEqualTo("isActive", true)
             .get()
             .addOnSuccessListener { snapshot ->
 
@@ -62,31 +61,6 @@ class ShopRepository {
                 onFailure(it)
             }
     }
-
-//    fun getShop(
-//        shopId: String,
-//        onSuccess: (Shop) -> Unit,
-//        onFailure: (Exception) -> Unit
-//    ) {
-//
-//        firestore.collection(SHOP_COLLECTION)
-//            .document(shopId)
-//            .get()
-//            .addOnSuccessListener { doc ->
-//
-//                val shop = doc.toObject(Shop::class.java)
-//
-//                if (shop != null) {
-//                    shop.id = doc.id
-//                    onSuccess(shop)
-//                } else {
-//                    onFailure(Exception("Shop not found"))
-//                }
-//            }
-//            .addOnFailureListener {
-//                onFailure(it)
-//            }
-//    }
 
     fun getShopDetail(shopId: String, onSuccess: (Shop) -> Unit, onFailure: (Exception) -> Unit) {
         firestore.collection(SHOP_COLLECTION).document(shopId).get().addOnSuccessListener { doc ->

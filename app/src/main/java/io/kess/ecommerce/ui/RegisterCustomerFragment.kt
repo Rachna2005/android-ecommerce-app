@@ -10,17 +10,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import io.kess.ecommerce.R
-import io.kess.ecommerce.databinding.ActivityRegisterScreenBinding
 import io.kess.ecommerce.databinding.FragmentRegisterCustomerBinding
 import io.kess.ecommerce.model.UserRole
 import io.kess.ecommerce.ui.activity.LoginActivity
-import io.kess.ecommerce.ui.activity.MainActivity
-import io.kess.ecommerce.ui.activity.RegisterActivity
 import io.kess.ecommerce.ui.seller.ShopActivity
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.util.showSnackBar
 import io.kess.ecommerce.view_model.AuthViewModel
-import io.kess.ecommerce.view_model.ProductViewModel
 
 
 class RegisterCustomerFragment : Fragment() {
@@ -57,10 +53,6 @@ class RegisterCustomerFragment : Fragment() {
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
         }
-//        binding.reS.setOnClickListener {
-//            (activity as RegisterActivity).replaceFragment(RegisterCustomerFragment())
-//        }
-
         binding.btnCreateAccount.setOnClickListener {
             val name = binding.inputName.text.toString().trim()
             val email = binding.inputEmail.text.toString().trim()
@@ -110,17 +102,16 @@ class RegisterCustomerFragment : Fragment() {
                     val intent = Intent(requireContext(), ShopActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
-
                 }
 
                 is UiState.Error -> {
                     showLoading(false)
-//                    showSnackBar(
-//                        requireView(),
-//                        state.message,
-//                        ContextCompat.getColor(requireContext(), R.color.red),
-//                        ContextCompat.getColor(requireContext(), android.R.color.white)
-//                    )
+                    showSnackBar(
+                        requireView(),
+                        state.message,
+                        ContextCompat.getColor(requireContext(), R.color.red),
+                        ContextCompat.getColor(requireContext(), android.R.color.white)
+                    )
                 }
 
                 is UiState.Idle -> {}

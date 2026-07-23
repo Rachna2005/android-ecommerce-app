@@ -14,9 +14,6 @@ class CategoryViewModel : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
 
-//    init {
-//        loadCategories()
-//    }
 
     fun loadCategories() {
         repository.getCategories(

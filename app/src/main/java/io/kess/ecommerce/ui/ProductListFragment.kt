@@ -20,7 +20,9 @@ import io.kess.ecommerce.ui.adapter.ProductAdapter
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.ProductViewModel
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -32,7 +34,7 @@ import io.kess.ecommerce.ui.adapter.CategoryAdapter
 import io.kess.ecommerce.view_model.FavoriteViewModel
 import io.kess.ecommerce.R
 import io.kess.ecommerce.model.Category
-import io.kess.ecommerce.model.ProductFilter
+
 import io.kess.ecommerce.model.ProductQuery
 import io.kess.ecommerce.model.Shop
 import io.kess.ecommerce.repository.ProductDisplayType
@@ -59,7 +61,6 @@ class ProductListFragment : Fragment() {
     private var shopList: List<Shop> = emptyList()
     private var categoryList: List<Category> = emptyList()
     private var categoryId: String? = null
-    private var productList = listOf<Product>()
     private var favoriteSet: Set<String> = emptySet()
     private lateinit var viewModel: ProductViewModel
     private lateinit var shopViewModel: ShopViewModel
@@ -85,8 +86,6 @@ class ProductListFragment : Fragment() {
         setupRecyclerView()
         loadProduct()
         observeProducts()
-        setupSearch()
-
     }
 
     private fun initViewModel() {
@@ -96,21 +95,6 @@ class ProductListFragment : Fragment() {
         categoryViewModel = ViewModelProvider(requireActivity())[CategoryViewModel::class.java]
         shopViewModel.getAllShops()
         categoryViewModel.loadCategories()
-    }
-
-    private fun setupSearch() {
-        binding.search.addTextChangedListener { editable ->
-//            val query = editable.toString().trim()
-//            if (query.isEmpty()) {
-////                productAdapter.submitList(productList)
-//            } else {
-//                val filtered = productList.filter {
-//                    it.name.contains(query, ignoreCase = true)
-//                }
-////                productAdapter.submitList(filtered)
-//            }
-//            viewModel.search(editable.toString().trim())
-        }
     }
 
     private fun showFilterBottomSheet() {
@@ -205,8 +189,7 @@ class ProductListFragment : Fragment() {
                         categoryId,
                         minPrice,
                         maxPrice,
-                        selectedShop
-                        , isSearch = false
+                        selectedShop, isSearch = false
                     )
 
                 }
@@ -217,8 +200,7 @@ class ProductListFragment : Fragment() {
                         selectedCategory,
                         minPrice,
                         maxPrice,
-                        selectedShop
-                        , isSearch = false
+                        selectedShop, isSearch = false
                     )
                 }
 
@@ -228,8 +210,7 @@ class ProductListFragment : Fragment() {
                         selectedCategory,
                         minPrice,
                         maxPrice,
-                        selectedShop
-                        , isSearch = false
+                        selectedShop, isSearch = false
                     )
                 }
 
@@ -239,8 +220,7 @@ class ProductListFragment : Fragment() {
                         selectedCategory,
                         minPrice,
                         maxPrice,
-                        selectedShop
-                        , isSearch = false
+                        selectedShop, isSearch = false
                     )
                 }
 
@@ -250,25 +230,17 @@ class ProductListFragment : Fragment() {
                         selectedCategory,
                         minPrice,
                         maxPrice,
-                        selectedShop
-                        , isSearch = false
+                        selectedShop, isSearch = false
                     )
                 }
             }
-
-//            val newFilter = ProductQuery(
-//                ProductDisplayType.ALL,
-//                selectedCategory,
-//                minPrice,
-//                maxPrice,
-//                selectedShop
-//            )
             if (newFilter == currentFilter) {
                 Log.d("FILTER", "SAME FILTER RETURN")
                 sheet.dismiss()
                 return@setOnClickListener
             }
             viewModel.loadProduct(newFilter)
+            updateFilterUi(newFilter)
             sheet.dismiss()
         }
         val isEmptyFilter =
@@ -277,33 +249,30 @@ class ProductListFragment : Fragment() {
             if (isEmptyFilter) {
                 sheet.dismiss()
             } else {
-//                viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.ALL))
-                when (type) {
-                    "CATEGORY" -> {
-                        viewModel.loadProduct(
-                            ProductQuery(
-                                displayType = ProductDisplayType.ALL,
-                                categoryId = categoryId, isSearch = false
-                            )
-                        )
-                    }
+                val clearedFilter = when (type) {
+                    "CATEGORY" -> ProductQuery(
+                        displayType = ProductDisplayType.ALL,
+                        categoryId = categoryId,
+                        isSearch = false
+                    )
 
-                    "DISCOUNT" -> {
-                        viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.DISCOUNT, isSearch = false))
-                    }
+                    "DISCOUNT" -> ProductQuery(
+                        displayType = ProductDisplayType.DISCOUNT,
+                        isSearch = false
+                    )
 
-                    "NEW_ARRIVAL" -> {
-                        viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.NEW_ARRIVAL, isSearch = false))
-                    }
+                    "NEW_ARRIVAL" -> ProductQuery(
+                        displayType = ProductDisplayType.NEW_ARRIVAL,
+                        isSearch = false
+                    )
 
-                    "ALL" -> {
-                        viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.ALL, isSearch = false))
-                    }
-
-                    else -> {
-                        viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.ALL, isSearch = false))
-                    }
+                    else -> ProductQuery(
+                        displayType = ProductDisplayType.ALL,
+                        isSearch = false
+                    )
                 }
+                viewModel.loadProduct(clearedFilter)
+                updateFilterUi(clearedFilter)
                 sheet.dismiss()
             }
         }
@@ -312,6 +281,27 @@ class ProductListFragment : Fragment() {
         categoryAdapter.submitList(categoryList)
         categoryAdapter.setSelected(selectedCategory)
         sheet.show()
+    }
+
+    private fun updateFilterUi(query: ProductQuery) {
+        var filterCount = 0
+        if (!query.categoryId.isNullOrEmpty()) {
+            filterCount++
+        }
+        if (!query.shopId.isNullOrEmpty()) {
+            filterCount++
+        }
+        if (query.minPrice != null || query.maxPrice != null) {
+            filterCount++
+        }
+        if (filterCount > 0) {
+            binding.filterContainer.setBackgroundResource(R.drawable.bg_filter_active)
+            binding.tvFilterCount.visibility = View.VISIBLE
+            binding.tvFilterCount.text = filterCount.toString()
+        } else {
+            binding.filterContainer.setBackgroundResource(R.drawable.bg_filter_normal)
+            binding.tvFilterCount.visibility = View.GONE
+        }
     }
 
     private fun setupRecyclerView() {
@@ -351,17 +341,32 @@ class ProductListFragment : Fragment() {
             }
 
             "DISCOUNT" -> {
-                viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.DISCOUNT, isSearch = false))
+                viewModel.loadProduct(
+                    ProductQuery(
+                        displayType = ProductDisplayType.DISCOUNT,
+                        isSearch = false
+                    )
+                )
                 binding.title.text = "Discount Products"
             }
 
             "NEW_ARRIVAL" -> {
-                viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.NEW_ARRIVAL, isSearch = false))
+                viewModel.loadProduct(
+                    ProductQuery(
+                        displayType = ProductDisplayType.NEW_ARRIVAL,
+                        isSearch = false
+                    )
+                )
                 binding.title.text = "New Arrivals"
             }
 
             "ALL" -> {
-                viewModel.loadProduct(ProductQuery(displayType = ProductDisplayType.ALL, isSearch = false))
+                viewModel.loadProduct(
+                    ProductQuery(
+                        displayType = ProductDisplayType.ALL,
+                        isSearch = false
+                    )
+                )
                 binding.title.text = "All Products"
             }
 
@@ -429,11 +434,6 @@ class ProductListFragment : Fragment() {
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             categoryList = it
         }
-
-//        viewModel.isLoadingMore.observe(viewLifecycleOwner) { loading ->
-//            binding.loadMoreContainer.visibility = if (loading) View.VISIBLE else View.GONE
-//        }
-
         favoriteViewModel.favorite.observe(viewLifecycleOwner) { favorites ->
             favoriteSet = favorites
             productAdapter.updateFavorites(favoriteSet)
@@ -455,7 +455,7 @@ class ProductListFragment : Fragment() {
             (activity as MainActivity).selectBottomNav(R.id.nav_cart)
         }
         binding.searchContainer.setOnClickListener {
-
+            (activity as MainActivity).navigate(SearchFragment())
         }
 
     }

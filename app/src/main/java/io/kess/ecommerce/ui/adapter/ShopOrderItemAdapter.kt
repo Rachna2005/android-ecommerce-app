@@ -3,16 +3,13 @@ package io.kess.ecommerce.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.kess.ecommerce.R
-import io.kess.ecommerce.model.CartItem
 import io.kess.ecommerce.model.ShopCartGroup
 import io.kess.ecommerce.model.cartToOrderItem
-import java.security.PrivateKey
 
 class ShopOrderItemAdapter(
 ) : ListAdapter<ShopCartGroup, ShopOrderItemAdapter.ShopVH>(DiffCallback()) {

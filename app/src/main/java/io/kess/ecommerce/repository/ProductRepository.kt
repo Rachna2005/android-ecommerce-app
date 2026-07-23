@@ -13,13 +13,10 @@ import com.google.firebase.firestore.Query
 import java.util.Date
 import io.kess.ecommerce.model.Product
 import io.kess.ecommerce.model.ProductDetail
-import io.kess.ecommerce.model.ProductFilter
 import io.kess.ecommerce.model.ProductQuery
 import io.kess.ecommerce.model.ProductVariant
 import io.kess.ecommerce.util.ProductPagingSource
-import io.kess.ecommerce.util.UiState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
 
 
@@ -32,11 +29,6 @@ enum class ProductDisplayType {
 class ProductRepository {
     val fireStore = FirebaseFirestore.getInstance()
     private var shopProductListener: ListenerRegistration? = null
-    private var lastVisible: DocumentSnapshot? = null
-    private var isLastPage = false
-    private var isLoading = false
-    private var currentQuery: Query? = null
-    private var lastCreatedAt: Timestamp? = null
     val oneWeekAgo = Timestamp(Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000))
 
     fun homeProduct(
@@ -120,7 +112,6 @@ class ProductRepository {
                 query = query.whereGreaterThan("discountPercentage", 0.0)
                 query = query.orderBy("discountPercentage")
 //                    .orderBy("createdAt")
-
             }
 
             ProductDisplayType.NEW_ARRIVAL -> {
@@ -221,7 +212,10 @@ class ProductRepository {
         onFailure: (Exception) -> Unit
     ) {
         fireStore.collection("products")
-            .whereEqualTo("shopId", shopId).get().addOnSuccessListener { doc ->
+            .whereEqualTo("shopId", shopId).orderBy(
+                "createdAt",
+                Query.Direction.DESCENDING
+            ).get().addOnSuccessListener { doc ->
                 val products = doc.documents.mapNotNull { data ->
                     data.toObject(Product::class.java)?.apply { id = data.id }
                 }
@@ -239,7 +233,7 @@ class ProductRepository {
         shopProductListener?.remove()
         shopProductListener =
             fireStore.collection("products")
-                .whereEqualTo("shopId", shopId)
+                .whereEqualTo("shopId", shopId).orderBy("createdAt", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, error ->
 
                     if (error != null) {
@@ -379,6 +373,23 @@ class ProductRepository {
             "stock",
             FieldValue.increment(-quantity.toLong())
         )
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
+    }
+
+    fun updateProductStock(
+        productId: String,
+        quantity: Int,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val variantRef = fireStore.collection("products")
+            .document(productId)
+        variantRef.update("totalStock", FieldValue.increment(-quantity.toLong()))
             .addOnSuccessListener {
                 onSuccess()
             }

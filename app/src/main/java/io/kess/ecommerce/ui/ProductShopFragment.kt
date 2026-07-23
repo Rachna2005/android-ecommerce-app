@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import io.kess.ecommerce.R
+import io.kess.ecommerce.TestActivity
 import io.kess.ecommerce.databinding.FragmentProductShopBinding
 import io.kess.ecommerce.databinding.FragmentShopDetailBinding
 import io.kess.ecommerce.model.Product
@@ -77,6 +78,7 @@ class ProductShopFragment : Fragment() {
             }
         }
         (activity as MainActivity).navigate(fragment)
+
     }
 
     private fun observeData(){

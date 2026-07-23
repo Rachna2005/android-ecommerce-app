@@ -1,6 +1,5 @@
 package io.kess.ecommerce.ui.seller
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +60,7 @@ class OrderDetailFragment : Fragment() {
 
     private fun observeData() {
         orderViewModel.ordersDetail.observe(viewLifecycleOwner) { state ->
-//            setupUi(order)
+
             when (state) {
                 is UiState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -102,7 +101,7 @@ class OrderDetailFragment : Fragment() {
 
                 is UiState.Idle -> {}
             }
-//            orderItemAdapter.submitList(item)
+
         }
 
         orderViewModel.actionState.observe(viewLifecycleOwner) { state ->
@@ -119,9 +118,6 @@ class OrderDetailFragment : Fragment() {
                         ContextCompat.getColor(requireContext(), R.color.green),
                         ContextCompat.getColor(requireContext(), android.R.color.white)
                     )
-//                    val intent = Intent(requireContext(), ShopActivity::class.java)
-//                    startActivity(intent)
-//                    requireActivity().finish()
                     parentFragmentManager.popBackStack()
                 }
 
@@ -230,15 +226,12 @@ class OrderDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        (activity as MainActivity).showButtonNav(show = false)
-//        (getActivity() as ShopActivity).showButtonNav(false)
         (activity as ShopActivity).showButtonNav(false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-//        (activity as MainActivity).showButtonNav(show = true)
         (activity as ShopActivity).showButtonNav(true)
     }
 

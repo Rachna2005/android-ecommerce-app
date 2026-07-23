@@ -146,7 +146,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
                             android:background="@null"
-                            android:hint="name@example.com"
+                            android:hint="name@email.com"
                             android:inputType="textEmailAddress"
                             android:paddingStart="60dp"
                             android:textColorHint="#CCCCCC" />

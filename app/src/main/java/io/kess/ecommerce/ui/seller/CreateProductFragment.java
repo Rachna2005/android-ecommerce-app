@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,16 +192,13 @@ public class CreateProductFragment extends Fragment {
             dialog.show(getParentFragmentManager(), "variant_dialog");
         });
         binding.btnSaveProduct.setOnClickListener(v -> {
-//            createProduct();
             if (isEdit) {
                 updateProduct();
             } else {
                 createProduct();
             }
         });
-//        binding.btnDiscard.setOnClickListener(v -> {
-//
-//        });
+
         binding.dropdownCategory.setOnClickListener(v -> {
             showCategoryDialog();
         });
@@ -210,7 +208,7 @@ public class CreateProductFragment extends Fragment {
     private void showCategoryDialog() {
 
         if (categoryList.isEmpty()) {
-//            Toast.makeText(requireContext(), "No categories found", Toast.LENGTH_SHORT).show();
+
             SnackbarKt.showSnackBar(
                     requireView(), "No categories found",
                     ContextCompat.getColor(requireContext(), R.color.primary),
@@ -278,7 +276,6 @@ public class CreateProductFragment extends Fragment {
                 completedVariantOperations++;
                 if (completedVariantOperations == totalVariantOperations && !variantHasError) {
                     showLoading(false);
-//                    Toast.makeText(requireContext(), "Product updated successfully", Toast.LENGTH_SHORT).show();
                     SnackbarKt.showSnackBar(
                             requireView(), "Product update successfully",
                             ContextCompat.getColor(requireContext(), R.color.green),
@@ -411,7 +408,6 @@ public class CreateProductFragment extends Fragment {
                 if (successCount[0] == total && !hasError[0]) {
 
                     showLoading(false);
-//                    Toast.makeText(requireContext(), "Product created successfully", Toast.LENGTH_SHORT).show();
                     SnackbarKt.showSnackBar(
                             requireView(), "Product created Successfully",
                             ContextCompat.getColor(requireContext(), R.color.green),
@@ -436,26 +432,9 @@ public class CreateProductFragment extends Fragment {
 
         String priceText = binding.etBasePrice.getText().toString().trim();
         String discount = binding.etDiscount.getText().toString().trim();
-//        if (name.isEmpty()) {
-//            binding.etProductName.setError("Product name required");
-//            return;
-//        }
-//        if (selectedImageUri == null) {
-//            Toast.makeText(requireContext(), "Select image first", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
-//        if (description.isEmpty()) {
-//            binding.etDescription.setError("Description required");
-//            return;
-//        }
-//
-//        if (priceText.isEmpty()) {
-//            binding.etDiscount.setError("Price required");
-//            return;
-//        }
         if (selectedCategoryId == null) {
-//            Toast.makeText(requireContext(), "Please select category", Toast.LENGTH_SHORT).show();
+
             SnackbarKt.showSnackBar(
                     requireView(), "Please select category",
                     ContextCompat.getColor(requireContext(), R.color.primary),
@@ -478,7 +457,6 @@ public class CreateProductFragment extends Fragment {
                     ContextCompat.getColor(requireContext(), R.color.primary),
                     ContextCompat.getColor(requireContext(), R.color.white),
                     Gravity.TOP, null);
-//            binding.btnUploadImage.setFocusableInTouchMode(true);
 
             binding.btnUploadImage.requestFocus();
             binding.scrollView.post(() ->
@@ -518,7 +496,7 @@ public class CreateProductFragment extends Fragment {
                     shopId = shop.getId();
                     shopName = shop.getShopName();
                 }
-                Product product = new Product("", shopId, shopName, imageUrl, name, selectedCategoryId, price, discountValue, description, "ACTIVE", 0, null);
+                Product product = new Product("", shopId, shopName, imageUrl, name, selectedCategoryId, price, discountValue, description, "ACTIVE", 0, Timestamp.now());
                 productViewModel.addProduct(product);
             }
         }, new OnUploadError() {
@@ -538,7 +516,6 @@ public class CreateProductFragment extends Fragment {
 
         if (!productChanged && !hasVariantChanges) {
 
-//            Toast.makeText(requireContext(), "No changes detected", Toast.LENGTH_SHORT).show();
             SnackbarKt.showSnackBar(
                     requireView(), "No changes detected",
                     ContextCompat.getColor(requireContext(), R.color.primary),
@@ -556,9 +533,7 @@ public class CreateProductFragment extends Fragment {
                     binding.etDescription.getText().toString().trim(), originalProduct.getStatus(), originalProduct.getTotalStock(), originalProduct.getCreatedAt());
 
             productViewModel.updateProduct(productId, updatedProduct);
-        }
-//        updateVariants();
-        else {
+        } else {
             processVariantUpdates();
         }
     }
@@ -574,7 +549,6 @@ public class CreateProductFragment extends Fragment {
 
             showLoading(false);
 
-//            Toast.makeText(requireContext(), "Product updated successfully", Toast.LENGTH_SHORT).show();
             SnackbarKt.showSnackBar(
                     requireView(), "Product updated successfully",
                     ContextCompat.getColor(requireContext(), R.color.green),
@@ -603,10 +577,6 @@ public class CreateProductFragment extends Fragment {
     }
 
     private void uploadImage(Uri imageUri, OnUploadSuccess onSuccess, OnUploadError onError) {
-//        if (imageUri == null) {
-//            onSuccess.onSuccess(null);
-//            return;
-//        }
         MediaManager.get().upload(imageUri).unsigned("ecommerce_preset").callback(new UploadCallback() {
             @Override
             public void onStart(String requestId) {

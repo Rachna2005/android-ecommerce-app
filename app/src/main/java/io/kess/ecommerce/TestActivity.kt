@@ -33,7 +33,7 @@ class TestActivity : AppCompatActivity() {
         binding = TestBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, SearchFragment())
+            .replace(R.id.container, ShopDetailFragment())
             .commit()
     }
 

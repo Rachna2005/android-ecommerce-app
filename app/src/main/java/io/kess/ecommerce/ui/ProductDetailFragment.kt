@@ -207,7 +207,7 @@ class ProductDetailFragment : Fragment() {
 //                    .show()
                 showSnackBar(
                     requireView(),
-                    "Please Select color and size",
+                    "Please Select color or size",
                     ContextCompat.getColor(requireContext(), R.color.primary),
                     ContextCompat.getColor(requireContext(), android.R.color.white)
                 )
@@ -415,9 +415,11 @@ class ProductDetailFragment : Fragment() {
 
             binding.color.visibility =
                 if (hasColor) View.VISIBLE else View.GONE
+            binding.recyclerColor.visibility = if (hasColor) View.VISIBLE else View.GONE
 
             binding.caseSize.visibility =
                 if (hasSize) View.VISIBLE else View.GONE
+            binding.recyclerSize.visibility = if (hasSize) View.VISIBLE else View.GONE
         }
 
         Glide.with(requireContext())

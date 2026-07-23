@@ -2,6 +2,7 @@ package io.kess.ecommerce.ui
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -63,8 +64,11 @@ class ShopDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("ProductShop", "create view")
         initViewModel()
-        setupFragments()
+        if(childFragmentManager.findFragmentByTag("Product") == null){
+            setupFragments()
+        }
         setupButtonClick()
         observeData()
     }
@@ -73,7 +77,6 @@ class ShopDetailFragment : Fragment() {
         shopViewModel = ViewModelProvider(this)[ShopViewModel::class.java]
         shopId?.let {
             shopViewModel.getShopDetail(it)
-
         }
     }
 
@@ -197,6 +200,7 @@ class ShopDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("ProductShop", "destroy view")
         _binding = null
         (activity as MainActivity).showButtonNav(show = true)
     }

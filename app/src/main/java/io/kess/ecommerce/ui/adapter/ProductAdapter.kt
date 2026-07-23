@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.kess.ecommerce.R
-import io.kess.ecommerce.model.Category
 import io.kess.ecommerce.model.Product
 import android.graphics.Paint
 import android.widget.LinearLayout
@@ -16,7 +15,6 @@ import android.widget.ProgressBar
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 
-import androidx.recyclerview.widget.ListAdapter
 
 class ProductAdapter(
     private var favoriteIds: Set<String>,

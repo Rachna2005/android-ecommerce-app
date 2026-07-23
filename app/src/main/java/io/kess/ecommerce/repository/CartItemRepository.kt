@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import io.kess.ecommerce.model.CartItem
-import kotlin.collections.remove
+
 
 class CartItemRepository(private val authRepo: AuthRepository) {
     val fireStore = FirebaseFirestore.getInstance()
@@ -80,7 +80,6 @@ class CartItemRepository(private val authRepo: AuthRepository) {
                         Log.d("CART_DEBUG", "Product added")
                     }
                     .addOnFailureListener {
-//                        onResult("Failed to add product")
                         onFailure(it)
                         Log.d("CART_DEBUG", "Product added Failed")
                     }

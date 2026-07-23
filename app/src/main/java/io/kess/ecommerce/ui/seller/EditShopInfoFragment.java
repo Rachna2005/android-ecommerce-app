@@ -14,13 +14,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import io.kess.ecommerce.R;
 import io.kess.ecommerce.databinding.FragmentEditShopInfoBinding;
 import io.kess.ecommerce.model.Shop;
 import io.kess.ecommerce.util.UiState;
-import io.kess.ecommerce.view_model.AuthViewModel;
-import io.kess.ecommerce.view_model.CategoryViewModel;
-import io.kess.ecommerce.view_model.ProductViewModel;
 import io.kess.ecommerce.view_model.ShopViewModel;
 
 public class EditShopInfoFragment extends Fragment {
@@ -85,9 +81,6 @@ private FragmentEditShopInfoBinding binding;
                     }
                     else if (state instanceof UiState.Success) {
                         showLoading(false);
-//                        Shop shop =
-//                                ((UiState.Success<String>) state)
-//                                        .getData();
                         Toast.makeText(
                                 requireContext(),
                                 "Update Successful",
@@ -126,9 +119,7 @@ private FragmentEditShopInfoBinding binding;
         binding.btnSaveProduct.setOnClickListener(v -> {
             updateShop();
         });
-        binding.delete.setOnClickListener(v -> {
 
-        });
         binding.btnBack.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
@@ -160,7 +151,6 @@ private FragmentEditShopInfoBinding binding;
                         .toString()
                         .trim();
 
-        // Validation
         if (shopName.isEmpty()) {
             binding.inputName.setError("Shop name is required");
             return;
@@ -220,7 +210,6 @@ private FragmentEditShopInfoBinding binding;
                     "No changes detected",
                     Toast.LENGTH_SHORT
             ).show();
-//            getParentFragmentManager().popBackStack();
             return;
         }
         shopViewModel.updateShop(

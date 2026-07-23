@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import io.kess.ecommerce.R
 import io.kess.ecommerce.model.Category
-import io.kess.ecommerce.model.ProductVariant
 
 class CategoryFilter(
     private val onClick: (Category?) -> Unit

@@ -5,18 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
 import io.kess.ecommerce.R;
 import io.kess.ecommerce.databinding.FragmentSellerProfileBinding;
 import io.kess.ecommerce.model.Shop;
@@ -24,14 +20,12 @@ import io.kess.ecommerce.model.User;
 import io.kess.ecommerce.ui.activity.LoginActivity;
 import io.kess.ecommerce.util.UiState;
 import io.kess.ecommerce.view_model.AuthViewModel;
-import io.kess.ecommerce.view_model.ProductViewModel;
 import io.kess.ecommerce.view_model.ShopViewModel;
 
 public class SellerProfileFragment extends Fragment {
     private FragmentSellerProfileBinding binding;
     private ShopViewModel shopViewModel;
     private AuthViewModel authViewModel;
-    private String imageProfile;
 
     public SellerProfileFragment() {
         // Required empty public constructor
@@ -113,8 +107,6 @@ public class SellerProfileFragment extends Fragment {
 
     private void setupUi(Shop shop){
         binding.shopName.setText(shop.getShopName());
-//        imageProfile =
-//                shop.getLogoUrl();
 
         Glide.with(this)
                 .load(shop.getLogoUrl())

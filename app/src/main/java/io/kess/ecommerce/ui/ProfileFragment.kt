@@ -1,6 +1,5 @@
 package io.kess.ecommerce.ui
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
@@ -11,17 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import io.kess.ecommerce.R
 import io.kess.ecommerce.databinding.FragmentProfileBinding
 import io.kess.ecommerce.model.User
 import io.kess.ecommerce.ui.activity.LoginActivity
 import io.kess.ecommerce.ui.activity.MainActivity
-import io.kess.ecommerce.ui.activity.Onboarding1Activity
-import io.kess.ecommerce.ui.bottomSheet.AddressBottomSheet
 import io.kess.ecommerce.util.UiState
 import io.kess.ecommerce.view_model.AuthViewModel
 import io.kess.ecommerce.view_model.CartViewModel

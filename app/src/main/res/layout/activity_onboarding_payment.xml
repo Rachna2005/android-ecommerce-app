@@ -29,6 +29,7 @@
             android:layout_gravity="right"
             app:fontFamily="@font/manrope_bold"
             android:text="Skip"
+            android:padding="10dp"
             android:layout_marginEnd="20dp"
             android:textColor="@color/primary"
             />
@@ -127,6 +128,7 @@
                 android:textColor="@color/primary"
                 app:fontFamily="@font/manrope_bold"
                 android:textSize="13sp"
+                android:padding="10dp"
                  />
 
         </LinearLayout>

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.kess.ecommerce.databinding.ActivityOnbaodingBinding
-import io.kess.ecommerce.ui.activity.RegisterActivity
+
 
 class Onboarding1Activity : AppCompatActivity() {
     private lateinit var binding: ActivityOnbaodingBinding

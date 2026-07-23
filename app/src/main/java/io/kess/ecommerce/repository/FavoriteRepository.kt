@@ -2,7 +2,7 @@ package io.kess.ecommerce.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import io.kess.ecommerce.model.Product
+
 
 class FavoriteRepository(private val authRepo: AuthRepository) {
     val db = FirebaseFirestore.getInstance()
